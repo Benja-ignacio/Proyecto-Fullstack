@@ -20,6 +20,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     @NotBlank(message = "El username no puede estar vacio")
@@ -30,7 +31,7 @@ public class User {
     @NotBlank(message = "La contraseña no puede estar vacia")
     @Size(min = 6, max = 64)
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{6, 264}$", 
-            message = "Email invalido. dee contener almenos 8 caracteres y maximo 264, una mayuscula y un numero")
+            message = "contraseña invalida. debe contener almenos 8 caracteres y maximo 264, una mayuscula y un numero")
     @Column(nullable = false, name = "password")
     private String password;
 
