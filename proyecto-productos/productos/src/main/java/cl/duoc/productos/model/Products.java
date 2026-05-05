@@ -8,8 +8,8 @@ import jakarta.persistence.Table;
 public class Products {
 
     private Long sku;
-    private String nameProduct;
-    private String typeProduct;
-    private Integer priceProduct;
-    private String descProduct;
+    private String name;
+    private String type;
+    private Integer price;
+    private String description;
 }
