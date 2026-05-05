@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 @Entity
 @Table(name = "feedbacks")
@@ -16,16 +18,20 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // primary key
+    private Long id; // pk
 
     @Column(name = "user_id")
-    private Long userId;     // quién comenta FK 
+    private Long userId;     // referencia externa a user service
 
     @Column(name = "product_id")
-    private Long productId;  // sobre qué producto fk
+    private Long productId;  // referencia externa a producto service
 
+    @Min(1)
+    @Max(5)
     private Integer rating; // 1-5 
+
     private String title; // opcional. puede ser null
-    private String comment;  // aquí va todo el texto
+
+    private String comment;  // aquí va todo el2 texto
     private LocalDateTime createdAt;
 }
