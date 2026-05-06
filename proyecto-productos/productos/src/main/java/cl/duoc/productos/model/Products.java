@@ -6,10 +6,11 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "products")
 public class Products {
-
-    private Long sku;
-    private String nameProduct;
-    private String typeProduct;
-    private Integer priceProduct;
-    private String descProduct;
+    private Long id; // pk
+    private String sku;
+    private String name;
+    private String type;
+    private Integer price;
+    private String description;
+    private String Status; // ENUM 
 }

@@ -6,6 +6,6 @@ public class RegisterRequestDTO {
     public String username;
     public String password;
     public String email;
-    public String direccion;
+    public String address;
     public LocalDateTime UserCreatedAt;
 }

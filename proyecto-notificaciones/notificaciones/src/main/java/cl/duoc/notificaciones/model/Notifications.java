@@ -18,11 +18,14 @@ import lombok.Setter;
 
 public class Notifications {
 
-    private Long id; // PRIMARY KEY
-    private Long userID; // fk
+    private Long id; // pk
+    private Long userID; // referencia externa a user service
 
     private String title; // opcional
+
     private String message;
     private LocalDateTime createdAt;
+
+    // true = leido, false = no leido
     private Boolean read;
 }

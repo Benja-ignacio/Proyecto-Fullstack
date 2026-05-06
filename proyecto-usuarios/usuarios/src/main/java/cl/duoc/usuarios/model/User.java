@@ -45,12 +45,12 @@ public class User {
     @Column(nullable = false, name = "address")
     @NotBlank(message = "La direccion no puede estar vacia")
     @Size(min = 6, max = 264)
-    private String direccion;
+    private String address;
 
     @Column(nullable = false, unique = false, name = "user_rol")
     @NotNull(message = "El rol no puede ser nulo")
     @Enumerated(EnumType.STRING)
-    private Rol rol;
+    private Role role;
 
     @Enumerated(EnumType.STRING)
     @NotNull(message = "El status no puede ser nulo")

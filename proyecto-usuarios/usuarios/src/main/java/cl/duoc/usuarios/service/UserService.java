@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import cl.duoc.usuarios.dto.LoginRequestDTO;
 import cl.duoc.usuarios.dto.RegisterRequestDTO;
-import cl.duoc.usuarios.enums.Rol;
+import cl.duoc.usuarios.enums.Role;
 import cl.duoc.usuarios.enums.Status;
 import cl.duoc.usuarios.model.User;
 import cl.duoc.usuarios.repository.UserRepository;
@@ -43,8 +43,8 @@ public class UserService {
         user.setUsername(request.username);
         user.setPassword(encondedPassword);
         user.setEmail(request.email);
-        user.setDireccion(request.direccion);
-        user.setRol(Rol.CLIENT);
+        user.setAddress(request.address);
+        user.setRole(Role.CLIENT);
         user.setStatus(Status.ACTIVE);
         user.setCreatedAt(LocalDateTime.now());
 
