@@ -1,4 +1,4 @@
-package cl.duoc.pago_compra;
+package cl.duoc.pago;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -7,7 +7,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(PagoCompraApplication.class);
+		return application.sources(PagoApplication.class);
 	}
 
 }

@@ -1,10 +1,10 @@
-package cl.duoc.pago_compra;
+package cl.duoc.pago;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PagoCompraApplicationTests {
+class PagoApplicationTests {
 
 	@Test
 	void contextLoads() {

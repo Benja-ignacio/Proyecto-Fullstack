@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cl.duoc</groupId>
-	<artifactId>pago-compra</artifactId>
+	<artifactId>pago</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>pago-compra</name>
+	<name>pago</name>
 	<description/>
 	<url/>
 	<licenses>

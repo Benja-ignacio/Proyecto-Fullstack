@@ -10,12 +10,12 @@ public class Logistic {
     private Long id; // pk
     private Long orderId; // referencia a order service
 
-    private BigDecimal distance;
-    private BigDecimal shipping;
+    private BigDecimal distance; // distancia entre la direccion del usuario y almacen de los productos
+    private BigDecimal shipping; // precio del envio
 
     private String status; // cambiar  a enum = sent, in wait, canceled
 
-    private LocalDateTime expectedDeliveryDate;
+    private LocalDateTime expectedDeliveryDate; 
     private LocalDateTime shippedAt; 
     private LocalDateTime deliveredAt;
 

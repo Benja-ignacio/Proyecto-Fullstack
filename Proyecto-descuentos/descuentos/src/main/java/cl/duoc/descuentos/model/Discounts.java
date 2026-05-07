@@ -14,7 +14,8 @@ public class Discounts {
     private String code;
     private String description;
 
-    private String type; // PERCENTAGE | FIXED
+    private String type; // PERCENTAGE | FIXED enum
+    private String product_type; // enum 
     private BigDecimal value;
 
     private BigDecimal minPurchaseAmount;

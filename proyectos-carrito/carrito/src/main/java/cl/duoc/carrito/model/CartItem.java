@@ -2,11 +2,17 @@ package cl.duoc.carrito.model;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.*;
+
 
 @Entity
 @Table(name = "cart_item")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class CartItem {
     private Long id;
     private Long cartId;

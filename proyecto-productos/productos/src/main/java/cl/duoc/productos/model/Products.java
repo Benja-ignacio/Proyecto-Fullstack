@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 @Table(name = "products")
 public class Products {
     private Long id; // pk
-    private String sku;
+    private String sku; // generar automaticamente 
     private String name;
     private String type;
     private Integer price;
