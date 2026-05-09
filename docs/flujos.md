@@ -59,3 +59,42 @@ El checkout es el proceso en el que el usuario confirma la compra y procede al p
    - se informa al usuario antes de continuar
 
 ---
+
+**Flujo registro de usuario**
+
+1. Usuario ingresa las credenciales obligatorias:
+   - username
+   - password
+   - email
+   - address
+2. se validan las credenciales
+3. se hashea la contraseña con BCrypt
+4. se guarda el usuario en la base datos
+5. Registro exitoso
+
+### Flujo
+
+password -> BCrypt -> hash -> BD
+
+---
+
+**Flujo de login de usuario**
+
+1. Usuario ingresa Email/Username y contraseña
+2. Se busca el usuario ingresado en la base de datos
+3. BCrypt compara password ingresada vs hash almacenado
+4. si coincide:
+   --> se genera JWT
+5. Backend devuelve token
+
+### Flujo
+
+password ingresada
+↓
+BCrypt compara con hash BD
+↓
+válido?
+↓
+JWT generado
+↓
+token enviado al cliente
