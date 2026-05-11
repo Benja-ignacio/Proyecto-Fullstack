@@ -1,37 +1,38 @@
 package cl.duoc.pedido.model;
 
-import java.math.BigDecimal;
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "order_item")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class OrderItem {
-    private Long id; // PK
 
-    @Column(name = "order_id")
-    private Long orderId; // relacion a order 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "product_id")
-    private Long productId; // relacion a product service
+    // FK interna con orders
+    @Column(name = "order_id", nullable = false)
+    private Long orderId;
 
-    @Column(name = "product_name")
-    private String productName; 
+    // referencia lógica al microservicio products
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
 
-    @Column(name = "price")
+    // snapshot del nombre del producto
+    @Column(name = "product_name", nullable = false)
+    private String productName;
+
+    // snapshot del precio
+    @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(name = "quantity")
+    @Column(nullable = false)
     private Integer quantity;
 }

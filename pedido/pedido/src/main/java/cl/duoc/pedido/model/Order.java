@@ -1,51 +1,55 @@
 package cl.duoc.pedido.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId; // referencia a user service
-    
-    @Column(name = "subtotal")
-    private BigDecimal subtotal; // total de los productos 
+    // referencia lógica al microservicio users
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    @Column(name = "discount")
-    private BigDecimal discount; // descuento
+    // subtotal de productos
+    @Column(nullable = false)
+    private BigDecimal subtotal;
 
-    @Column(name = "shipping")
-    private BigDecimal shipping; // envio
+    // descuento aplicado
+    @Column(nullable = false)
+    private BigDecimal discount;
 
-    @Column(name = "total")
-    private BigDecimal total; // total de subtotal + discount + shipping 
-    
-    @Column(name = "status")
-    private String status; // crear enum
-    
+    // costo de envío
+    @Column(nullable = false)
+    private BigDecimal shipping;
+
+    // total final
+    @Column(nullable = false)
+    private BigDecimal total;
+
+    // PENDING / PAID / CANCELED
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status;
+
+    // fecha de creación
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    // fecha de pago
     @Column(name = "paid_at")
     private LocalDateTime paidAt;
-    
-    private List<OrderItem> items;
 }
-
 
 
