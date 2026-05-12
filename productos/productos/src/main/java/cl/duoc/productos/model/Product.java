@@ -1,5 +1,7 @@
 package cl.duoc.productos.model;
 
+import java.math.BigDecimal;
+
 import cl.duoc.productos.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,24 +17,28 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Products {
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // pk
 
-    @Column(name = "sku")
+    @Column(name = "sku",nullable = false, unique = true)
+    @GeneratedValue()
     private String sku; // generar automaticamente 
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private Type type;
 
-    @Column(name = "price")
-    private Integer price;
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private Status Status;  
 }
