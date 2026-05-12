@@ -1,6 +1,7 @@
 package cl.duoc.usuarios.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,24 +9,29 @@ import org.springframework.stereotype.Service;
 
 import cl.duoc.usuarios.dto.LoginRequestDTO;
 import cl.duoc.usuarios.dto.RegisterRequestDTO;
+import cl.duoc.usuarios.dto.UserDTO;
 import cl.duoc.usuarios.enums.Role;
 import cl.duoc.usuarios.enums.Status;
 import cl.duoc.usuarios.model.User;
 import cl.duoc.usuarios.repository.UserRepository;
+import cl.duoc.usuarios.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
+
 public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    private final JwtUtil jwtUtil;
 
     // private RegisterRequestDTO toDTO(User user) {
     //     return new RegisterRequestDTO(
     //         user.getUsername(),
-    //         user.getPassword(),
+    //         user.getPassword(),D
     //         user.getEmail(),
     //         user.getAddress()
     //     );
@@ -63,8 +69,28 @@ public class UserService {
     }
 
     // validar login 
-    public boolean login (LoginRequestDTO request ) {
-        Optional<User> userOpt = userRepository.findByUsername(request.username);
-        return userOpt.isPresent() && passwordEncoder.matches(request.password, userOpt.get().getPassword());
+    public String login (LoginRequestDTO request ) {
+        Optional<User> userOpt = userRepository.findByUsername(request.getUsername());
+
+        if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
+            return jwtUtil.generateToken(request.getUsername());
+        }
+        return null;
+    } // userOpt.get().getPassword --> PASSWORD HASHEADA
+
+
+
+    // validar token (EXPIRATION_TIME)
+    public boolean validateToken(String token) {
+        return jwtUtil.validateToken(token);
+    }
+
+
+    // listar todos los usuarios
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(user -> new UserDTO(user.getUserId(), user.getUsername()))
+                .toList();
     }
 }
