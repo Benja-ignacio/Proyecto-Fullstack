@@ -22,3 +22,7 @@ Se permite null en ciertos atributos de discounts para soportar distintos tipos 
 - end_date null → sin fecha de expiración
 - usage_limit null → usos ilimitados
 - min_purchase_amount null → sin compra mínima
+
+### products
+
+- SKU usara formato TIPO-ID-MARCA
