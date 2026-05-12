@@ -229,3 +229,52 @@ Cart y OrderItem almacenan snapshots de productos.
 
 Esto significa que se guarda una copia del nombre y precio del producto
 en el momento de la acción para evitar inconsistencias futuras.
+
+## Puertos de los servicios
+
+| Service       | API Port | MySQL Host Port | MySQL Container Port |
+| ------------- | -------: | --------------: | -------------------: |
+| users         |     8080 |            3310 |                 3306 |
+| products      |     8081 |            3311 |                 3306 |
+| cart          |     8082 |            3312 |                 3306 |
+| feedback      |     8083 |            3313 |                 3306 |
+| inventory     |     8084 |            3314 |                 3306 |
+| payment       |     8085 |            3315 |                 3306 |
+| order         |     8086 |            3316 |                 3306 |
+| logistic      |     8087 |            3317 |                 3306 |
+| discounts     |     8088 |            3318 |                 3306 |
+| notifications |     8089 |            3319 |                 3306 |
+
+## Responsabilidades de los servicios
+
+### users
+
+responsable de:
+
+- autenticacion
+- autorizacion
+- JWT
+- gestion de usuarios
+
+NO responsable de:
+
+- pedidos
+- pagos
+- productos
+- pago
+- stock
+
+El servicio de usuarios es el encargado de gestionar los usuarios(ID, username, password, email, address). Tambien es el encargado de la autenticacion y autorizacion con tokens, la implementacion de JWT.
+
+**Authentication**
+
+- Se utiliza JWT Bearer Token
+- BCrypt para hashing de contraseñas
+- Los microservicios validan JWT
+- El servicio users es responsable de emitir tokens
+
+## API conventions
+
+- Respuestas envueltas en ApiResponse
+- IDs tipo Long
+- Base path: /api/v1
