@@ -30,8 +30,11 @@ Documento que contiene tareas que se deben de completar
 - documentar roles y permisos en contexto.md
 - definir qué endpoints requieren ADMIN
 - definir qué endpoints pueden usar CLIENT
+- terminar validaciones en products
 
 [LOW]
 
 - Lista de los productos que tendra el sistema
 - evitar duplicados en cart_item
+- Mapear created_at y updated_at en entidad Product
+- Agregar timestamps a responses DTO
