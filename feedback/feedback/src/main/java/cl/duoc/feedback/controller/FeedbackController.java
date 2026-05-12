@@ -1,49 +1,53 @@
 package cl.duoc.feedback.controller;
 
-import cl.duoc.feedback.dto.FeedbackRequest;
-import cl.duoc.feedback.dto.FeedbackResponse;
-import cl.duoc.feedback.service.FeedbackService;
-
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import cl.duoc.feedback.Service.feedbackService;
+import cl.duoc.feedback.model.Feedback;
 
 @RestController
 @RequestMapping("/api/feedback")
-@RequiredArgsConstructor
 public class FeedbackController {
 
-    private final FeedbackService feedbackService;
+     private final feedbackService FeedbackService;
+
+    public FeedbackController(feedbackService feedbackService) {
+        this.FeedbackService = feedbackService;
+    }
 
     @PostMapping
-    public ResponseEntity<FeedbackResponse> create(
-            @Valid @RequestBody FeedbackRequest request
+    public ResponseEntity<Feedback> create(
+            @RequestBody Feedback request
     ) {
+
+        Feedback response = FeedbackService.create(request);
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(feedbackService.create(request));
+                .body(response);
     }
 
     @GetMapping("/product/{productId}")
-    public ResponseEntity<List<FeedbackResponse>> getByProduct(
+    public ResponseEntity<List<Feedback>> getByProduct(
             @PathVariable Long productId
     ) {
+
         return ResponseEntity.ok(
-                feedbackService.getByProduct(productId)
+                FeedbackService.getByProduct(productId)
         );
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<FeedbackResponse>> getByUser(
+    public ResponseEntity<List<Feedback>> getByUser(
             @PathVariable Long userId
     ) {
+
         return ResponseEntity.ok(
-                feedbackService.getByUser(userId)
+                FeedbackService.getByUser(userId)
         );
     }
 
@@ -51,7 +55,9 @@ public class FeedbackController {
     public ResponseEntity<Void> delete(
             @PathVariable Long id
     ) {
-        feedbackService.delete(id);
+
+        FeedbackService.delete(id);
+
         return ResponseEntity.noContent().build();
     }
-}
+}       
