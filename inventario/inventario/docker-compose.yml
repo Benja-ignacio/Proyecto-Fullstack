@@ -1,0 +1,14 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_inventory
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: inventory_db
+      # MYSQL_USER: mysql8
+      # MYSQL_PASSWORD: mysql8
+    ports:
+      - "3314:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
