@@ -1,4 +1,4 @@
-package cl.duoc.feedback.DTO;
+package cl.duoc.feedback.dto;
 import java.time.LocalDateTime;
 
 import lombok.Data;
@@ -15,4 +15,5 @@ public class FeedbackResponseDTO {
     private String title;
     private String comment;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
