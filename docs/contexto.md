@@ -147,7 +147,7 @@ table discounts:
 - product_type,
 - value,
 - min_purchase_amount,
-- max_purchase_amount,
+- max_discount_amount,
 - usage_limit,
 - used_count,
 - usage_limit_per_user,
