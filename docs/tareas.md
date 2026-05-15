@@ -13,6 +13,7 @@ Documento que contiene tareas que se deben de completar
 - definir endpoints públicos y privados
 - validar acceso mediante JWT
 - terminar el servicio users
+- validar servicios
 
 [MEDIUM]
 
