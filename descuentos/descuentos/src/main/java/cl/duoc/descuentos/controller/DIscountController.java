@@ -31,7 +31,7 @@ public class DIscountController {
     private final DiscountService discountService;
 
     // crear descuento
-    @GetMapping("/create")
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<DiscountResponseDTO>> create (
         @Valid @RequestBody DiscountRequestDTO request) {
         
@@ -46,7 +46,7 @@ public class DIscountController {
     // actualizar descuento
     @PatchMapping("/update/{id}")
     public ResponseEntity<ApiResponse<DiscountResponseDTO>> update (
-        @RequestParam Long id,
+        @PathVariable Long id,
         @Valid @RequestBody DiscountRequestDTO requestDTO) {
             
         DiscountResponseDTO discount = discountService.update(id, requestDTO);
@@ -61,7 +61,7 @@ public class DIscountController {
     // activar / descativar descuento
     @PatchMapping("activate/{id}")
     public ResponseEntity<ApiResponse<DiscountResponseDTO>> toggleStatus(
-        @RequestParam Long id, boolean active) {
+        @PathVariable Long id, boolean active) {
         
         DiscountResponseDTO discount = discountService.toggleStatus(id, active);
 
@@ -74,7 +74,7 @@ public class DIscountController {
     //eliminar descuento
     @DeleteMapping("delete/{id}")
     public ResponseEntity<ApiResponse<Void>> delete (
-        @RequestParam Long id) {
+        @PathVariable Long id) {
 
         discountService.deleteDiscount(id);
 
@@ -87,7 +87,7 @@ public class DIscountController {
     // buscar descuento por Id
     @GetMapping("{id}")
     public ResponseEntity<ApiResponse<DiscountResponseDTO>> getById(
-        @RequestParam Long id) {
+        @PathVariable Long id) {
         
         DiscountResponseDTO discount = discountService.getById(id);
 
@@ -101,7 +101,7 @@ public class DIscountController {
     // buscar descuentos de un usuario
     @GetMapping("user/{id}")
     public ResponseEntity<ApiResponse<List<DiscountUsageResponseDTO>>> getByUser(
-        @RequestParam Long id) {
+        @PathVariable Long id) {
         
         List<DiscountUsageResponseDTO> discount = discountService.getByUserId(id);
 
