@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DiscountRequestDTO {
-        @NotBlank(message = "El codigo no puede estar vacio")
+    @NotBlank(message = "El codigo no puede estar vacio")
+    @Size(min = 3, max = 16) 
     private String code;
 
     @NotBlank(message = "la descripcion no puede estar vacia")
+    @Size(min = 12, max = 256, message = "La descripcion es requerida")
     private String description;
 
     @NotNull(message = "El tipo de descuento no pueda ser nulo")
