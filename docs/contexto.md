@@ -278,3 +278,233 @@ El servicio de usuarios es el encargado de gestionar los usuarios(ID, username, 
 - Respuestas envueltas en ApiResponse
 - IDs tipo Long
 - Base path: /api/v1
+
+# Endpoints
+
+## API Users
+
+Base URL: /api/v1/users
+
+- Registrar usuario
+
+Endpoint: POST /register
+
+Permite registrar un nuevo usuario en el sistema.
+
+- Login de usuario
+
+Endpoint: POST /login
+
+Permite autenticar un usuario y obtener un token.
+
+- Listar usuarios
+
+Endpoint: GET /list
+
+Obtiene todos los usuarios registrados.
+
+- Validar token
+
+Endpoint: GET /validate?token={token}
+
+Permite validar si un token JWT es válido.
+
+## API Products
+
+Base URL: /api/v1/products
+
+- Crear producto
+
+Endpoint: POST /create
+
+Crea un nuevo producto.
+
+- Buscar producto por ID
+
+Endpoint: GET /{id}
+
+Obtiene un producto según su ID.
+
+- Listar productos
+
+Endpoint: GET /list
+
+Obtiene todos los productos registrados.
+
+- Actualizar producto
+
+Endpoint: PUT /update/{id}
+
+Actualiza un producto existente.
+
+- Eliminar producto
+
+Endpoint: DELETE /delete/{id}
+
+Deshabilita un producto.
+
+- Cambiar estado de producto
+
+Endpoint: PATCH /update/status/{id}?status={status}
+
+Permite modificar el estado del producto.
+
+## API Notifications
+
+Base URL: /api/v1/notification
+
+- Listar notificaciones
+
+Endpoint: GET /
+
+Obtiene todas las notificaciones.
+
+- Buscar notificación por ID
+
+Endpoint: GET /{id}
+
+Obtiene una notificación por ID.
+
+- Buscar notificaciones por usuario
+
+Endpoint: GET /user/{userId}
+
+Obtiene todas las notificaciones de un usuario.
+
+- Crear notificación
+
+Endpoint: POST /create
+
+Crea una nueva notificación.
+
+- Marcar notificación como leída
+
+Endpoint: PUT /read/{id}
+
+Marca una notificación como leída.
+
+- Eliminar notificación
+
+Endpoint: DELETE /delete/{id}
+
+Elimina una notificación.
+
+## API Inventory
+
+Base URL: /api/v1/inventory
+
+- Crear inventario
+
+Endpoint: POST /create
+
+Crea un registro de inventario.
+
+- Buscar inventario por ID
+
+Endpoint: GET /{id}
+
+Obtiene un inventario por ID.
+
+- Buscar inventario por productId
+
+Endpoint: GET /product/{productId}
+
+Obtiene el inventario asociado a un producto.
+
+- Listar inventarios
+
+Endpoint: GET /
+
+Obtiene todos los inventarios.
+
+- Actualizar inventario
+
+Endpoint: PUT /update/{id}
+
+Actualiza un inventario.
+
+- Eliminar inventario
+
+Endpoint: DELETE /delete/{id}
+
+Elimina un inventario.
+
+## API Feedback
+
+Base URL: /api/v1/feedback
+
+- Crear feedback
+
+Endpoint: POST /create
+
+Crea un feedback para un producto.
+
+- Buscar feedbacks por producto
+
+Endpoint: GET /product/{productId}
+
+Obtiene todos los feedbacks de un producto.
+
+- Buscar feedbacks por usuario
+
+Endpoint: GET /user/{userId}
+
+Obtiene todos los feedbacks realizados por un usuario.
+
+- Buscar feedback por ID
+
+Endpoint: GET /{id}
+
+Obtiene un feedback por ID.
+
+- Eliminar feedback
+
+Endpoint: DELETE /delete/{id}
+
+Elimina un feedback.
+
+- Actualizar feedback
+
+Endpoint: PUT /update/{id}
+
+Actualiza un feedback existente.
+
+## API Discounts
+
+Base URL: /api/v1/discount
+
+- Crear descuento
+
+Endpoint: GET /create
+
+Crea un nuevo descuento.
+
+- Actualizar descuento
+
+Endpoint: PATCH /update/{id}
+
+Actualiza un descuento existente.
+
+- Activar / desactivar descuento
+
+Endpoint: PATCH /activate/{id}?active=true
+
+Activa o desactiva un descuento.
+
+- Eliminar descuento
+
+Endpoint: DELETE /delete/{id}
+
+Elimina un descuento.
+
+- Buscar descuento por ID
+
+Endpoint: GET /{id}
+
+Obtiene un descuento por ID.
+
+- Buscar descuentos por usuario
+
+Endpoint: GET /user/{id}
+
+Obtiene descuentos usados por un usuario.
