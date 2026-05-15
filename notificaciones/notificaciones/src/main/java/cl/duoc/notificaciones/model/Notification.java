@@ -2,8 +2,11 @@ package cl.duoc.notificaciones.model;
 
 import java.time.LocalDateTime;
 
+import cl.duoc.notificaciones.enums.Type;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,11 +32,15 @@ public class Notification {
     @Column(name = "user_id", nullable = false)
     private Long userId; // Referencia externa al microservicio users
 
-    @Column(name = "title", nullable = false, length = 100)
+    @Column(name = "title", nullable = false, length = 40)
     private String title;
 
     @Column(name = "message", nullable = false, length = 500)
     private String message;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private Type type;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
