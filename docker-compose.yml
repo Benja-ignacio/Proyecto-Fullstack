@@ -1,0 +1,336 @@
+version: '3.8'
+
+services:
+
+  # 1. CARRITO
+  mysql-carrito:
+    image: mysql:8.0
+    container_name: mysql_carrito
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: carrito_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3311:3306"
+    volumes:
+      - mysql_carrito_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  carrito-service:
+    build:
+      context: ./carrito/carrito
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-carrito
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+  # 2. DESCUENTOS
+  mysql-descuentos:
+    image: mysql:8.0
+    container_name: mysql_descuentos
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: descuentos_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3312:3306"
+    volumes:
+      - mysql_descuentos_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  descuentos-service:
+    build:
+      context: ./descuentos/descuentos
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql-descuentos
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+  # 3. FEEDBACK
+  mysql-feedback:
+    image: mysql:8.0
+    container_name: mysql_feedback
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: feedback_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3313:3306"
+    volumes:
+      - mysql_feedback_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  feedback-service:
+    build:
+      context: ./feedback/feedback
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mysql-feedback
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+  # 4. INVENTARIO
+  mysql-inventario:
+    image: mysql:8.0
+    container_name: mysql_inventario
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: inventario_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3314:3306"
+    volumes:
+      - mysql_inventario_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  inventario-service:
+    build:
+      context: ./inventario/inventario
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    depends_on:
+      - mysql-inventario
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+  # 5. LOGÍSTICA
+  mysql-logistica:
+    image: mysql:8.0
+    container_name: mysql_logistica
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: logistica_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3315:3306"
+    volumes:
+      - mysql_logistica_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  logistica-service:
+    build:
+      context: ./logistica/logistica
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - mysql-logistica
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+  # 6. NOTIFICACIONES
+  mysql-notificaciones:
+    image: mysql:8.0
+    container_name: mysql_notificaciones
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: notificaciones_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3316:3306"
+    volumes:
+      - mysql_notificaciones_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  notificaciones-service:
+    build:
+      context: ./notificaciones/notificaciones
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"
+    depends_on:
+      - mysql-notificaciones
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+  # 7. PAGO
+  mysql-pago:
+    image: mysql:8.0
+    container_name: mysql_pago
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pago_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3317:3306"
+    volumes:
+      - mysql_pago_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  pago-service:
+    build:
+      context: ./pago/pago
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8087"
+    depends_on:
+      - mysql-pago
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+  # 8. PEDIDO
+  mysql-pedido:
+    image: mysql:8.0
+    container_name: mysql_pedido
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pedido_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3318:3306"
+    volumes:
+      - mysql_pedido_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  pedido-service:
+    build:
+      context: ./pedido/pedido
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8088"
+    depends_on:
+      - mysql-pedido
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+  # 9. PRODUCTOS
+  mysql-productos:
+    image: mysql:8.0
+    container_name: mysql_productos
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: productos_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3319:3306"
+    volumes:
+      - mysql_productos_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  productos-service:
+    build:
+      context: ./productos/productos
+      dockerfile: Dockerfile
+    ports:
+      - "8089:8089"
+    depends_on:
+      - mysql-productos
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+  # 10. USUARIOS
+  mysql-usuarios:
+    image: mysql:8.0
+    container_name: mysql_usuarios
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: usuarios_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3320:3306"
+    volumes:
+      - mysql_usuarios_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 350M
+
+  usuarios-service:
+    build:
+      context: ./usuarios/usuarios
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    depends_on:
+      - mysql-usuarios
+    deploy:
+      resources:
+        limits:
+          memory: 450M
+
+# VOLÚMENES GLOBALES (PERSISTENCIA DE DATOS)
+volumes:
+  mysql_carrito_data:
+  mysql_descuentos_data:
+  mysql_feedback_data:
+  mysql_inventario_data:
+  mysql_logistica_data:
+  mysql_notificaciones_data:
+  mysql_pago_data:
+  mysql_pedido_data:
+  mysql_productos_data:
+  mysql_usuarios_data:
