@@ -1,4 +1,4 @@
-package cl.duoc.pedido.exception;
+package cl.duoc.pedido.exception.custom;
 
 public class OrderResourceNotFoundException extends RuntimeException {
 

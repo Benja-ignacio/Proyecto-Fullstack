@@ -1,6 +1,6 @@
 package cl.duoc.pedido.enums;
 
-public enum Status {
+public enum OrderStatus {
     PENDING, 
     PAID, 
     CANCELED
