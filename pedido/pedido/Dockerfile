@@ -9,5 +9,5 @@ RUN chmod +x mvnw && ./mvnw -DskipTests package
 FROM eclipse-temurin:21-jre-jammy
 ARG JAR_FILE=target/*.jar
 COPY --from=build /workspace/${JAR_FILE} app.jar
-EXPOSE 8088
+EXPOSE 8086
 ENTRYPOINT ["java","-jar","/app.jar"]
