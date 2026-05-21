@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: notifications_db
+      MYSQL_DATABASE: notification_db
       # MYSQL_USER: mysql8
       # MYSQL_PASSWORD: mysql8
     ports:
