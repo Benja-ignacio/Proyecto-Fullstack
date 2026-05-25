@@ -13,7 +13,7 @@ public class InventoryRequestDTO {
 
 
     @NotNull(message = "El productId es requerido")
-    private Long ProductId;
+    private Long productId;
 
     @NotNull(message = "totalQuantity no puede ser nulo")
     @PositiveOrZero(message = "La cantidad disponible no puede ser menor a 0")
