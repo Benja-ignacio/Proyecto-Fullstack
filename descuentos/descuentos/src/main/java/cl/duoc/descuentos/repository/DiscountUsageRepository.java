@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import cl.duoc.descuentos.model.DiscountUsage;
 
-public interface DiscountUsageRepository extends JpaRepository<Long, DiscountUsage>{
+public interface DiscountUsageRepository extends JpaRepository<DiscountUsage, Long >{
 
-    Optional<DiscountUsage> FindById(Long id);
+    Optional<DiscountUsage> findById(Long id);
 
     List<DiscountUsage> findByUserId(Long userId);
 }
