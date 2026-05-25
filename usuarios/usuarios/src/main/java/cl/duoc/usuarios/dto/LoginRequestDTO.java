@@ -16,7 +16,7 @@ public class LoginRequestDTO {
 
      @NotBlank(message = "La contraseña no puede estar vacia")
     @Size(min = 6, max = 64)
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{8, 264}$", 
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{8,264}$", 
     message = "contraseña invalida. debe contener almenos 8 caracteres y maximo 264, una mayuscula y un numero")
     private String password;
 }
