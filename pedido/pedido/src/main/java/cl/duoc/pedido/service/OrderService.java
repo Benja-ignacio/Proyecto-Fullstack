@@ -31,10 +31,8 @@ public class OrderService {
     * @param userId   ID del usuario que realiza el pedido
     * @return DTO con la orden creada e ítems persistidos
     */
-    public OrderResponseDTO createOrder(Long userId) {
+    public OrderResponseDTO createOrder(Long userId, List<OrderItemDTO> itemsDTO) {
         
-        List<OrderItemDTO> itemsDTO = List.of(); // lista vacía temporal hasta integrar carrito
-
         BigDecimal subtotal = calculateSubtotal(itemsDTO);
         BigDecimal discount = BigDecimal.ZERO; // // TODO: integrar servicio de discount
         BigDecimal shipping = new BigDecimal("5000"); // TODO: integrar servicio de logistic

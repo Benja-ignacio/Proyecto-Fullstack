@@ -29,7 +29,7 @@ public class OrderController {
             @RequestParam Long userId,
             @Valid @RequestBody List<OrderItemDTO> items) {
 
-        OrderResponseDTO data = orderService.createOrder(userId);
+        OrderResponseDTO data = orderService.createOrder(userId, items);
 
         ApiResponse<OrderResponseDTO> response = new ApiResponse<OrderResponseDTO>(201, "pedido creado", data);
 
