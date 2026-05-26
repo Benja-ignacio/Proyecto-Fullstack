@@ -12,8 +12,8 @@
 	<artifactId>inventario</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>inventario</name>
-	<description/>
+	<name>inventory</name>
+	<description>inventory service</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -105,12 +105,6 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- dependecia de eureka cliente -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
