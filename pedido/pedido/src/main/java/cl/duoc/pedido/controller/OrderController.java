@@ -54,7 +54,12 @@ public class OrderController {
             @PathVariable Long orderId,
             @RequestParam OrderStatus status) {
 
-        OrderResponseDTO order = orderService.updateStatus(orderId, status);
+        try {
+            OrderResponseDTO order = orderService.updateStatus(orderId, status);   
+        } catch (Exception e) {
+            response = ApiResponse(400, "Error del servidor", null);
+            return response; //
+        }
 
         return ResponseEntity.ok(
                 new ApiResponse<>(200, "Estado actualizado", order)
