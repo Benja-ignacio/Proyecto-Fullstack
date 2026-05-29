@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 import cl.duoc.descuentos.enums.ProductType;
 import cl.duoc.descuentos.enums.Type;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
