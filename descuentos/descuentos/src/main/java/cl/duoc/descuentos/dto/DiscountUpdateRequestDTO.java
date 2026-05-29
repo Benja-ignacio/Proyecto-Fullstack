@@ -16,6 +16,7 @@ public class DiscountUpdateRequestDTO {
     @NotNull(message = "El tipo de descuento no pueda ser nulo")
     private Type type; // PERCENTAGE | FIXED enum
 
+    // null = descuento global 
     private ProductType productType; // MOUSE, KEYBOARD, etc
 
     @DecimalMin(value = "0.0", inclusive = false)
