@@ -3,6 +3,7 @@ package cl.duoc.carrito.service;
 import cl.duoc.carrito.dto.CartItemDTO;
 import cl.duoc.carrito.dto.CartItemResponseDTO;
 import cl.duoc.carrito.dto.CartResponseDTO;
+import cl.duoc.carrito.exception.custom.CartResourceNotFoundException;
 import cl.duoc.carrito.mappers.CartMapper;
 import cl.duoc.carrito.model.Cart;
 import cl.duoc.carrito.model.CartItem;
@@ -30,7 +31,7 @@ public class CartService {
     public CartItemResponseDTO addProduct(Long userId, CartItemDTO dto) {
 
         Cart cart = cartRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+                .orElseThrow(() -> new CartResourceNotFoundException("Carrito no encontrado"));
 
         CartItem item = new CartItem(
                 null,
@@ -49,7 +50,7 @@ public class CartService {
     public CartResponseDTO getCart(Long userId) {
 
         Cart cart= cartRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+                .orElseThrow(() -> new CartResourceNotFoundException("Carrito no encontrado"));
 
         List<CartItem> items = cartItemRepository.findByCartId(cart.getId());
 
@@ -63,7 +64,7 @@ public class CartService {
     public CartItemResponseDTO updateQuantity(Long itemId, Integer quantity) {
 
         CartItem item = cartItemRepository.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new CartResourceNotFoundException("Producto no encontrado"));
 
         item.setQuantity(quantity);
 
