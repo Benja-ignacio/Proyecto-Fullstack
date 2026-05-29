@@ -11,6 +11,7 @@ import cl.duoc.productos.dto.UpdateProductRequestDTO;
 import cl.duoc.productos.enums.Status;
 import cl.duoc.productos.exception.custom.ProductAlreadyExistsException;
 import cl.duoc.productos.exception.custom.ProductNotFoundException;
+import cl.duoc.productos.mapper.ProductMapper;
 import cl.duoc.productos.model.Product;
 import cl.duoc.productos.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper mapper;
 
     public ProductResponseDTO createProduct(ProductRequestDTO request) {
 
@@ -38,7 +40,7 @@ public class ProductService {
 
         Product saved = productRepository.save(product);
 
-        return mapToDTO(saved);
+        return mapper.entityToProductResponseDTO(saved);
     }
 
 
@@ -46,14 +48,14 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Producto no encontrado")); // exception ProductNotFoundException
 
-        return mapToDTO(product);
+        return mapper.entityToProductResponseDTO(product);
     }
 
 
     public List<ProductResponseDTO> getAllProducts() {
         return productRepository.findAll()
                 .stream()
-                .map(this::mapToDTO)
+                .map(mapper::entityToProductResponseDTO)
                 .collect(Collectors.toList());
     }
 
@@ -69,7 +71,7 @@ public class ProductService {
 
         Product updated = productRepository.save(product);
 
-        return mapToDTO(updated);
+        return mapper.entityToProductResponseDTO(updated);
     }
 
 
@@ -90,19 +92,6 @@ public class ProductService {
 
         product.setStatus(status);
         Product updated = productRepository.save(product);
-        return mapToDTO(updated);
-    }
-
-    private ProductResponseDTO mapToDTO(Product product) {
-        return ProductResponseDTO.builder()
-                .id(product.getId())
-                .sku(product.getSku())
-                .name(product.getName())
-                .brand(product.getBrand())
-                .type(product.getType())
-                .price(product.getPrice())
-                .description(product.getDescription())
-                .status(product.getStatus())
-                .build();
+        return mapper.entityToProductResponseDTO(updated);
     }
 }

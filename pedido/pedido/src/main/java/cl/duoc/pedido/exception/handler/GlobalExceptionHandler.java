@@ -1,6 +1,5 @@
 package cl.duoc.pedido.exception.handler;
 
-import cl.duoc.pedido.dto.ApiResponse;
 import cl.duoc.pedido.exception.custom.OrderResourceNotFoundException;
 
 import java.util.HashMap;

@@ -4,8 +4,6 @@ import cl.duoc.pedido.dto.ApiResponse;
 import cl.duoc.pedido.dto.OrderItemDTO;
 import cl.duoc.pedido.dto.OrderResponseDTO;
 import cl.duoc.pedido.enums.OrderStatus;
-import cl.duoc.pedido.model.Order;
-import cl.duoc.pedido.model.OrderItem;
 import cl.duoc.pedido.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

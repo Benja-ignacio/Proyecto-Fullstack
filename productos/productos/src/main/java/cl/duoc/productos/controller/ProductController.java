@@ -10,7 +10,6 @@ import cl.duoc.productos.dto.ProductRequestDTO;
 import cl.duoc.productos.dto.ProductResponseDTO;
 import cl.duoc.productos.dto.UpdateProductRequestDTO;
 import cl.duoc.productos.enums.Status;
-import cl.duoc.productos.model.Product;
 import cl.duoc.productos.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

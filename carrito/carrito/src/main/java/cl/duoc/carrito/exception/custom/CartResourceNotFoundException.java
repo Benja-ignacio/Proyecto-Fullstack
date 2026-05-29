@@ -1,4 +1,4 @@
-package cl.duoc.carrito.exception;
+package cl.duoc.carrito.exception.custom;
 
 public class CartResourceNotFoundException extends RuntimeException {
 

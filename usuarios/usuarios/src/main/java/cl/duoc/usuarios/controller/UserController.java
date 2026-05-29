@@ -9,7 +9,6 @@ import cl.duoc.usuarios.dto.RegisterRequestDTO;
 import cl.duoc.usuarios.dto.UserDTO;
 import cl.duoc.usuarios.model.User;
 import cl.duoc.usuarios.service.UserService;
-import io.micrometer.core.ipc.http.HttpSender.Response;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
