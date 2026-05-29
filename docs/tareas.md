@@ -14,6 +14,9 @@ Documento que contiene tareas que se deben de completar
 - validar acceso mediante JWT
 - terminar el servicio users
 - validar servicios
+- agregar configuraciones de seguridad a los servicios
+- crear flujo de la compra backend (creacion de compra init, confirmar pago)
+- terminar el DockerCompose masivo
 
 [MEDIUM]
 
@@ -31,7 +34,9 @@ Documento que contiene tareas que se deben de completar
 - documentar roles y permisos en contexto.md
 - definir qué endpoints requieren ADMIN
 - definir qué endpoints pueden usar CLIENT
-- terminar validaciones en products
+- terminar validaciones en
+- crear funcion refunded en pago
+- agregar logs
 
 [LOW]
 
@@ -39,3 +44,4 @@ Documento que contiene tareas que se deben de completar
 - evitar duplicados en cart_item
 - Mapear created_at y updated_at en entidad Product
 - Agregar timestamps a responses DTO
+- agregar swagger
