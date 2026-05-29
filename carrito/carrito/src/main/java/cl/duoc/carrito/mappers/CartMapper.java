@@ -2,15 +2,16 @@ package cl.duoc.carrito.mappers;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import cl.duoc.carrito.dto.CartItemResponseDTO;
 import cl.duoc.carrito.dto.CartResponseDTO;
 import cl.duoc.carrito.model.Cart;
 import cl.duoc.carrito.model.CartItem;
 import lombok.Builder;
-import lombok.Data;
 
-@Data
 @Builder
+@Component
 public class CartMapper {
 
     public CartItemResponseDTO entityToDTO(CartItem cartItem) {
