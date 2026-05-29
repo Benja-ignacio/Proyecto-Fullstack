@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import cl.duoc.descuentos.exception.custom.DiscountAlreadyActiveException;
 import cl.duoc.descuentos.exception.custom.DiscountAlreadyExistsException;
 import cl.duoc.descuentos.exception.custom.InvalidDateException;
-import io.micrometer.core.instrument.config.validate.Validated.Invalid;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
