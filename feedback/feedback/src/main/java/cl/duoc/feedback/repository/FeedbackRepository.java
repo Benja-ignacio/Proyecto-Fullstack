@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     // busca feedback por id 
-    Optional<Feedback> FindById(Long id);
+    Optional<Feedback> findById(Long id);
 
     // busca por productId y devuelve la lista de todos los feedback de un producto --> lista vacia si no tiene feedbacks
     List<Feedback> findByProductId(Long productId);
