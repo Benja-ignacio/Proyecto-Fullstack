@@ -1,14 +1,15 @@
 package cl.duoc.pago.mappers;
 
+import org.springframework.stereotype.Component;
+
 import cl.duoc.pago.dto.PaymentResponseDTO;
 import cl.duoc.pago.model.Payment;
-import lombok.Data;
 
-@Data
+@Component
 public class PaymentMappers {
 
     // Entity to DTO
-    public PaymentResponseDTO entityToDTO(Payment payment) {
+    public PaymentResponseDTO entityToPaymentResponseDTO(Payment payment) {
         return PaymentResponseDTO.builder()
         .id(payment.getId())
         .orderId(payment.getOrderId())
@@ -23,7 +24,7 @@ public class PaymentMappers {
     }
 
     // DTO to entity
-    public Payment DTOtoEntity(PaymentResponseDTO dto) {
+    public Payment PaymentResponseDTOtoEntity(PaymentResponseDTO dto) {
         return Payment.builder()
         .id(dto.getId())
         .orderId(dto.getOrderId())
