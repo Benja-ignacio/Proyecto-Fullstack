@@ -27,7 +27,7 @@ public class PaymentService {
         Payment payment = paymentRepository.findById(id)
         .orElseThrow(() -> new PaymentNotFoundException("Error: Pago no encontrado"));
 
-        return mapper.entityToDTO(payment);
+        return mapper.entityToPaymentResponseDTO(payment);
     }
 
     // obtener payment por orderId
@@ -35,7 +35,7 @@ public class PaymentService {
         Payment payment = paymentRepository.findByOrderId(orderId)
         .orElseThrow(() -> new PaymentNotFoundException("Error: Pago no encontrado"));
 
-        return mapper.entityToDTO(payment);
+        return mapper.entityToPaymentResponseDTO(payment);
     }
 
     // crear pago inicial
@@ -52,7 +52,7 @@ public class PaymentService {
 
         paymentRepository.save(payment);
 
-        return mapper.entityToDTO(payment);
+        return mapper.entityToPaymentResponseDTO(payment);
     }
 
     // actualizar pago
@@ -72,7 +72,7 @@ public class PaymentService {
         payment.setTransactionId(UUID.randomUUID().toString());    
         paymentRepository.save(payment);
 
-        return mapper.entityToDTO(payment);
+        return mapper.entityToPaymentResponseDTO(payment);
     }
 
     // eliminar pago
