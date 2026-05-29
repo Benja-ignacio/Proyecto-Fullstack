@@ -3,10 +3,7 @@ package cl.duoc.productos.dto;
 
 import java.math.BigDecimal;
 
-import cl.duoc.productos.enums.Status;
 import cl.duoc.productos.enums.Type;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,11 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRequestDTO {
-
-
     @NotBlank(message = "El sku no puede estar vacio")
     private String sku;
-
 
     @NotBlank(message = "El nombre no puede estar vacio")
     @Size(min = 3, max = 256)
@@ -34,7 +28,7 @@ public class ProductRequestDTO {
     @Size(min = 2, max = 256)
     private String brand;
 
-    @NotNull(message = "El tipo de producto no puede estar vacio")
+    @NotNull(message = "El tipo de producto no puede ser nulo")
     private Type type;
 
     @NotNull(message = "El precio no puede estar vacio")
