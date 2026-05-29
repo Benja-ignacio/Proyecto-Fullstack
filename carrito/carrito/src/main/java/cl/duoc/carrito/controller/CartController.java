@@ -2,7 +2,8 @@ package cl.duoc.carrito.controller;
 
 import cl.duoc.carrito.dto.ApiResponse;
 import cl.duoc.carrito.dto.CartItemDTO;
-import cl.duoc.carrito.model.CartItem;
+import cl.duoc.carrito.dto.CartItemResponseDTO;
+import cl.duoc.carrito.dto.CartResponseDTO;
 import cl.duoc.carrito.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,35 +11,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/cart")
 @RequiredArgsConstructor
 public class CartController {
 
-    private final CartService service;
+    private final CartService cartService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<CartItem>> addProduct(
+    public ResponseEntity<ApiResponse<CartItemResponseDTO>> addProduct(
             @RequestParam Long userId,
             @Valid @RequestBody CartItemDTO dto) {
 
-        CartItem item = service.addProduct(userId, dto);
+        CartItemResponseDTO data = cartService.addProduct(userId, dto);
 
         return ResponseEntity.ok(
-                new ApiResponse<>(200, "Producto agregado al carrito", item)
+                new ApiResponse<>(200, "Producto agregado al carrito", data)
         );
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CartItem>>> getCart(
+    public ResponseEntity<ApiResponse<CartResponseDTO>> getCart(
             @RequestParam Long userId) {
 
-        List<CartItem> items = service.getCart(userId);
+        CartResponseDTO data = cartService.getCart(userId);
 
         return ResponseEntity.ok(
-                new ApiResponse<>(200, "Carrito obtenido", items)
+                new ApiResponse<>(200, "Carrito obtenido", data)
         );
     }
 
@@ -46,22 +46,20 @@ public class CartController {
     public ResponseEntity<ApiResponse<String>> deleteProduct(
             @PathVariable Long itemId) {
 
-        service.deleteProduct(itemId);
+        cartService.deleteProduct(itemId);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Producto eliminado", "OK")
-        );
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{itemId}")
-    public ResponseEntity<ApiResponse<CartItem>> updateQuantity(
+    public ResponseEntity<ApiResponse<CartItemResponseDTO>> updateQuantity(
             @PathVariable Long itemId,
             @RequestParam Integer quantity) {
 
-        CartItem item = service.updateQuantity(itemId, quantity);
+        CartItemResponseDTO data = cartService.updateQuantity(itemId, quantity);
 
         return ResponseEntity.ok(
-                new ApiResponse<>(200, "Cantidad actualizada", item)
+                new ApiResponse<>(200, "Cantidad actualizada", data)
         );
     }
 
@@ -69,7 +67,7 @@ public class CartController {
     public ResponseEntity<ApiResponse<BigDecimal>> getTotal(
             @RequestParam Long userId) {
 
-        BigDecimal total = service.calculateTotal(userId);
+        BigDecimal total = cartService.calculateTotal(userId);
 
         return ResponseEntity.ok(
                 new ApiResponse<>(200, "Total calculado", total)
