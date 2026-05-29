@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import cl.duoc.notificaciones.dto.ApiResponse;
 import cl.duoc.notificaciones.dto.NotificationRequestDTO;
 import cl.duoc.notificaciones.dto.NotificationResponseDTO;
-import cl.duoc.notificaciones.model.Notification;
 import cl.duoc.notificaciones.service.NotificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
