@@ -1,0 +1,61 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: users-service
+          uri: lb://users
+          predicates:
+            - Path=/api/v1/users/**
+        - id: users-service
+          uri: lb://users
+          predicates:
+            - Path=/api/v1/auth/**
+        - id: products-service
+          uri: lb://products
+          predicates:
+            - Path=/api/v1/products/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# Logs
+logging:
+  level:
+    root: INFO
+    cl.duoc.gateway: DEBUG
+  file:
+    name: /app/logs/${spring.application.name}/${spring.application.name}.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+  logback:
+    rollingpolicy:
+      max-file-size: 10mb
+      max-history: 10
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
