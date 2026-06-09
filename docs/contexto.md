@@ -71,7 +71,6 @@ table inventory:
 - id,
 - product_id (referencia a product service),
 - total_quantity,
-- available_quantity,
 - reserved_quantity
 
 ### cart
