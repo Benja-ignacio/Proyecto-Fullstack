@@ -9,6 +9,8 @@ import cl.duoc.pedido.repository.OrderItemRepository;
 import cl.duoc.pedido.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,125 +21,172 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
+    private static final Logger logger =
+            LoggerFactory.getLogger(OrderService.class);
+
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
 
+    public OrderResponseDTO createOrder(
+            Long userId,
+            List<OrderItemDTO> itemsDTO) {
 
-    /**
-    * Crea una orden a partir de los ítems del carrito de un usuario.
-    * El descuento y el envío son valores temporales hasta integrar
-    * los servicios de descuentos y logística.
-    *
-    * @param userId   ID del usuario que realiza el pedido
-    * @return DTO con la orden creada e ítems persistidos
-    */
-    public OrderResponseDTO createOrder(Long userId) {
-        
-        List<OrderItemDTO> itemsDTO = List.of(); // lista vacía temporal hasta integrar carrito
+        logger.info("Creando pedido para usuario {}", userId);
+
+        if (userId == null || userId <= 0) {
+            throw new IllegalArgumentException(
+                    "El id del usuario es inválido");
+        }
+
+        if (itemsDTO == null || itemsDTO.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "El pedido debe contener al menos un producto");
+        }
 
         BigDecimal subtotal = calculateSubtotal(itemsDTO);
-        BigDecimal discount = BigDecimal.ZERO; // // TODO: integrar servicio de discount
-        BigDecimal shipping = new BigDecimal("5000"); // TODO: integrar servicio de logistic
-        
+
+        BigDecimal discount = BigDecimal.ZERO;
+
+        BigDecimal shipping =
+                new BigDecimal("5000");
+
         BigDecimal total = subtotal
-        .subtract(discount)
-        .add(shipping);
-        
-        
-        // usar builder en vez de constructor normal para mejor legibilidad y no tener constructores tan largos
-        // NOTA los atributos no añadidos quedaran null por defecto
+                .subtract(discount)
+                .add(shipping);
+
         Order newOrder = Order.builder()
-        .userId(userId)
-        .subtotal(subtotal)
-        .discount(discount)
+                .userId(userId)
+                .subtotal(subtotal)
+                .discount(discount)
                 .shipping(shipping)
                 .total(total)
                 .orderStatus(OrderStatus.PENDING)
                 .build();
 
-        Order savedOrder = orderRepository.save(newOrder);
-        
-        // TODO: integrar CartService → List<OrderItemDTO> items = cartService.getCartItems(userId)
+        Order savedOrder =
+                orderRepository.save(newOrder);
 
-        // transformar lista de OrderItemDTO a lista de tipo OrderItem
         List<OrderItem> items = itemsDTO.stream()
-                            .map(dto -> toOrderItemEntity(savedOrder.getId(), dto))
-                            .toList();
+                .map(dto ->
+                        toOrderItemEntity(
+                                savedOrder.getId(),
+                                dto))
+                .toList();
 
-        /*
-        * saveAll persiste una colección de entidades en la base de datos
-        * internamente itera los elementos y ejecuta persistencia por cada uno
-        * puede ser más eficiente que hacer save() en un loop manual
-        * documentar en explicaciones.md
-        */
         orderItemRepository.saveAll(items);
 
-        return toOrderResponseDTOWithItems(savedOrder, items);
+        logger.info(
+                "Pedido {} creado correctamente",
+                savedOrder.getId());
+
+        return toOrderResponseDTOWithItems(
+                savedOrder,
+                items);
     }
 
-    // calcular el subtotal de una lista de items
-    private BigDecimal calculateSubtotal(List<OrderItemDTO> itemsDTO) {
-    return itemsDTO.stream()
-            .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
-}
+    private BigDecimal calculateSubtotal(
+            List<OrderItemDTO> itemsDTO) {
 
-    // ver historial de compras
-    public List<OrderResponseDTO> getOrdersByUser(Long userId) {
-        List<Order> list = orderRepository.findByUserId(userId);
+        return itemsDTO.stream()
+                .map(item ->
+                        item.getPrice().multiply(
+                                BigDecimal.valueOf(
+                                        item.getQuantity())))
+                .reduce(
+                        BigDecimal.ZERO,
+                        BigDecimal::add);
+    }
+
+    public List<OrderResponseDTO> getOrdersByUser(
+            Long userId) {
+
+        logger.info(
+                "Consultando pedidos del usuario {}",
+                userId);
+
+        List<Order> list =
+                orderRepository.findByUserId(userId);
 
         return list.stream()
-               .map(this::toOrderResponseDTO)
-               .toList();
+                .map(this::toOrderResponseDTO)
+                .toList();
     }
 
-    // cambiar estado del pedido
-    public OrderResponseDTO updateStatus(Long orderId, OrderStatus status) {
+    public OrderResponseDTO updateStatus(
+            Long orderId,
+            OrderStatus status) {
+
+        logger.info(
+                "Actualizando pedido {} a estado {}",
+                orderId,
+                status);
 
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderResourceNotFoundException("Pedido no encontrado"));
+                .orElseThrow(() ->
+                        new OrderResourceNotFoundException(
+                                "Pedido no encontrado"));
 
         order.setOrderStatus(status);
 
         if (status == OrderStatus.PAID) {
-            order.setPaidAt(LocalDateTime.now());
+
+            order.setPaidAt(
+                    LocalDateTime.now());
+
+            logger.info(
+                    "Pedido {} marcado como PAGADO",
+                    orderId);
         }
 
-        Order savedOrder = orderRepository.save(order);  // también faltaba persistir
+        Order savedOrder =
+                orderRepository.save(order);
 
         return toOrderResponseDTO(savedOrder);
     }
 
-    // detalle del pedido
-    public List<OrderItemDTO> getOrderItems(Long orderId) {
-        List<OrderItem> items = orderItemRepository.findByOrderId(orderId);
+    public List<OrderItemDTO> getOrderItems(
+            Long orderId) {
+
+        List<OrderItem> items =
+                orderItemRepository.findByOrderId(orderId);
 
         if (items.isEmpty()) {
-            throw new OrderResourceNotFoundException("No se encontraron items para el pedido");
-            }
+
+            logger.warn(
+                    "No se encontraron items para pedido {}",
+                    orderId);
+
+            throw new OrderResourceNotFoundException(
+                    "No se encontraron items para el pedido");
+        }
 
         return items.stream()
                 .map(this::orderItemToDTO)
                 .toList();
-        }
-
-    
-    // eliminar pedido
-    public void deleteOrder(Long orderID) {
-        Order order = orderRepository.findById(orderID)
-                        .orElseThrow(() -> new OrderResourceNotFoundException("No se encontro pedido"));
-
-        order.setOrderStatus(OrderStatus.CANCELED);
-
-        // TODO: implementar soft delete (campo deleted + deletedAt en entidad Order)
-        orderRepository.save(order);
     }
 
+    public void deleteOrder(Long orderID) {
 
-    // OrderResponseDTO mapper 
+        Order order =
+                orderRepository.findById(orderID)
+                        .orElseThrow(() ->
+                                new OrderResourceNotFoundException(
+                                        "No se encontró pedido"));
+
+        order.setOrderStatus(
+                OrderStatus.CANCELED);
+
+        orderRepository.save(order);
+
+        logger.warn(
+                "Pedido {} cancelado",
+                orderID);
+    }
+
     public OrderResponseDTO toOrderResponseDTOWithItems(
-        Order order, 
-        List<OrderItem> orderItems) {
+            Order order,
+            List<OrderItem> orderItems) {
+
         return OrderResponseDTO.builder()
                 .id(order.getId())
                 .userId(order.getUserId())
@@ -150,15 +199,15 @@ public class OrderService {
                 .paidAt(order.getPaidAt())
                 .items(
                         orderItems.stream()
-                            .map(this::orderItemToDTO)
-                            .toList()
+                                .map(this::orderItemToDTO)
+                                .toList()
                 )
                 .build();
     }
 
-    // entity to dto
     public OrderResponseDTO toOrderResponseDTO(
-        Order order) {
+            Order order) {
+
         return OrderResponseDTO.builder()
                 .id(order.getId())
                 .userId(order.getUserId())
@@ -172,26 +221,27 @@ public class OrderService {
                 .build();
     }
 
+    public OrderItemDTO orderItemToDTO(
+            OrderItem orderItem) {
 
-    // orderItem to dto
-    public OrderItemDTO orderItemToDTO(OrderItem orderItem) {
-            return OrderItemDTO.builder()
-            .productId(orderItem.getProductId())
-            .productName(orderItem.getProductName())
-            .price(orderItem.getPrice())
-            .quantity(orderItem.getQuantity())
-            .build();
-        }
-
-    // OrdenItemDTO to entity
-    public OrderItem toOrderItemEntity (Long orderId, OrderItemDTO dto) {
-        return OrderItem.builder()
-        .orderId(orderId)
-        .productId(dto.getProductId())
-        .productName(dto.getProductName())
-        .price(dto.getPrice())
-        .quantity(dto.getQuantity())
-        .build();
+        return OrderItemDTO.builder()
+                .productId(orderItem.getProductId())
+                .productName(orderItem.getProductName())
+                .price(orderItem.getPrice())
+                .quantity(orderItem.getQuantity())
+                .build();
     }
-    
+
+    public OrderItem toOrderItemEntity(
+            Long orderId,
+            OrderItemDTO dto) {
+
+        return OrderItem.builder()
+                .orderId(orderId)
+                .productId(dto.getProductId())
+                .productName(dto.getProductName())
+                .price(dto.getPrice())
+                .quantity(dto.getQuantity())
+                .build();
+    }
 }
