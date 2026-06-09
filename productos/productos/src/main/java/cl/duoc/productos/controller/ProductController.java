@@ -21,6 +21,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+    // privado ROL=ADMIN
     @PostMapping("/create") // crear producto
     public ResponseEntity<ApiResponse<ProductResponseDTO>> createProduct(
            @Valid @RequestBody ProductRequestDTO request) {
@@ -33,6 +34,7 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    // PUBLIC NO ROL
     @GetMapping("/{id}") // buscar producto por id 
     public ResponseEntity<ApiResponse<ProductResponseDTO>> getById(@PathVariable Long id) {
 
@@ -44,6 +46,7 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    // PUBLIC NO ROL
     @GetMapping("/list") // obtener todos los productos
     public ResponseEntity<ApiResponse<List<ProductResponseDTO>>> getAll() {
         List<ProductResponseDTO> data = productService.getAllProducts();
@@ -54,6 +57,7 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    // PRIVATE ROL=ADMIN
     @PutMapping("/update/{id}") // actualizar producto
     public ResponseEntity<ApiResponse<ProductResponseDTO>> update(
             @PathVariable Long id,
@@ -67,6 +71,7 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    // PRIVATE ROL=ADMIN
     @DeleteMapping("/delete/{id}") // eliminar producto
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
 
@@ -77,6 +82,7 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    // PRIVATE ROL=ADMIN
     @PatchMapping("/update/status/{id}") // modificar status del producto
     public ResponseEntity<ApiResponse<ProductResponseDTO>> changeStatus(
             @PathVariable Long id,
