@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import cl.duoc.usuarios.exception.custom.EmailAlreadyUsedException;
 import cl.duoc.usuarios.exception.custom.UserAlreadyExistsException;
+import cl.duoc.usuarios.exception.custom.UserAlreadyInStatusException;
+import cl.duoc.usuarios.exception.custom.UserAlreadyInactiveException;
+import cl.duoc.usuarios.exception.custom.UserNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -76,4 +79,41 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler(UserAlreadyInStatusException.class)
+    public ResponseEntity<Map<String, String>> userAlreadyInStatus(UserAlreadyInStatusException ex) {
+
+        logger.warn("El usuario ya se encuntra con el estado de cuenta ingresado: {}", ex.getMessage()); // LOGS QUE SOLO SE PUEDE VER INTERNAMENTE
+
+        Map<String, String> error = Map.of(
+            "error", ex.getMessage() // ERROR QUE VE EL FRONTEND
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> userNotFound(UserNotFoundException ex) {
+
+        logger.warn("El usuario no se encontro: {}", ex.getMessage()); // LOGS QUE SOLO SE PUEDE VER INTERNAMENTE
+
+        Map<String, String> error = Map.of(
+            "error", ex.getMessage() // ERROR QUE VE EL FRONTEND
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(UserAlreadyInactiveException.class)
+    public ResponseEntity<Map<String, String>> userAlreadyInactive(UserAlreadyInactiveException ex) {
+
+        logger.warn("El usuario ya se encuentra con la cuenta inactiva: {}", ex.getMessage()); // LOGS QUE SOLO SE PUEDE VER INTERNAMENTE
+
+        Map<String, String> error = Map.of(
+            "error", ex.getMessage() // ERROR QUE VE EL FRONTEND
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+    
 }
