@@ -59,7 +59,7 @@ public class DIscountController {
 
 
     // activar / descativar descuento
-    @PatchMapping("activate/{id}")
+    @PatchMapping("status/{id}")
     public ResponseEntity<ApiResponse<DiscountResponseDTO>> toggleStatus(
         @PathVariable Long id, boolean active) {
         
