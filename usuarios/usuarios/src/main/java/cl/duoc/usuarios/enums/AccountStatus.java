@@ -1,6 +1,6 @@
 package cl.duoc.usuarios.enums;
 
-public enum Status {
+public enum AccountStatus {
     ACTIVE,
     INACTIVE,
     BANNED
