@@ -23,7 +23,6 @@ Documento que contiene tareas que se deben de completar
 - validar stock antes de checkout
 - implementar metodo para cambiar contraseña del usuario (un cambio por mes)
 - implementar metodo para cambiar nombre del usuario (un cambio por mes)
-- agregar endpoints a contexto.md
 - manejar expiración de carrito
 - usar apiresponse en todos los servicios
 - agregar reglas de negocio a contexto.md
