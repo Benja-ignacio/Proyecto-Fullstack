@@ -1,24 +1,26 @@
 package cl.duoc.usuarios.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cl.duoc.usuarios.dto.ApiResponse;
-import cl.duoc.usuarios.dto.LoginRequestDTO;
-import cl.duoc.usuarios.dto.RegisterRequestDTO;
-import cl.duoc.usuarios.dto.UserDTO;
-import cl.duoc.usuarios.model.User;
+import cl.duoc.usuarios.dto.requests.ChangeStatusRequestDTO;
+import cl.duoc.usuarios.dto.responses.ApiResponse;
+import cl.duoc.usuarios.dto.responses.RegisterResponseDTO;
+import cl.duoc.usuarios.dto.responses.UserResponseDTO;
 import cl.duoc.usuarios.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 
@@ -27,67 +29,52 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService UserService;
-
-    //endpoint para registrar usuario
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserDTO>> register(@Valid @RequestBody RegisterRequestDTO dto) {
-        User newUser = UserService.registerUser(dto);
-
-        UserDTO userDTO = new UserDTO(newUser.getUserId(), newUser.getUsername());
-
-
-        ApiResponse<UserDTO> response = new ApiResponse<UserDTO>(200, "Usuario registrado", userDTO);
-        
-        return ResponseEntity.ok(response);
-    }
-
-    //endpoint para login 
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponse<String>> login (@Valid @RequestBody LoginRequestDTO loginDTO) {
-        String token = UserService.login(loginDTO);
-
-        if (token != null) {
-            ApiResponse<String> response = 
-                    new ApiResponse<String>(200, "Login exitoso", token);
-            return ResponseEntity.ok(response);
-        } else {
-            ApiResponse<String> response = 
-                    new ApiResponse<String>(401, "Credenciales invalidas", null);
-            return ResponseEntity.status(401).body(response);
-        }
-    }
+    private final UserService userService;
 
     //endpoint para listar todos los usuarios 
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<List<UserDTO>>> getAllUsers() {
-        List<UserDTO> list = UserService.getAllUsers();
+    @Operation(summary = "Listar Usuarios", description = "Permite Listar todos los usuarios")
+    public ResponseEntity<ApiResponse<List<RegisterResponseDTO>>> getAllUsers() {
+        List<RegisterResponseDTO> list = userService.getAllUsers();
 
-        ApiResponse<List<UserDTO>> response = 
-                new ApiResponse<List<UserDTO>>(400, "Lista de usuarios", list);
+        ApiResponse<List<RegisterResponseDTO>> response = 
+                new ApiResponse<List<RegisterResponseDTO>>(400, "Lista de usuarios", list);
         
         return ResponseEntity.ok(response);
+    }   
+    
+    @GetMapping("/{id}")
+    @Operation(summary = "Buscar usuario por id", description = "Permite buscar un usuario por id")
+    public ResponseEntity<ApiResponse<UserResponseDTO>> getById(
+        @PathVariable Long userId) {
+
+        UserResponseDTO data = userService.getById(userId);
+
+        return ResponseEntity.ok(new ApiResponse<>(200, "Usuario encontrado", data));
     }
 
-    //endpoint para validar token 
-    @GetMapping("/validate")
-    public ResponseEntity<ApiResponse<String>> validateToken (@RequestParam String token) {
-        boolean valid = UserService.validateToken(token);
+    @PatchMapping("/status/{userId}") 
+    @Operation(summary = "Cambiar el estado de la cuenta de un usuario", description = "Permite cambiar el estado de una cuenta. Requiere el id del usuario y el estado")
+    public ResponseEntity<ApiResponse<UserResponseDTO>> changeAccountStatus(
+        @PathVariable Long userId,
+        @Valid @RequestParam ChangeStatusRequestDTO status) {
 
-        if (valid) {
-            ApiResponse<String> response = 
-                    new ApiResponse<String>(200, "Token valido", "OK");
+            UserResponseDTO data = userService.changeAccountStatus(userId, status);
+
+            return ResponseEntity.ok(new ApiResponse<>(200, "Estado de la cuenta de usuario cambiado", data));
             
-            return ResponseEntity.ok(response);
-        } else {
-            ApiResponse<String> response =
-                    new ApiResponse<String>(401, "Token invalido", null);
-
-            return ResponseEntity.status(401).body(response);
         }
-    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Cambia el estado de la cuenta de un usuario a inactivo", description = "Permite desactivar la cuenta de un usuario")
+    public ResponseEntity<Void> desactivateAccount(
+        @PathVariable Long userId) {
+
+            userService.deleteUser(userId);
+
+            return ResponseEntity.noContent().build();
+        }
     
-    
-    
+
     
 }
