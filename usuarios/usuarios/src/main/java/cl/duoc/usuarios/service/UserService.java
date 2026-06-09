@@ -1,88 +1,85 @@
 package cl.duoc.usuarios.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import cl.duoc.usuarios.dto.LoginRequestDTO;
-import cl.duoc.usuarios.dto.RegisterRequestDTO;
-import cl.duoc.usuarios.dto.UserDTO;
-import cl.duoc.usuarios.enums.Role;
-import cl.duoc.usuarios.enums.Status;
-import cl.duoc.usuarios.exception.custom.EmailAlreadyUsedException;
-import cl.duoc.usuarios.exception.custom.UserAlreadyExistsException;
+import cl.duoc.usuarios.dto.requests.ChangeStatusRequestDTO;
+import cl.duoc.usuarios.dto.responses.RegisterResponseDTO;
+import cl.duoc.usuarios.dto.responses.UserResponseDTO;
+import cl.duoc.usuarios.enums.AccountStatus;
+import cl.duoc.usuarios.exception.custom.UserAlreadyInStatusException;
+import cl.duoc.usuarios.exception.custom.UserAlreadyInactiveException;
+import cl.duoc.usuarios.exception.custom.UserNotFoundException;
+import cl.duoc.usuarios.mapper.UserMapper;
 import cl.duoc.usuarios.model.User;
 import cl.duoc.usuarios.repository.UserRepository;
-import cl.duoc.usuarios.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-
-
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    private final JwtUtil jwtUtil;
-
-    // registrar usuario con contraseña hasheada
-    public User registerUser(RegisterRequestDTO request) {
-
-        // validar si existe username registrado
-        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new UserAlreadyExistsException("error: Usuario con nombre " + request.getUsername() + " ya existe"); // crear personalizacion personalizada - userAlreadyRegistered
-        }
-
-        // validar si existe email registrado
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new EmailAlreadyUsedException("error: El email " + request.getEmail() + " ya esta registrado"); // crear personalizacion personalizada - EmailAlreadyRegistered
-        }
-
-        // hashear password
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-
-        //crear usuario
-        User user = new User();
-
-        user.setUsername(request.getUsername());
-        user.setPassword(encodedPassword);
-        user.setEmail(request.getEmail());
-        user.setAddress(request.getAddress());
-        user.setRole(Role.CLIENT);
-        user.setStatus(Status.ACTIVE);
-        user.setCreatedAt(LocalDateTime.now());
-
-        return userRepository.save(user);
-    }
-
-    // validar login 
-    public String login (LoginRequestDTO request ) {
-        Optional<User> userOpt = userRepository.findByUsername(request.getUsername());
-
-        if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
-            return jwtUtil.generateToken(request.getUsername());
-        }
-        return null;
-    } // userOpt.get().getPassword --> PASSWORD HASHEADA
-
-
-
-    // validar token (EXPIRATION_TIME)
-    public boolean validateToken(String token) {
-        return jwtUtil.validateToken(token);
-    }
-
+    private final UserMapper mapper;
 
     // listar todos los usuarios
-    public List<UserDTO> getAllUsers() {
+    public List<RegisterResponseDTO> getAllUsers() {
         return userRepository.findAll()
                 .stream()
-                .map(user -> new UserDTO(user.getUserId(), user.getUsername()))
+                .map(user -> new RegisterResponseDTO(user.getUserId(), user.getUsername()))
                 .toList();
+    }
+
+    // buscar usuario por id
+    public UserResponseDTO getById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado."));
+
+        return mapper.userEntityToUserResponseDTO(user);
+    }
+
+    // cambiar estado de una cuenta
+    public UserResponseDTO changeAccountStatus(Long userId, ChangeStatusRequestDTO status) {
+        log.info("Inciando cambio de estado para usuario {} ", userId);
+
+        User user = userRepository.findById(userId)
+        .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado."));
+
+        if (user.getStatus() == status.getStatus()) {
+            log.warn("Error: el usuario ya se encuentra con AccountStatus {}", status.getStatus());
+            throw new UserAlreadyInStatusException("Error: el usuario ya se encuentra con AccountStatus: " + status.getStatus());
+        }
+
+        // validar que no sea cambiar estado a inactive
+
+        user.setStatus(status.getStatus());
+        userRepository.save(user);
+
+        log.info("Estado de cuenta actualizada para usuario {} a {} ", 
+                        user.getUsername(), user.getStatus());
+
+        return mapper.userEntityToUserResponseDTO(user);
+    }
+
+    // desactivar una cuenta
+    public void deleteUser(Long userId) {
+
+        log.info("Iniciando desactivacion de la cuenta con id: {}", userId);
+
+        User user = userRepository.findById(userId)
+        .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado."));
+
+        if (user.getStatus() == AccountStatus.INACTIVE) {
+            log.warn("El usuario {} ya se encuentra inactivo", user.getUsername());
+            throw new UserAlreadyInactiveException("El usuario ya se encuentra inactivo");
+        }
+        
+        user.setStatus(AccountStatus.INACTIVE);
+        userRepository.save(user);
+        log.info("El usuario con id {} fue desactivado correctamente", userId);
     }
 }
