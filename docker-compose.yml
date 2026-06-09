@@ -8,6 +8,34 @@ services:
       - "8761:8761"
     networks:
       - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8761/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s
+
+  api-gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "9999:9999"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:9999/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
 
   # 1. USERS
   mysql-users:
@@ -38,11 +66,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mysql-users:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
     networks:
       - microservices-net
     healthcheck:
@@ -82,11 +112,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mysql-products:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
     networks:
       - microservices-net
     healthcheck:
@@ -126,11 +158,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8082:8082"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mysql-cart:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
     networks:
       - microservices-net
     healthcheck:
@@ -169,11 +203,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8083:8083"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mysql-feedback:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
     networks:
       - microservices-net
     healthcheck:
@@ -213,11 +249,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8084:8084"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mysql-inventory:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
     networks:
       - microservices-net
     healthcheck:
@@ -257,11 +295,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8085:8085"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mysql-payment:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
     networks:
       - microservices-net
     healthcheck:
@@ -301,11 +341,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8086:8086"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mysql-order:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
     networks:
       - microservices-net
     healthcheck:
@@ -369,11 +411,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8088:8088"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mysql-discounts:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
     networks:
       - microservices-net
     healthcheck:
@@ -398,6 +442,7 @@ services:
       - "3319:3306"
     volumes:
       - mysql_notifications_data:/var/lib/mysql
+      # - ./logs:/app/logs
     networks:
       - microservices-net
     healthcheck:
@@ -413,11 +458,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8089:8089"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mysql-notifications:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
     networks:
       - microservices-net
     healthcheck:
@@ -442,3 +489,4 @@ volumes:
   #   mysql_logistic_data:
   mysql_discounts_data:
   mysql_notifications_data:
+  logs:
