@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import cl.duoc.descuentos.dto.DiscountRequestDTO;
 import cl.duoc.descuentos.dto.DiscountResponseDTO;
 import cl.duoc.descuentos.dto.DiscountUsageResponseDTO;
-import cl.duoc.descuentos.exception.custom.DiscountAlreadyActiveException;
 import cl.duoc.descuentos.exception.custom.DiscountAlreadyExistsException;
 import cl.duoc.descuentos.exception.custom.DiscountNotFoundException;
+import cl.duoc.descuentos.exception.custom.DiscountStatusChangeException;
 import cl.duoc.descuentos.exception.custom.InvalidDateException;
 import cl.duoc.descuentos.mapper.DiscountMapper;
 import cl.duoc.descuentos.model.Discount;
@@ -63,7 +63,7 @@ public class DiscountService {
             .orElseThrow(() -> new DiscountNotFoundException("error: Descuento no encontrado")); // crear excepcion personalizada
 
         if (discount.isActive() == active) {
-            throw new DiscountAlreadyActiveException("EL descuento ya esta activo");
+            throw new DiscountStatusChangeException("Error: el descuento ya se encuentra con estado: " + active);
         }
         discount.setActive(active);
 
