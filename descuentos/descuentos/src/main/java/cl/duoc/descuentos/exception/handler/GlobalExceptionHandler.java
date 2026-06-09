@@ -11,8 +11,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import cl.duoc.descuentos.exception.custom.DiscountAlreadyActiveException;
 import cl.duoc.descuentos.exception.custom.DiscountAlreadyExistsException;
+import cl.duoc.descuentos.exception.custom.DiscountStatusChangeException;
 import cl.duoc.descuentos.exception.custom.InvalidDateException;
 
 @RestControllerAdvice
@@ -76,10 +76,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @ExceptionHandler(DiscountAlreadyActiveException.class)
-    public ResponseEntity<Map<String, String>> discountAlreadyActive(DiscountAlreadyActiveException ex) {
+    @ExceptionHandler(DiscountStatusChangeException.class)
+    public ResponseEntity<Map<String, String>> discountAlreadyActive(DiscountStatusChangeException ex) {
 
-        logger.warn("El descuento ya esta activo: {}", ex.getMessage()); // LOGS QUE SOLO SE PUEDE VER INTERNAMENTE
+        logger.warn("El descuento ya se encuentra con el estado ingresado: {}", ex.getMessage()); // LOGS QUE SOLO SE PUEDE VER INTERNAMENTE
 
         Map<String, String> error = Map.of(
             "error", ex.getMessage() // ERROR QUE VE EL FRONTEND
