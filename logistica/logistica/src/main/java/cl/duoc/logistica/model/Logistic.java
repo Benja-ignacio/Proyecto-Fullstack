@@ -27,22 +27,28 @@ import lombok.Setter;
 public class Logistic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
     private Long id; // 
 
-    @Column(name = "order_id")
+    @Column(name = "order_id", nullable = false)
     private Long orderId; // referencia a order service
 
+
+    /**
+     * Distancia entre el almacén y la dirección de entrega.
+     *
+     * Actualmente no se utiliza.
+     * Se deja para una futura implementación de cálculo de envío basado en distancia.
+     */
     @Column(name = "distance")
     private BigDecimal distance; // distancia entre la direccion del usuario y almacen de los productos
 
-    @Column(name = "shipping")
+    @Column(name = "shipping", nullable = false)
     private BigDecimal shipping; // precio del envio
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private Status status; // cambiar  a enum = sent, in wait, canceled
 
-    @Column(name = "expected_delivery_date")
+    @Column(name = "expected_delivery_date", nullable = false)
     private LocalDateTime expectedDeliveryDate; 
 
     @Column(name = "shipped_at")
@@ -51,5 +57,7 @@ public class Logistic {
     @Column(name = "delivered_at")
     private LocalDateTime deliveredAt;
 
+    @Column(name = "canceled_at")
+    private LocalDateTime canceledAt;
 
 }
