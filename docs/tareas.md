@@ -44,3 +44,4 @@ Documento que contiene tareas que se deben de completar
 - Mapear created_at y updated_at en entidad Product
 - Agregar timestamps a responses DTO
 - agregar swagger
+- Agregar metodos para calcular tiempo antes de que se cancela un pedido(ej: >15 minutos sin pagar = pedido cancelado) y alguna forma de calcular ExpectedDeliveryDate
