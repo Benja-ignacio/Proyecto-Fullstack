@@ -1,19 +1,20 @@
 package cl.duoc.pedido.Client;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class PaymentClient {
 
     private final WebClient.Builder webClientBuilder;
 
     public String createPayment(Long orderId) {
+
         return webClientBuilder.build()
                 .post()
-                .uri("http://PAYMENT/api/payments/create?orderId=" + orderId)
+                .uri("http://payment/api/v1/payments/create?orderId=" + orderId)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
