@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -75,6 +75,13 @@ public class UserController {
             return ResponseEntity.noContent().build();
         }
     
-
+    @GetMapping("/exists/{userId}")
+    @Operation(summary = "Verifica si un usuario existe", description = "Permite verificar si un usuario existe por su id. devuelve true si existe, falso sino")
+    public ResponseEntity<Boolean> existsById(
+        @PathVariable Long userId) {
+        boolean exists = userService.existsById(userId);
+        return ResponseEntity.ok(exists);
+    }
+    
     
 }
