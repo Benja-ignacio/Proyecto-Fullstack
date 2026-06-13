@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.duoc.notificaciones.client.users.userClient.UserClient;
 import cl.duoc.notificaciones.dto.NotificationRequestDTO;
 import cl.duoc.notificaciones.dto.NotificationResponseDTO;
+import cl.duoc.notificaciones.exception.client.user.UserNotFoundException;
 import cl.duoc.notificaciones.exception.custom.NotificationNotFoundException;
 import cl.duoc.notificaciones.mapper.NotificationsMapper;
 import cl.duoc.notificaciones.model.Notification;
@@ -17,10 +19,17 @@ import lombok.RequiredArgsConstructor;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
+    private final UserClient userClient;
     private final NotificationsMapper mapper;
 
     // crear notification 
     public NotificationResponseDTO create (NotificationRequestDTO request) {
+        boolean exists = userClient.existsById(request.getUserId());
+
+        if (!exists) {
+            throw new UserNotFoundException("El usuario con id: " + request.getUserId() + " no fue encontrado");
+        }
+
         Notification notification = new Notification();
 
         notification.setUserId(request.getUserId());
