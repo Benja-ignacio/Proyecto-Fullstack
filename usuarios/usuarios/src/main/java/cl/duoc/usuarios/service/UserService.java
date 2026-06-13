@@ -82,4 +82,8 @@ public class UserService {
         userRepository.save(user);
         log.info("El usuario con id {} fue desactivado correctamente", userId);
     }
+
+    public boolean existsById(Long userId) {
+        return userRepository.existsById(userId);
+    }
 }
