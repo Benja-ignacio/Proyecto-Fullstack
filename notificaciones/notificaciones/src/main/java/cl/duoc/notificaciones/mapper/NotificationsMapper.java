@@ -16,6 +16,7 @@ public class NotificationsMapper {
         .message(notification.getMessage())
         .type(notification.getType())
         .createdAt(notification.getCreatedAt())
+        .read(notification.getRead())
         .build();
     }
 }
