@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EurekaServerApplication",
+            "request": "launch",
+            "mainClass": "cl.duoc.eureka_server.EurekaServerApplication"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-PedidoApplication<pedido>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
