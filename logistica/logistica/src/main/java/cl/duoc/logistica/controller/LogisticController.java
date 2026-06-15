@@ -39,7 +39,7 @@ public class LogisticController {
     }
 
 
-    @PostMapping()
+    @PostMapping("/{orderId}")
     public ResponseEntity<ApiResponse<LogisticResponseDTO>> create (
         @PathVariable Long orderId,
         @RequestParam BigDecimal subtotal) {
@@ -68,7 +68,7 @@ public class LogisticController {
             new ApiResponse<>(200, "Lista de logisticas", data));
     }
     
-    @PatchMapping("{id}/status")
+    @PatchMapping("/{orderId}/status")
     public ResponseEntity<ApiResponse<LogisticResponseDTO>> changeStatus(
         @PathVariable Long orderId,
         @Valid @RequestBody StatusRequestDTO status) {

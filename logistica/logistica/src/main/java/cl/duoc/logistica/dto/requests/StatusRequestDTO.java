@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LogisticStatusRequestDTO {
+public class StatusRequestDTO {
     @NotNull(message = "El status no puede ser nulo")
     private Status status;
 }
