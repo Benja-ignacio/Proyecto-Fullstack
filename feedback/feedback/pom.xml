@@ -40,6 +40,11 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+					<!-- Load balancer -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-loadbalancer</artifactId>
+		</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
