@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -83,5 +86,12 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
-    
+    @GetMapping("/exists/{orderId}")
+    public ResponseEntity<Boolean> existsById(
+        @PathVariable Long orderId){
+
+        boolean exists = orderService.existsById(orderId);
+        return ResponseEntity.ok(exists);} 
 }
+    
+    

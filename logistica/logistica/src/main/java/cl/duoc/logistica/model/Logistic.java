@@ -32,6 +32,9 @@ public class Logistic {
     @Column(name = "order_id", nullable = false)
     private Long orderId; // referencia a order service
 
+    @Column(name = "user_id", nullable = false)
+    private Long userId; // referencia a 
+
 
     /**
      * Distancia entre el almacén y la dirección de entrega.

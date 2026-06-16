@@ -358,29 +358,52 @@ services:
       retries: 20
       start_period: 60s # tiempo al motor de arrancar antes del primer check
 
-  #   # 8. LOGISTIC
-  #   mysql-logistic:
-  #     image: mysql:8.0
-  #     container_name: mysql_logistic
-  #     restart: always
-  #     environment:
-  #       MYSQL_ROOT_PASSWORD: root
-  #       MYSQL_DATABASE: logistic_db
-  #       MYSQL_USER: aurastore
-  #       MYSQL_PASSWORD: aurastore123
-  #     ports:
-  #       - "3317:3306"
-  #     volumes:
-  #       - mysql_logistic_data:/var/lib/mysql
+  # 8. LOGISTIC
+# 8. LOGISTIC
+  mysql-logistic:
+    image: mysql:8.0
+    container_name: mysql_logistic
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: logistic_db
+      MYSQL_USER: aurastore
+      MYSQL_PASSWORD: aurastore123
+    ports:
+      - "3317:3306"
+    volumes:
+      - mysql_logistic_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
 
-  #   logistic-service:
-  #     build:
-  #       context: ./logistic/logistic
-  #       dockerfile: Dockerfile
-  #     ports:
-  #       - "8087:8087"
-  #     depends_on:
-  #       - mysql-logistic
+  logistic-service:
+    build:
+      context: ./logistica/logistica
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8087"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      mysql-logistic:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8087/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s
 
   # 9. DISCOUNTS
   mysql-discounts:
@@ -486,7 +509,7 @@ volumes:
   mysql_inventory_data:
   mysql_payment_data:
   mysql_order_data:
-  #   mysql_logistic_data:
+  mysql_logistic_data:
   mysql_discounts_data:
   mysql_notifications_data:
   logs:

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class WebConfigClient {
+public class WebClientConfig {
 
     @Bean
     @LoadBalanced
@@ -22,5 +22,15 @@ public class WebConfigClient {
     @Bean
     public WebClient userWebClient(WebClient.Builder builder) { 
         return builder.baseUrl("http://USER/api/v1/users").build();
+    }
+
+    @Bean
+    public WebClient notificationWebClient(WebClient.Builder builder){
+        return builder.baseUrl("http://NOTIFICATION/api/v1/notifications").build();
+    }
+
+    @Bean
+    public WebClient paymentWebClient(WebClient.Builder builder){
+        return builder.baseUrl("http://PAYMENT/api/v1/payment").build();
     }
 }

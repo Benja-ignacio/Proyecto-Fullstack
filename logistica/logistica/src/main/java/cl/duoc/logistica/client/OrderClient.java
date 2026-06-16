@@ -5,24 +5,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
-public class UserClient {
+public class OrderClient {
 
     private final WebClient webClient;
 
-    // Inyección explícita del Bean de usuarios
-    public UserClient(@Qualifier("userWebClient") WebClient webClient) {
+    // Constructor manual para evitar el conflicto de múltiples Beans en Docker
+    public OrderClient(@Qualifier("orderWebClient") WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public Boolean existsByUserId(Long userId) {
+    public Boolean existsByOrderId(Long orderId) {
         try {
             return webClient.get()
-                .uri("/{userId}/exists", userId)
+                .uri("/{orderId}/exists", orderId)
                 .retrieve()
                 .bodyToMono(Boolean.class)
                 .block();
         } catch (Exception e) {
-            System.err.println("Error al conectar con USER-SERVICE: " + e.getMessage());
+            System.err.println("Error al conectar con ORDER-SERVICE: " + e.getMessage());
             return false;
         }
     }

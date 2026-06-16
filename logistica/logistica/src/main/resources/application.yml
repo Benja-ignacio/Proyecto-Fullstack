@@ -6,7 +6,7 @@ spring:
     name: logistic
 
   datasource:
-    url: jdbc:mysql://mysql-logistica:3306/logistica_db
+    url: jdbc:mysql://mysql-logistic:3306/logistic_db
     username: aurastore
     password: aurastore123
     driver-class-name: com.mysql.cj.jdbc.Driver

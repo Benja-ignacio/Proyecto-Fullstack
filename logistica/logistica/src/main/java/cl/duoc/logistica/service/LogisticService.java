@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import cl.duoc.logistica.client.NotificationClient;
+import cl.duoc.logistica.client.OrderClient;
+import cl.duoc.logistica.client.PaymentClient;
+import cl.duoc.logistica.client.UserClient;
 import cl.duoc.logistica.dto.requests.StatusRequestDTO;
 import cl.duoc.logistica.dto.responses.LogisticResponseDTO;
 import cl.duoc.logistica.enums.Status;
@@ -21,9 +25,12 @@ import lombok.RequiredArgsConstructor;
 public class LogisticService {
     private final LogisticRepository logisticRepository;
     private final LogisticMapper mapper;
+    private final OrderClient orderClient;
+    private final UserClient userClient;
+    private final NotificationClient notificationClient;
+    private final PaymentClient paymentClient;
 
     public BigDecimal calculateShipping(BigDecimal subtotal) {
-
         BigDecimal minimunRequiredForFreeShipping = BigDecimal.valueOf(50000);
         BigDecimal shippingCost = BigDecimal.valueOf(4999);
 
@@ -38,8 +45,14 @@ public class LogisticService {
         return shippingCost;
     }
 
-    public LogisticResponseDTO create(Long orderId, BigDecimal subtotal) {
-        // if (orderId exists) -- validar si existe un pedido 
+    public LogisticResponseDTO create(Long orderId, Long userId, BigDecimal subtotal) { //validacion de logistica
+        if (Boolean.FALSE.equals(orderClient.existsByOrderId(orderId))) {
+            throw new IllegalArgumentException("No se puede crear la logística: La orden " + orderId + " no existe.");
+        }
+
+        if (Boolean.FALSE.equals(userClient.existsByUserId(userId))) {
+            throw new IllegalArgumentException("No se puede crear la logística: El usuario " + userId + " no existe.");
+        }
 
         if (subtotal == null) {
             throw new IllegalArgumentException("El subtotal no puede ser nulo");
@@ -47,14 +60,12 @@ public class LogisticService {
 
         Logistic logistic = new Logistic();
         logistic.setOrderId(orderId);
-        logistic.setShipping(calculateShipping(subtotal)); // obtener el precio de envio
+        logistic.setUserId(userId);
+        logistic.setShipping(calculateShipping(subtotal)); 
         logistic.setStatus(Status.WAITING_PAYMENT);
         logistic.setExpectedDeliveryDate(LocalDateTime.now().plusDays(5));
-        logistic.setShippedAt(null); // cambiar a shipped una vez se confirme el pago
-        logistic.setDeliveredAt(null);
         
         logisticRepository.save(logistic);
-
         return mapper.entityToLogisticResponseDTO(logistic);
     }
 
@@ -72,9 +83,9 @@ public class LogisticService {
             .collect(Collectors.toList());
     }
 
-    public LogisticResponseDTO changeStatus(Long id, StatusRequestDTO request) {
-        Logistic logistic = logisticRepository.findById(id).
-            orElseThrow(() -> new LogisticNotFoundException("Logistica con id " + id + " no encontrada"));
+    public LogisticResponseDTO changeStatus(Long orderId, StatusRequestDTO request) {
+        Logistic logistic = logisticRepository.findByOrderId(orderId).
+            orElseThrow(() -> new LogisticNotFoundException("Logistica con orderId " + orderId + " no encontrada"));
 
         if (logistic.getStatus() == request.getStatus()) {
             throw new IllegalArgumentException("No puedes ingresar el mismo status");
@@ -88,7 +99,12 @@ public class LogisticService {
             throw new IllegalArgumentException("No puedes cambiar el estado de una logistica finalizada");
         }
 
+        // valida el pago
         if (request.getStatus() == Status.SHIPPED) {
+            Boolean isPaid = paymentClient.isOrderPaid(logistic.getOrderId());
+            if (Boolean.FALSE.equals(isPaid)) {
+                throw new IllegalStateException("No se puede despachar: La orden #" + logistic.getOrderId() + " no registra un pago aprobado.");
+            }
             logistic.setShippedAt(LocalDateTime.now());
         }
 
@@ -101,10 +117,14 @@ public class LogisticService {
         }
 
         logistic.setStatus(request.getStatus());
-
         logisticRepository.save(logistic);
+
+        notificationClient.sendStatusUpdateNotification( //lanza la notificacion
+            logistic.getUserId(), 
+            logistic.getOrderId(), 
+            request.getStatus().name()
+        );
 
         return mapper.entityToLogisticResponseDTO(logistic);
     }
-
 }

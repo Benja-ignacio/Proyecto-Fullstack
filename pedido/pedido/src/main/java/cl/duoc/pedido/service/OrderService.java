@@ -133,4 +133,8 @@ public class OrderService {
         // TODO: implementar soft delete (campo deleted + deletedAt en entidad Order)
         orderRepository.save(order);
     }
+
+    public boolean existsById(Long orderId){
+        return orderRepository.existsById(orderId);
+    }
 }

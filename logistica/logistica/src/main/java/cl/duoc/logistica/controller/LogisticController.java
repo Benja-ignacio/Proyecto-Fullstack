@@ -42,13 +42,11 @@ public class LogisticController {
     @PostMapping("/{orderId}")
     public ResponseEntity<ApiResponse<LogisticResponseDTO>> create (
         @PathVariable Long orderId,
+        @RequestParam Long userId, // 👈 Agregamos el userId aquí
         @RequestParam BigDecimal subtotal) {
 
-        LogisticResponseDTO logistic = logisticService.create(orderId, subtotal);
-        
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(
-                201, "Logistica creada", logistic));
-        
+        LogisticResponseDTO logistic = logisticService.create(orderId, userId, subtotal);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(201, "Logistica creada", logistic));
     }
     
     @GetMapping("{id}")
