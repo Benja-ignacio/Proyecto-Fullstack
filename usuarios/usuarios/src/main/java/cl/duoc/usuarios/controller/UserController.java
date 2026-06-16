@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.duoc.usuarios.dto.requests.ChangeStatusRequestDTO;
 import cl.duoc.usuarios.dto.responses.ApiResponse;
-import cl.duoc.usuarios.dto.responses.RegisterResponseDTO;
 import cl.duoc.usuarios.dto.responses.UserResponseDTO;
 import cl.duoc.usuarios.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,11 +33,11 @@ public class UserController {
     //endpoint para listar todos los usuarios 
     @GetMapping("/list")
     @Operation(summary = "Listar Usuarios", description = "Permite Listar todos los usuarios")
-    public ResponseEntity<ApiResponse<List<RegisterResponseDTO>>> getAllUsers() {
-        List<RegisterResponseDTO> list = userService.getAllUsers();
+    public ResponseEntity<ApiResponse<List<UserResponseDTO>>> getAllUsers() {
+        List<UserResponseDTO> list = userService.getAllUsers();
 
-        ApiResponse<List<RegisterResponseDTO>> response = 
-                new ApiResponse<List<RegisterResponseDTO>>(400, "Lista de usuarios", list);
+        ApiResponse<List<UserResponseDTO>> response = 
+                new ApiResponse<List<UserResponseDTO>>(400, "Lista de usuarios", list);
         
         return ResponseEntity.ok(response);
     }   
