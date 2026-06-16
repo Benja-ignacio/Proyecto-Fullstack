@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import cl.duoc.usuarios.dto.requests.ChangeStatusRequestDTO;
-import cl.duoc.usuarios.dto.responses.RegisterResponseDTO;
 import cl.duoc.usuarios.dto.responses.UserResponseDTO;
 import cl.duoc.usuarios.enums.AccountStatus;
 import cl.duoc.usuarios.exception.custom.UserAlreadyInStatusException;
@@ -27,10 +26,10 @@ public class UserService {
     private final UserMapper mapper;
 
     // listar todos los usuarios
-    public List<RegisterResponseDTO> getAllUsers() {
+    public List<UserResponseDTO> getAllUsers() {
         return userRepository.findAll()
                 .stream()
-                .map(user -> new RegisterResponseDTO(user.getUserId(), user.getUsername()))
+                .map(mapper::userEntityToUserResponseDTO)
                 .toList();
     }
 
