@@ -14,15 +14,12 @@ public class CartClient {
 
     private final WebClient.Builder webClientBuilder;
 
-    public List<CartItemResponse> getCartItems(Long userId){
-
+    public List<CartItemResponse> getCartItems(Long userId) {
         return webClientBuilder.build()
                 .get()
                 .uri("http://cart/api/cart?userId=" + userId)
                 .retrieve()
-                .bodyToMono(
-                    new ParameterizedTypeReference<List<CartItemResponse>>() {}
-                )
+                .bodyToMono(new ParameterizedTypeReference<List<CartItemResponse>>() {})
                 .block();
     }
 }

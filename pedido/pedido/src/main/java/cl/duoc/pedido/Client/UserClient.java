@@ -10,8 +10,7 @@ public class UserClient {
 
     private final WebClient.Builder webClientBuilder;
 
-    public String getUser(Long userId){
-
+    public String getUser(Long userId) {
         return webClientBuilder.build()
                 .get()
                 .uri("http://users/api/users/" + userId)

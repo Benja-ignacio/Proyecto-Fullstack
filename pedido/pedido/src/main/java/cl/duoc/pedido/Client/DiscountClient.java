@@ -11,7 +11,6 @@ public class DiscountClient {
     private final WebClient.Builder webClientBuilder;
 
     public String getDiscount(Long userId) {
-
         return webClientBuilder.build()
                 .get()
                 .uri("http://discounts/api/v1/discounts/user/" + userId)

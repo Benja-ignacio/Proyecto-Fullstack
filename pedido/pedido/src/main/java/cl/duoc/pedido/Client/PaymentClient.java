@@ -11,7 +11,6 @@ public class PaymentClient {
     private final WebClient.Builder webClientBuilder;
 
     public String createPayment(Long orderId) {
-
         return webClientBuilder.build()
                 .post()
                 .uri("http://payment/api/v1/payments/create?orderId=" + orderId)

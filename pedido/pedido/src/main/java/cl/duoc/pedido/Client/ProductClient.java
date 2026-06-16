@@ -11,7 +11,6 @@ public class ProductClient {
     private final WebClient.Builder webClientBuilder;
 
     public String getProduct(Long productId) {
-
         return webClientBuilder.build()
                 .get()
                 .uri("http://productos/api/v1/products/" + productId)
