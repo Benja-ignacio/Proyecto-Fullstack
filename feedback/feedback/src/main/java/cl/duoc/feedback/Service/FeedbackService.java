@@ -52,7 +52,7 @@ public class FeedbackService {
         
     }
 
-    // obtener ` de un usuario
+    // obtener feedbacks de un usuario
     public List<FeedbackResponseDTO> getByUser(Long userId) {
         // NOTA, VALIDAR SI EL USUARIO EXISTE UNA VEZ SE INTEGREN LOS MICROSERVICIOS
        List<Feedback> feedback = feedbackRepository.findByUserId(userId);
