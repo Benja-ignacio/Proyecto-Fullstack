@@ -17,7 +17,7 @@ import cl.duoc.descuentos.repository.DiscountUsageRepository;
 
 public class DiscountServiceTest {
     @Test
-    void testGetAllDiscounts() {
+    void testGetDiscount() {
         DiscountRepository discountRepository = Mockito.mock(DiscountRepository.class);
         DiscountUsageRepository discountUsageRepository = Mockito.mock(DiscountUsageRepository.class);
         DiscountMapper mapper = Mockito.mock(DiscountMapper.class); // ← faltaba este
