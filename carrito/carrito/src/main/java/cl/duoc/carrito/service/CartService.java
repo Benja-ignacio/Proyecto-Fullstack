@@ -17,13 +17,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 @Service
 @RequiredArgsConstructor
 public class CartService {
-
-    private static final Logger logger =
-        LoggerFactory.getLogger(CartService.class);  
-
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final CartMapper mapper;
