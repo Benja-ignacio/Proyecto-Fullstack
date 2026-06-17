@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+# Configuracion de mysql
+spring:
+  application:
+    name: users
+  datasource:
+    url: jdbc:mysql://mysql-users:3306/users_db
+    username: aurastore
+    password: aurastore123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQLDialect
+  # Flyway: habilitar migraciones
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+# Configuracion de Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+
+# Logs
+logging:
+  file:
+    name: /app/logs/${spring.application.name}/${spring.application.name}.log
+
+  logback:
+    rollingpolicy:
+      max-file-size: 10mb
+      max-history: 10

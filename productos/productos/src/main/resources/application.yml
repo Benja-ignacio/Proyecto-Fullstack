@@ -1,0 +1,53 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: products
+  datasource:
+    url: jdbc:mysql://mysql-products:3306/products_db
+    username: aurastore
+    password: aurastore123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    # JPA: desactivar creación automática de tablas
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+# eureka
+eureka:
+  client:
+    service-url.defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+
+# Logs
+logging:
+  file:
+    name: /app/logs/${spring.application.name}/${spring.application.name}.log
+
+  logback:
+    rollingpolicy:
+      max-file-size: 10mb
+      max-history: 10
