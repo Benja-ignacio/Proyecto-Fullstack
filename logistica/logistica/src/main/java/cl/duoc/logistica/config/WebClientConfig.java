@@ -16,21 +16,21 @@ public class WebClientConfig {
 
     @Bean
     public WebClient orderWebClient(WebClient.Builder builder) {
-        return builder.baseUrl("http://ORDER/api/v1/orders").build();
+        return builder.baseUrl("http://order/api/v1/orders").build();
     }
 
     @Bean
     public WebClient userWebClient(WebClient.Builder builder) { 
-        return builder.baseUrl("http://USER/api/v1/users").build();
+        return builder.baseUrl("http://users/api/v1/users").build();
     }
 
     @Bean
     public WebClient notificationWebClient(WebClient.Builder builder){
-        return builder.baseUrl("http://NOTIFICATION/api/v1/notifications").build();
+        return builder.baseUrl("http://notifications/api/v1/notifications").build();
     }
 
     @Bean
     public WebClient paymentWebClient(WebClient.Builder builder){
-        return builder.baseUrl("http://PAYMENT/api/v1/payment").build();
+        return builder.baseUrl("http://payment/api/v1/payment").build();
     }
 }
