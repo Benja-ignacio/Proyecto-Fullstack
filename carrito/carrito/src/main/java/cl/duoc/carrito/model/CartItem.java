@@ -1,11 +1,11 @@
 package cl.duoc.carrito.model;
 
-import java.lang.annotation.Inherited;
-import java.math.BigDecimal;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "cart_item")
@@ -13,24 +13,26 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(name = "cart_id")
+
+    @Column(name = "cart_id", nullable = false)
     private Long cartId;
 
-    @Column(name = "product_id")
-    private Long productId; // REFERENCIA EXTERNA
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
 
-    @Column(name = "product_name")
+    @NotBlank(message = "El nombre del producto es obligatorio")
+    @Column(name = "product_name", nullable = false)
     private String productName;
 
-    @Column(name = "price")
-    private BigDecimal price;
-
-    @Column(name = "quantity")
+    @Min(value = 1, message = "La cantidad debe ser mayor a 0")
+    @Column(nullable = false)
     private Integer quantity;
+
+    @Column(nullable = false)
+    private BigDecimal price;
 }

@@ -5,58 +5,94 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import cl.duoc.productos.dto.ApiResponse;
 import cl.duoc.productos.dto.ProductRequestDTO;
 import cl.duoc.productos.dto.ProductResponseDTO;
+import cl.duoc.productos.dto.UpdateProductRequestDTO;
 import cl.duoc.productos.enums.Status;
 import cl.duoc.productos.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
-    public ResponseEntity<ProductResponseDTO> createProduct(
-            @RequestBody ProductRequestDTO request) {
+    // privado ROL=ADMIN
+    @PostMapping("/create") // crear producto
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> createProduct(
+           @Valid @RequestBody ProductRequestDTO request) {
 
-        return ResponseEntity.ok(productService.createProduct(request));
+        ProductResponseDTO data = productService.createProduct(request);
+
+        ApiResponse<ProductResponseDTO> response = new ApiResponse<ProductResponseDTO>
+                (200, "Producto creado", data);
+
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> getById(@PathVariable Long id) {
+    // PUBLIC NO ROL
+    @GetMapping("/{id}") // buscar producto por id 
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> getById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(productService.getProductById(id));
+        ProductResponseDTO data = productService.getProductById(id);
+
+        ApiResponse<ProductResponseDTO> response = new ApiResponse<ProductResponseDTO>(
+                                200, "Consulta exitosa", data);
+
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAll() {
+    // PUBLIC NO ROL
+    @GetMapping("/list") // obtener todos los productos
+    public ResponseEntity<ApiResponse<List<ProductResponseDTO>>> getAll() {
+        List<ProductResponseDTO> data = productService.getAllProducts();
 
-        return ResponseEntity.ok(productService.getAllProducts());
+        ApiResponse<List<ProductResponseDTO>> response = new ApiResponse<List<ProductResponseDTO>>(
+                                200,"Lista de productos", data);
+
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> update(
+    // PRIVATE ROL=ADMIN
+    @PutMapping("/update/{id}") // actualizar producto
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> update(
             @PathVariable Long id,
-            @RequestBody ProductRequestDTO request) {
+            @Valid @RequestBody UpdateProductRequestDTO request) {
 
-        return ResponseEntity.ok(productService.updateProduct(id, request));
+        ProductResponseDTO data = productService.updateProduct(id, request);
+    
+        ApiResponse<ProductResponseDTO> response = new ApiResponse<ProductResponseDTO>(
+                                200, "Producto modificado", data);
+            
+        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    // PRIVATE ROL=ADMIN
+    @DeleteMapping("/delete/{id}") // eliminar producto
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
 
         productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+        ApiResponse<Void> response = new ApiResponse<Void>(
+                                200, "Producto deshabilitado correctamente", null);
+        
+        return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<ProductResponseDTO> changeStatus(
+    // PRIVATE ROL=ADMIN
+    @PatchMapping("/update/status/{id}") // modificar status del producto
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> changeStatus(
             @PathVariable Long id,
             @RequestParam Status status) {
+                
+        ProductResponseDTO data = productService.changeStatus(id, status);
 
-        return ResponseEntity.ok(productService.changeStatus(id, status));
+        ApiResponse<ProductResponseDTO> response = new ApiResponse<ProductResponseDTO>(
+                                200, "Consulta exitosa", data);
+
+        return ResponseEntity.ok(response);
     }
 }

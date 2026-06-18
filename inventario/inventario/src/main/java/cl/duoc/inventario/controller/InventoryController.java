@@ -17,17 +17,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+
+
+
 @RestController
 @RequestMapping("api/v1/inventory")
 @RequiredArgsConstructor
 public class InventoryController {
-    
     private final InventoryService inventoryService;
 
     // crear
@@ -42,6 +43,7 @@ public class InventoryController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+    
 
     // buscar por Id
     @GetMapping("/{id}")
@@ -75,9 +77,10 @@ public class InventoryController {
         List<InventoryResponseDTO> data = inventoryService.findAll();
 
         ApiResponse<List<InventoryResponseDTO>> response = new ApiResponse<List<InventoryResponseDTO>>(
-                                                                200,"Consulta exitosa", data);
+                                                        200,"Consulta exitosa", data);
         
         return ResponseEntity.ok(response);
+    
     }
 
     // actualizar
@@ -105,54 +108,5 @@ public class InventoryController {
                                 204, "Inventario eliminado", null);
         
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
-    }
-
-    // =========================================================================
-    // conexion con otros microservicios
-    // =========================================================================
-
-    // verificar si hay stock suficiente para un producto
-    // lo llamara pedidos o carrito antes de avanzar
-    @GetMapping("/product/{productId}/check")
-    public ResponseEntity<ApiResponse<Boolean>> checkAvailableStock(
-        @PathVariable Long productId,
-        @RequestParam Integer quantity) {
-
-        boolean hasStock = inventoryService.checkAvailableStock(productId, quantity);
-        
-        ApiResponse<Boolean> response = new ApiResponse<>(
-            200, "verificacion de stock exitosa", hasStock);
-
-        return ResponseEntity.ok(response);
-    }
-
-    // reservar unidades de un producto
-    // lo llamara pedidos cuando el usuario inicia el pago
-    @PostMapping("/product/{productId}/reserve")
-    public ResponseEntity<ApiResponse<Boolean>> reserveStock(
-        @PathVariable Long productId,
-        @RequestParam Integer quantity) {
-
-        boolean success = inventoryService.reserveStock(productId, quantity);
-        
-        ApiResponse<Boolean> response = new ApiResponse<>(
-            200, "reserva procesada", success);
-
-        return ResponseEntity.ok(response);
-    }
-
-    // confirmar la venta y descontar stock total
-    // lo llamara pagos o pedidos al concretar la compra
-    @PostMapping("/product/{productId}/confirm-sale")
-    public ResponseEntity<ApiResponse<Boolean>> confirmStockSale(
-        @PathVariable Long productId,
-        @RequestParam Integer quantity) {
-
-        boolean success = inventoryService.confirmStockSale(productId, quantity);
-        
-        ApiResponse<Boolean> response = new ApiResponse<>(
-            200, "venta confirmada en inventario", success);
-
-        return ResponseEntity.ok(response);
     }
 }

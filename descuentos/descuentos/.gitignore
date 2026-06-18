@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# MySQL data
+mysql_data/
+*/mysql_data/
+**/mysql_data/
+productos/productos/mysql_data/
