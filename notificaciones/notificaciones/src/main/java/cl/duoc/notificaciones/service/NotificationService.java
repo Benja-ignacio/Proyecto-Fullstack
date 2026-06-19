@@ -22,6 +22,7 @@ public class NotificationService {
     private final UserClient userClient;
     private final NotificationsMapper mapper;
 
+    // admin
     // crear notification 
     public NotificationResponseDTO create (NotificationRequestDTO request) {
         boolean exists = userClient.existsById(request.getUserId());
@@ -43,7 +44,7 @@ public class NotificationService {
     }
 
 
-
+    // ADMIN
     // obtener todas las notificaciones
     public List<NotificationResponseDTO> findAll(){
 
@@ -53,6 +54,7 @@ public class NotificationService {
         .toList();
     }
 
+    // ADMIN
     // buscar notificacion por id
     public NotificationResponseDTO findById(Long id){
         Notification notification = notificationRepository.findById(id)
@@ -61,6 +63,7 @@ public class NotificationService {
         return mapper.entityToNotificationResponseDTO(notification);
     }
 
+    // ADMIN
     // buscar todas las notifaciones de un usuario
     public List<NotificationResponseDTO> findByUserId(Long userId){
         return notificationRepository.findByUserId(userId)
@@ -69,6 +72,7 @@ public class NotificationService {
             .toList();
     }
 
+    // AUTH
     // marcar una notificacion como leida
     public NotificationResponseDTO markAsRead(Long id){
         Notification notification = notificationRepository.findById(id)
@@ -81,6 +85,7 @@ public class NotificationService {
         return mapper.entityToNotificationResponseDTO(notification);
     }
 
+    // ADMIN
     //eliminar notificacion
     public void deleteById(Long id){
         Notification notification = notificationRepository.findById(id)
