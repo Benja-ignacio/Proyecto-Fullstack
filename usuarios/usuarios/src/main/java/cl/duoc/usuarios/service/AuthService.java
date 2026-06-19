@@ -1,7 +1,6 @@
 package cl.duoc.usuarios.service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import cl.duoc.usuarios.enums.AccountStatus;
 import cl.duoc.usuarios.enums.Role;
 import cl.duoc.usuarios.exception.custom.EmailAlreadyUsedException;
 import cl.duoc.usuarios.exception.custom.UserAlreadyExistsException;
+import cl.duoc.usuarios.exception.custom.UserNotFoundException;
 import cl.duoc.usuarios.model.User;
 import cl.duoc.usuarios.repository.UserRepository;
 import cl.duoc.usuarios.security.JwtUtil;
@@ -81,23 +81,20 @@ public class AuthService {
 
         log.info("Iniciando Login de usuario: {}", request.getUsername());
 
-        Optional<User> userOpt = userRepository.findByUsername(request.getUsername());
+        User user = userRepository.findByUsername(request.getUsername()).
+                    orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
-        if (userOpt.isPresent() && passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
+        if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 
             log.info("Login exitoso: {}", request.getUsername() );
 
-            return jwtUtil.generateToken(request.getUsername());
+            return jwtUtil.generateToken(user.getUserId(), user.getUsername(), user.getRole());
         }
 
         log.warn("Error: Login no valido.");
         return null;
-    } // userOpt.get().getPassword --> PASSWORD HASHEADA
+    } 
 
 
-    // validar token (EXPIRATION_TIME)
-    public boolean validateToken(String token) {
-        return jwtUtil.validateToken(token);
-    }
 
 }
