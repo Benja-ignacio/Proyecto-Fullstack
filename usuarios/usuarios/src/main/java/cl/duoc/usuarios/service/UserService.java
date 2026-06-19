@@ -2,6 +2,7 @@ package cl.duoc.usuarios.service;
 
 import java.util.List;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper mapper;
 
+    // ENDPOINT PRIVADO
     // listar todos los usuarios
     public List<UserResponseDTO> getAllUsers() {
         return userRepository.findAll()
@@ -33,6 +35,7 @@ public class UserService {
                 .toList();
     }
 
+    // ENDPOINT PRIVADO
     // buscar usuario por id
     public UserResponseDTO getById(Long userId) {
         User user = userRepository.findById(userId)
@@ -65,11 +68,15 @@ public class UserService {
     }
 
     // desactivar una cuenta
-    public void deleteUser(Long userId) {
+    public void deleteUser(Long targetId, Long requesterId) {
 
-        log.info("Iniciando desactivacion de la cuenta con id: {}", userId);
+        log.info("Iniciando desactivacion de la cuenta con id: {}", targetId);
 
-        User user = userRepository.findById(userId)
+        if (!targetId.equals(requesterId)) {
+        throw new AccessDeniedException("No puedes modificar la cuenta de otro usuario");
+    }
+
+        User user = userRepository.findById(targetId)
         .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado."));
 
         if (user.getStatus() == AccountStatus.INACTIVE) {
@@ -79,7 +86,7 @@ public class UserService {
         
         user.setStatus(AccountStatus.INACTIVE);
         userRepository.save(user);
-        log.info("El usuario con id {} fue desactivado correctamente", userId);
+        log.info("El usuario con id {} fue desactivado correctamente", targetId);
     }
 
     public boolean existsById(Long userId) {
