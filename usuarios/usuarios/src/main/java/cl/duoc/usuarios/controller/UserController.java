@@ -1,7 +1,6 @@
 package cl.duoc.usuarios.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.duoc.usuarios.dto.requests.ChangeStatusRequestDTO;
@@ -9,12 +8,14 @@ import cl.duoc.usuarios.dto.responses.ApiResponse;
 import cl.duoc.usuarios.dto.responses.UserResponseDTO;
 import cl.duoc.usuarios.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,6 +31,7 @@ public class UserController {
 
     private final UserService userService;
 
+    // ADMIN
     //endpoint para listar todos los usuarios 
     @GetMapping("/list")
     @Operation(summary = "Listar Usuarios", description = "Permite Listar todos los usuarios")
@@ -42,6 +44,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }   
     
+    //ACCESO: ADMIN
     @GetMapping("/{id}")
     @Operation(summary = "Buscar usuario por id", description = "Permite buscar un usuario por id")
     public ResponseEntity<ApiResponse<UserResponseDTO>> getById(
@@ -52,28 +55,34 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(200, "Usuario encontrado", data));
     }
 
+    //ACCESO: ADMIN
     @PatchMapping("/status/{userId}") 
     @Operation(summary = "Cambiar el estado de la cuenta de un usuario", description = "Permite cambiar el estado de una cuenta. Requiere el id del usuario y el estado")
     public ResponseEntity<ApiResponse<UserResponseDTO>> changeAccountStatus(
         @PathVariable Long userId,
-        @Valid @RequestParam ChangeStatusRequestDTO status) {
+        @Valid @RequestBody ChangeStatusRequestDTO status) {
 
             UserResponseDTO data = userService.changeAccountStatus(userId, status);
 
             return ResponseEntity.ok(new ApiResponse<>(200, "Estado de la cuenta de usuario cambiado", data));
             
-        }
+    }
 
-    @DeleteMapping("/{id}")
+    //ACCESO: USUARIO AUTENTICADO 
+    @DeleteMapping("/{userId}")
     @Operation(summary = "Cambia el estado de la cuenta de un usuario a inactivo", description = "Permite desactivar la cuenta de un usuario")
     public ResponseEntity<Void> desactivateAccount(
-        @PathVariable Long userId) {
+        @PathVariable Long userId,
+                      Authentication authentication) {
 
-            userService.deleteUser(userId);
+            Long authenticatedUserId = Long.parseLong((String) authentication.getPrincipal());
+
+            userService.deleteUser(userId, authenticatedUserId);
 
             return ResponseEntity.noContent().build();
         }
     
+    // ACCESO ADMIN
     @GetMapping("/exists/{userId}")
     @Operation(summary = "Verifica si un usuario existe", description = "Permite verificar si un usuario existe por su id. devuelve true si existe, falso sino")
     public ResponseEntity<Boolean> existsById(
