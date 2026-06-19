@@ -18,19 +18,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class NotificationServiceTest {
     @Test
-        void testGetAllNotifications() {
-        NotificationRepository notificationRepository = Mockito.mock(NotificationRepository.class);
-        NotificationsMapper mapper = Mockito.mock(NotificationsMapper.class); // ← faltaba este
-        UserClient userClient = Mockito.mock(UserClient.class);
+    void testGetAllNotifications() {
+    NotificationRepository notificationRepository = Mockito.mock(NotificationRepository.class);
+    NotificationsMapper mapper = Mockito.mock(NotificationsMapper.class); // ← faltaba este
+    UserClient userClient = Mockito.mock(UserClient.class);
 
 
-        NotificationService notificationService = new NotificationService(notificationRepository, userClient, mapper);
+    NotificationService notificationService = new NotificationService(notificationRepository, userClient, mapper);
 
-        Notification notification = new Notification(1L, 1l, "Nuevo producto", "Se agrego un nuevo producto", Type.NEW_PRODUCT, LocalDateTime.now(), false);
-        Mockito.when(notificationRepository.findAll()).thenReturn(List.of(notification));
+    Notification notification = new Notification(1L, 1l, "Nuevo producto", "Se agrego un nuevo producto", Type.NEW_PRODUCT, LocalDateTime.now(), false);
+    Mockito.when(notificationRepository.findAll()).thenReturn(List.of(notification));
 
-        List<NotificationResponseDTO> result = notificationService.findAll();
+    List<NotificationResponseDTO> result = notificationService.findAll();
 
-        assertThat(result).hasSize(1); // verifica que la lista resultante tenga un tamaño de 1
+    assertThat(result).hasSize(1); // verifica que la lista resultante tenga un tamaño de 1
     }
 }
