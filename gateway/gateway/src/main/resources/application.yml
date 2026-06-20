@@ -1,0 +1,33 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: cart-service
+              uri: lb://CART
+              predicates:
+                - Path=/api/cart/**
+
+            - id: pedido-service
+              uri: lb://PEDIDO
+              predicates:
+                - Path=/api/v1/orders/**
+
+            - id: users-service
+              uri: lb://USERS
+              predicates:
+                - Path=/api/v1/users/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true

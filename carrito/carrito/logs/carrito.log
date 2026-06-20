@@ -1,0 +1,78 @@
+2026-06-20T15:49:38.543-04:00  INFO 22728 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Starting CarritoApplication using Java 21.0.10 with PID 22728 (C:\Users\xiota\Proyecto-Fullstack\carrito\carrito\target\classes started by xiota in C:\Users\xiota\Proyecto-Fullstack\carrito\carrito)
+2026-06-20T15:49:38.550-04:00 DEBUG 22728 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Running with Spring Boot v3.5.3, Spring v6.2.8
+2026-06-20T15:49:38.556-04:00  INFO 22728 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-06-20T15:49:42.170-04:00  INFO 22728 --- [cart] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-20T15:49:42.621-04:00  INFO 22728 --- [cart] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 413 ms. Found 2 JPA repository interfaces.
+2026-06-20T15:49:43.854-04:00  INFO 22728 --- [cart] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=fd6057ba-7525-3dc3-9094-4ce58c18db2f
+2026-06-20T15:49:44.594-04:00  INFO 22728 --- [cart] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2026-06-20T15:49:44.617-04:00  INFO 22728 --- [cart] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-20T15:49:44.618-04:00  INFO 22728 --- [cart] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.42]
+2026-06-20T15:49:44.808-04:00  INFO 22728 --- [cart] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-20T15:49:44.809-04:00  INFO 22728 --- [cart] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6115 ms
+2026-06-20T15:49:45.079-04:00 DEBUG 22728 --- [cart] [main] cl.duoc.carrito.security.JwtAuthFilter   : Filter 'jwtAuthFilter' configured for use
+2026-06-20T15:49:45.263-04:00  INFO 22728 --- [cart] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-20T15:49:45.361-04:00  INFO 22728 --- [cart] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.18.Final
+2026-06-20T15:49:45.419-04:00  INFO 22728 --- [cart] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-20T15:49:45.970-04:00  INFO 22728 --- [cart] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-20T15:49:46.033-04:00  INFO 22728 --- [cart] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-20T15:49:46.326-04:00  INFO 22728 --- [cart] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@55315a00
+2026-06-20T15:49:46.329-04:00  INFO 22728 --- [cart] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-20T15:49:46.446-04:00  WARN 22728 --- [cart] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-20T15:49:46.505-04:00  INFO 22728 --- [cart] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.46
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-20T15:49:49.449-04:00  INFO 22728 --- [cart] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-20T15:49:49.924-04:00  INFO 22728 --- [cart] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-20T15:49:50.537-04:00  WARN 22728 --- [cart] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-20T15:49:50.594-04:00  WARN 22728 --- [cart] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: d8d5ac74-8714-4c16-9a61-1e38240b2998
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-06-20T15:49:50.610-04:00  INFO 22728 --- [cart] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-06-20T15:49:51.139-04:00  INFO 22728 --- [cart] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-06-20T15:49:51.751-04:00  INFO 22728 --- [cart] [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2026-06-20T15:49:51.828-04:00  WARN 22728 --- [cart] [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-06-20T15:49:51.988-04:00  INFO 22728 --- [cart] [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-06-20T15:49:52.030-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-06-20T15:49:52.036-04:00  INFO 22728 --- [cart] [main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-06-20T15:49:52.056-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-06-20T15:49:52.057-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-06-20T15:49:52.057-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-06-20T15:49:52.057-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-06-20T15:49:52.058-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-06-20T15:49:52.058-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-06-20T15:49:52.058-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-06-20T15:49:53.053-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-06-20T15:49:53.058-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-06-20T15:49:53.064-04:00  INFO 22728 --- [cart] [main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-06-20T15:49:53.070-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1781984993067 with initial instances count: 2
+2026-06-20T15:49:53.090-04:00  INFO 22728 --- [cart] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application CART with eureka with status UP
+2026-06-20T15:49:53.091-04:00  INFO 22728 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1781984993091, current=UP, previous=STARTING]
+2026-06-20T15:49:53.099-04:00  INFO 22728 --- [cart] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082: registering service...
+2026-06-20T15:49:53.299-04:00  INFO 22728 --- [cart] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
+2026-06-20T15:49:53.310-04:00  INFO 22728 --- [cart] [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
+2026-06-20T15:49:53.400-04:00  INFO 22728 --- [cart] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082 - registration status: 204
+2026-06-20T15:49:53.410-04:00  INFO 22728 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Started CarritoApplication in 15.977 seconds (process running for 17.674)
+2026-06-20T15:50:30.859-04:00  INFO 22728 --- [cart] [http-nio-8082-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-20T15:50:30.860-04:00  INFO 22728 --- [cart] [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-20T15:50:30.864-04:00  INFO 22728 --- [cart] [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-06-20T15:53:36.057-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application CART with eureka with status DOWN
+2026-06-20T15:53:36.061-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1781985216061, current=DOWN, previous=UP]
+2026-06-20T15:53:36.076-04:00  INFO 22728 --- [cart] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082: registering service...
+2026-06-20T15:53:36.088-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-20T15:53:36.110-04:00  INFO 22728 --- [cart] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082 - registration status: 204
+2026-06-20T15:53:36.170-04:00  INFO 22728 --- [cart] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-06-20T15:53:36.265-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-20T15:53:36.281-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-20T15:53:36.349-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-20T15:53:36.354-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2026-06-20T15:53:39.392-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2026-06-20T15:53:39.422-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082 - deregister  status: 200
+2026-06-20T15:53:39.424-04:00  INFO 22728 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient

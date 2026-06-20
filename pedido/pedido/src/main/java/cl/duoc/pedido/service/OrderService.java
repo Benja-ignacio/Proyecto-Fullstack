@@ -54,7 +54,7 @@ public class OrderService {
         }
 
         // Validar usuario en microservicio usuarios
-        userClient.getUser(userId);
+        //userClient.getUser(userId);
 
         // Consultar carrito en microservicio carrito
         List<CartItemResponse> cartItems = cartClient.getCartItems(userId);
@@ -79,13 +79,13 @@ public class OrderService {
                 throw new IllegalArgumentException("El precio debe ser mayor a 0");
             }
 
-            productClient.getProduct(item.getProductId());
+            //productClient.getProduct(item.getProductId());
         }
 
         BigDecimal subtotal = calculateSubtotal(itemsDTO);
 
         // Consultar descuento, por ahora solo valida comunicación
-        discountClient.getDiscount(userId);
+        //discountClient.getDiscount(userId);
         BigDecimal discount = BigDecimal.ZERO;
 
         BigDecimal shipping = new BigDecimal("5000");
@@ -112,8 +112,8 @@ public class OrderService {
         orderItemRepository.saveAll(items);
 
         // Consultar logística y pago después de crear pedido
-        logisticClient.calculateShipping(savedOrder.getId());
-        paymentClient.createPayment(savedOrder.getId());
+        //logisticClient.calculateShipping(savedOrder.getId());
+        //paymentClient.createPayment(savedOrder.getId());
 
         logger.info("Pedido {} creado correctamente", savedOrder.getId());
 

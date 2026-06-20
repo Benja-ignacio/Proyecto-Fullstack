@@ -1,46 +1,115 @@
-2026-06-18T12:29:06.444-04:00  INFO 10296 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Starting CarritoApplication using Java 21.0.9 with PID 10296 (C:\Users\sj-alumno\Downloads\proyecto\Proyecto-Fullstack\carrito\carrito\target\classes started by SJ-Alumno in C:\Users\sj-alumno\Downloads\proyecto\Proyecto-Fullstack\carrito\carrito)
-2026-06-18T12:29:06.445-04:00  INFO 10296 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : No active profile set, falling back to 1 default profile: "default"
-2026-06-18T12:29:06.900-04:00  INFO 10296 --- [cart] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-06-18T12:29:06.981-04:00  INFO 10296 --- [cart] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 74 ms. Found 2 JPA repository interfaces.
-2026-06-18T12:29:07.333-04:00  INFO 10296 --- [cart] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8082 (http)
-2026-06-18T12:29:07.344-04:00  INFO 10296 --- [cart] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-06-18T12:29:07.345-04:00  INFO 10296 --- [cart] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
-2026-06-18T12:29:07.399-04:00  INFO 10296 --- [cart] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 928 ms
-2026-06-18T12:29:07.546-04:00  INFO 10296 --- [cart] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
-2026-06-18T12:29:07.579-04:00  INFO 10296 --- [cart] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.19.Final
-2026-06-18T12:29:07.831-04:00  INFO 10296 --- [cart] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-06-18T12:29:07.851-04:00  INFO 10296 --- [cart] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-06-18T12:29:07.962-04:00  INFO 10296 --- [cart] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@578198d9
-2026-06-18T12:29:07.963-04:00  INFO 10296 --- [cart] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-06-18T12:29:07.997-04:00  WARN 10296 --- [cart] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-06-18T12:29:08.008-04:00  INFO 10296 --- [cart] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [jdbc:mysql://localhost:3316/order_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC]
-	Database driver: MySQL Connector/J
-	Database dialect: MySQLDialect
+2026-06-20T15:29:42.441-04:00  INFO 13496 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Starting CarritoApplication using Java 21.0.10 with PID 13496 (C:\Users\xiota\Proyecto-Fullstack\carrito\carrito\target\classes started by xiota in C:\Users\xiota\Proyecto-Fullstack\carrito\carrito)
+2026-06-20T15:29:42.471-04:00  INFO 13496 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-06-20T15:29:43.359-04:00  WARN 13496 --- [cart] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [cl.duoc.carrito.CarritoApplication]
+2026-06-20T15:29:43.778-04:00 ERROR 13496 --- [cart] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [cl.duoc.carrito.CarritoApplication]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:194) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:418) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:290) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:791) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:609) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.3.jar:3.5.3]
+	at cl.duoc.carrito.CarritoApplication.main(CarritoApplication.java:10) ~[classes/:na]
+Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'securityConfig' for bean class [cl.duoc.carrito.security.SecurityConfig] conflicts with existing, non-compatible bean definition of same name and class [cl.duoc.carrito.config.SecurityConfig]
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:361) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:288) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:128) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:346) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:281) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:204) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:172) ~[spring-context-6.2.8.jar:6.2.8]
+	... 13 common frames omitted
+
+2026-06-20T15:31:50.742-04:00  INFO 23036 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Starting CarritoApplication using Java 21.0.10 with PID 23036 (C:\Users\xiota\Proyecto-Fullstack\carrito\carrito\target\classes started by xiota in C:\Users\xiota\Proyecto-Fullstack\carrito\carrito)
+2026-06-20T15:31:50.752-04:00  INFO 23036 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-06-20T15:31:58.234-04:00  INFO 23036 --- [cart] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-20T15:31:59.327-04:00  INFO 23036 --- [cart] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1018 ms. Found 2 JPA repository interfaces.
+2026-06-20T15:32:00.348-04:00  INFO 23036 --- [cart] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=fd6057ba-7525-3dc3-9094-4ce58c18db2f
+2026-06-20T15:32:03.317-04:00  INFO 23036 --- [cart] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2026-06-20T15:32:03.526-04:00  INFO 23036 --- [cart] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-20T15:32:03.541-04:00  INFO 23036 --- [cart] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.42]
+2026-06-20T15:32:04.142-04:00  INFO 23036 --- [cart] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-20T15:32:04.145-04:00  INFO 23036 --- [cart] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 13049 ms
+2026-06-20T15:32:05.375-04:00  INFO 23036 --- [cart] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-20T15:32:05.539-04:00  INFO 23036 --- [cart] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.18.Final
+2026-06-20T15:32:05.656-04:00  INFO 23036 --- [cart] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-20T15:32:06.596-04:00  INFO 23036 --- [cart] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-20T15:32:06.684-04:00  INFO 23036 --- [cart] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-20T15:32:07.138-04:00  INFO 23036 --- [cart] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4a3333be
+2026-06-20T15:32:07.143-04:00  INFO 23036 --- [cart] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-20T15:32:07.294-04:00  WARN 23036 --- [cart] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-20T15:32:07.345-04:00  INFO 23036 --- [cart] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
 	Database version: 8.0.46
-	Default catalog/schema: order_db/undefined
 	Autocommit mode: undefined/unknown
-	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
-	JDBC fetch size: none
-	Pool: DataSourceConnectionProvider
+	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2026-06-18T12:29:08.584-04:00  INFO 10296 --- [cart] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-06-18T12:29:08.674-04:00  INFO 10296 --- [cart] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-06-18T12:29:08.718-04:00  INFO 10296 --- [cart] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-06-18T12:29:08.844-04:00  WARN 10296 --- [cart] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-06-18T12:29:08.890-04:00  WARN 10296 --- [cart] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+2026-06-20T15:32:09.465-04:00  INFO 23036 --- [cart] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-20T15:32:09.645-04:00  INFO 23036 --- [cart] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-20T15:32:10.925-04:00  WARN 23036 --- [cart] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-20T15:32:11.061-04:00  WARN 23036 --- [cart] [main] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 19fd6ae2-1eda-4837-924a-26e0127f3d09
+Using generated security password: c068ad8a-7352-4cc6-8cc6-2602bd4f9486
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2026-06-18T12:29:08.895-04:00  INFO 10296 --- [cart] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2026-06-18T12:29:09.212-04:00  INFO 10296 --- [cart] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
-2026-06-18T12:29:09.255-04:00  INFO 10296 --- [cart] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8082 (http) with context path '/'
-2026-06-18T12:29:09.260-04:00  INFO 10296 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Started CarritoApplication in 3.111 seconds (process running for 3.443)
-2026-06-18T12:46:20.985-04:00  INFO 10296 --- [cart] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
-2026-06-18T12:46:20.998-04:00  INFO 10296 --- [cart] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
-2026-06-18T12:46:21.002-04:00  INFO 10296 --- [cart] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-06-18T12:46:21.004-04:00  INFO 10296 --- [cart] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-06-18T12:46:21.010-04:00  INFO 10296 --- [cart] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-20T15:32:11.082-04:00  INFO 23036 --- [cart] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-06-20T15:32:12.444-04:00  INFO 23036 --- [cart] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-06-20T15:32:13.550-04:00  INFO 23036 --- [cart] [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2026-06-20T15:32:13.655-04:00  WARN 23036 --- [cart] [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-06-20T15:32:13.899-04:00  INFO 23036 --- [cart] [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-06-20T15:32:13.960-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-06-20T15:32:13.972-04:00  INFO 23036 --- [cart] [main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-06-20T15:32:13.998-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-06-20T15:32:13.999-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-06-20T15:32:14.000-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-06-20T15:32:14.001-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-06-20T15:32:14.001-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-06-20T15:32:14.002-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-06-20T15:32:14.002-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-06-20T15:32:15.248-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-06-20T15:32:15.251-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-06-20T15:32:15.255-04:00  INFO 23036 --- [cart] [main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-06-20T15:32:15.261-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1781983935259 with initial instances count: 0
+2026-06-20T15:32:15.269-04:00  INFO 23036 --- [cart] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application CART with eureka with status UP
+2026-06-20T15:32:15.272-04:00  INFO 23036 --- [cart] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1781983935271, current=UP, previous=STARTING]
+2026-06-20T15:32:15.276-04:00  INFO 23036 --- [cart] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082: registering service...
+2026-06-20T15:32:15.327-04:00  INFO 23036 --- [cart] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
+2026-06-20T15:32:15.329-04:00  INFO 23036 --- [cart] [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
+2026-06-20T15:32:15.372-04:00  INFO 23036 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Started CarritoApplication in 27.967 seconds (process running for 31.734)
+2026-06-20T15:32:15.694-04:00  INFO 23036 --- [cart] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082 - registration status: 204
+2026-06-20T15:32:45.256-04:00  INFO 23036 --- [cart] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-06-20T15:32:45.256-04:00  INFO 23036 --- [cart] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-06-20T15:32:45.257-04:00  INFO 23036 --- [cart] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-06-20T15:32:45.257-04:00  INFO 23036 --- [cart] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-06-20T15:32:45.258-04:00  INFO 23036 --- [cart] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-06-20T15:32:45.258-04:00  INFO 23036 --- [cart] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application version is -1: false
+2026-06-20T15:32:45.259-04:00  INFO 23036 --- [cart] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-06-20T15:32:45.320-04:00  INFO 23036 --- [cart] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-06-20T15:37:14.021-04:00  INFO 23036 --- [cart] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-06-20T15:42:14.026-04:00  INFO 23036 --- [cart] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-06-20T15:47:14.032-04:00  INFO 23036 --- [cart] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-06-20T15:49:14.603-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application CART with eureka with status DOWN
+2026-06-20T15:49:14.604-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1781984954604, current=DOWN, previous=UP]
+2026-06-20T15:49:14.607-04:00  INFO 23036 --- [cart] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082: registering service...
+2026-06-20T15:49:14.644-04:00  INFO 23036 --- [cart] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082 - registration status: 204
+2026-06-20T15:49:14.664-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-20T15:49:14.696-04:00  INFO 23036 --- [cart] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-06-20T15:49:14.859-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-20T15:49:14.880-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-20T15:49:14.929-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-20T15:49:14.934-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2026-06-20T15:49:17.948-04:00  WARN 23036 --- [cart] [DiscoveryClient-%d] c.netflix.discovery.TimedSupervisorTask  : task supervisor shutting down, can't accept the task
+2026-06-20T15:49:17.948-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2026-06-20T15:49:17.967-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CART/cart:8082 - deregister  status: 200
+2026-06-20T15:49:17.973-04:00  INFO 23036 --- [cart] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient

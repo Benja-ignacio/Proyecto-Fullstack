@@ -42,13 +42,21 @@ public class UserService {
     public User registerUser(RegisterRequestDTO request) {
 
         // validar si existe username registrado
+        // if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+        //     throw new RuntimeException("error"); // crear personalizacion personalizada - userAlreadyRegistered
+        // }
+
+        // // validar si existe email registrado
+        // if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        //     throw new RuntimeException("error"); // crear personalizacion personalizada - EmailAlreadyRegistered
+        // }
+
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new RuntimeException("error"); // crear personalizacion personalizada - userAlreadyRegistered
+            throw new IllegalArgumentException("El username ya está registrado");
         }
 
-        // validar si existe email registrado
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("error"); // crear personalizacion personalizada - EmailAlreadyRegistered
+            throw new IllegalArgumentException("El email ya está registrado");
         }
 
         // hashear password

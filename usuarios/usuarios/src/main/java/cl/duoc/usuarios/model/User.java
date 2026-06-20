@@ -28,12 +28,19 @@ public class User {
     @Column(nullable = false, name = "username")
     private String username;
 
+    //prueba rama eliascarcamo
     @Column(nullable = false, name = "password")
     @NotBlank(message = "La contraseña no puede estar vacia")
-    @Size(min = 6, max = 64)
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{8, 264}$", 
-            message = "contraseña invalida. debe contener almenos 8 caracteres y maximo 264, una mayuscula y un numero")
+    @Size(max = 100)
     private String password;
+
+    //este es el codigo real 
+    // @Column(nullable = false, name = "password")
+    // @NotBlank(message = "La contraseña no puede estar vacia")
+    // @Size(min = 6, max = 64)
+    // @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{8, 264}$", 
+    //         message = "contraseña invalida. debe contener almenos 8 caracteres y maximo 264, una mayuscula y un numero")
+    // private String password;
 
     @Column(unique = true, nullable = false, name = "user_email")
     @NotBlank(message = "El email es obligatorio")
