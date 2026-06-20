@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import cl.duoc.notificaciones.exception.client.user.UserNotFoundException;
 import cl.duoc.notificaciones.exception.custom.NotificationNotFoundException;
 
 @RestControllerAdvice
@@ -50,10 +51,23 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errores, HttpStatus.BAD_REQUEST);
     }
 
-        @ExceptionHandler(NotificationNotFoundException.class)
+    
+    @ExceptionHandler(NotificationNotFoundException.class)
     public ResponseEntity<Map<String, String>> notificationNotFound(NotificationNotFoundException ex) {
 
         logger.warn("Notificacion no encontrada: {}", ex.getMessage()); // LOGS QUE SOLO SE PUEDE VER INTERNAMENTE
+
+        Map<String, String> error = Map.of(
+            "error", ex.getMessage() // ERROR QUE VE EL FRONTEND
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> userNotFound(UserNotFoundException ex) {
+
+        logger.warn("Usuario no encontrada: {}", ex.getMessage()); // LOGS QUE SOLO SE PUEDE VER INTERNAMENTE
 
         Map<String, String> error = Map.of(
             "error", ex.getMessage() // ERROR QUE VE EL FRONTEND

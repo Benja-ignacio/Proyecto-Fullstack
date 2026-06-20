@@ -1,6 +1,42 @@
-version: "3.8"
-
 services:
+  # EUREKA SERVER
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8761/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s
+
+  api-gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "9999:9999"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:9999/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
+
   # 1. USERS
   mysql-users:
     image: mysql:8.0
@@ -15,15 +51,37 @@ services:
       - "3310:3306"
     volumes:
       - mysql_users_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s # tiempo al motor de arrancar antes del primer check
 
   users-service:
     build:
-      context: ./users/users
+      context: ./usuarios/usuarios
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-users
+      mysql-users:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
 
   # 2. PRODUCTS
   mysql-products:
@@ -39,15 +97,37 @@ services:
       - "3311:3306"
     volumes:
       - mysql_products_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s # tiempo al motor de arrancar antes del primer check
 
   products-service:
     build:
-      context: ./products/products
+      context: ./productos/productos
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-products
+      mysql-products:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8081/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
 
   # 3. CART
   mysql-cart:
@@ -63,15 +143,37 @@ services:
       - "3312:3306"
     volumes:
       - mysql_cart_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s # tiempo al motor de arrancar antes del primer check
 
   cart-service:
     build:
-      context: ./cart/cart
+      context: ./carrito/carrito
       dockerfile: Dockerfile
     ports:
       - "8082:8082"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-cart
+      mysql-cart:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8082/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
 
   # 4. FEEDBACK
   mysql-feedback:
@@ -87,15 +189,36 @@ services:
       - "3313:3306"
     volumes:
       - mysql_feedback_data:/var/lib/mysql
-
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s # tiempo al motor de arrancar antes del primer check
   feedback-service:
     build:
       context: ./feedback/feedback
       dockerfile: Dockerfile
     ports:
       - "8083:8083"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-feedback
+      mysql-feedback:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8083/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
 
   # 5. INVENTORY
   mysql-inventory:
@@ -111,15 +234,37 @@ services:
       - "3314:3306"
     volumes:
       - mysql_inventory_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s # tiempo al motor de arrancar antes del primer check
 
   inventory-service:
     build:
-      context: ./inventory/inventory
+      context: ./inventario/inventario
       dockerfile: Dockerfile
     ports:
       - "8084:8084"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-inventory
+      mysql-inventory:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8084/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
 
   # 6. PAYMENT
   mysql-payment:
@@ -135,15 +280,37 @@ services:
       - "3315:3306"
     volumes:
       - mysql_payment_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s # tiempo al motor de arrancar antes del primer check
 
   payment-service:
     build:
-      context: ./payment/payment
+      context: ./pago/pago
       dockerfile: Dockerfile
     ports:
       - "8085:8085"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-payment
+      mysql-payment:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8085/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
 
   # 7. ORDER
   mysql-order:
@@ -159,17 +326,40 @@ services:
       - "3316:3306"
     volumes:
       - mysql_order_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s # tiempo al motor de arrancar antes del primer check
 
   order-service:
     build:
-      context: ./order/order
+      context: ./pedido/pedido
       dockerfile: Dockerfile
     ports:
       - "8086:8086"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-order
+      mysql-order:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8086/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
 
   # 8. LOGISTIC
+# 8. LOGISTIC
   mysql-logistic:
     image: mysql:8.0
     container_name: mysql_logistic
@@ -183,15 +373,37 @@ services:
       - "3317:3306"
     volumes:
       - mysql_logistic_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
 
   logistic-service:
     build:
-      context: ./logistic/logistic
+      context: ./logistica/logistica
       dockerfile: Dockerfile
     ports:
       - "8087:8087"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-logistic
+      mysql-logistic:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8087/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s
 
   # 9. DISCOUNTS
   mysql-discounts:
@@ -207,15 +419,37 @@ services:
       - "3318:3306"
     volumes:
       - mysql_discounts_data:/var/lib/mysql
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s # tiempo al motor de arrancar antes del primer check
 
   discounts-service:
     build:
-      context: ./discounts/discounts
+      context: ./descuentos/descuentos
       dockerfile: Dockerfile
     ports:
       - "8088:8088"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-discounts
+      mysql-discounts:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8088/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
 
   # 10. NOTIFICATIONS
   mysql-notifications:
@@ -231,15 +465,41 @@ services:
       - "3319:3306"
     volumes:
       - mysql_notifications_data:/var/lib/mysql
+      # - ./logs:/app/logs
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s # tiempo al motor de arrancar antes del primer check
 
   notifications-service:
     build:
-      context: ./notifications/notifications
+      context: ./notificaciones/notificaciones
       dockerfile: Dockerfile
     ports:
       - "8089:8089"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
-      - mysql-notifications
+      mysql-notifications:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - microservices-net
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8089/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 60s # tiempo al motor de arrancar antes del primer check
+
+networks:
+  microservices-net:
 
 volumes:
   mysql_users_data:
@@ -252,3 +512,4 @@ volumes:
   mysql_logistic_data:
   mysql_discounts_data:
   mysql_notifications_data:
+  logs:

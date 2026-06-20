@@ -20,7 +20,7 @@ public class InventoryServiceTest {
         InventoryMapper mapper = Mockito.mock(InventoryMapper.class); // ← faltaba este
         InventoryService inventoryService = new InventoryService(inventoryRepository, mapper);
 
-        Inventory inventory = new Inventory(1L, 1L, 40, 30, 10);
+        Inventory inventory = new Inventory(1L, 1L, 30, 10);
         Mockito.when(inventoryRepository.findAll()).thenReturn(List.of(inventory));
 
         List<InventoryResponseDTO> result = inventoryService.findAll();

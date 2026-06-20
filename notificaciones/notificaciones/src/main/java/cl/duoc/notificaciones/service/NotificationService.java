@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.duoc.notificaciones.client.users.userClient.UserClient;
 import cl.duoc.notificaciones.dto.NotificationRequestDTO;
 import cl.duoc.notificaciones.dto.NotificationResponseDTO;
+import cl.duoc.notificaciones.exception.client.user.UserNotFoundException;
 import cl.duoc.notificaciones.exception.custom.NotificationNotFoundException;
+import cl.duoc.notificaciones.mapper.NotificationsMapper;
 import cl.duoc.notificaciones.model.Notification;
 import cl.duoc.notificaciones.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +19,17 @@ import lombok.RequiredArgsConstructor;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
-
+    private final UserClient userClient;
+    private final NotificationsMapper mapper;
 
     // crear notification 
     public NotificationResponseDTO create (NotificationRequestDTO request) {
+        boolean exists = userClient.existsById(request.getUserId());
+
+        if (!exists) {
+            throw new UserNotFoundException("El usuario con id: " + request.getUserId() + " no fue encontrado");
+        }
+
         Notification notification = new Notification();
 
         notification.setUserId(request.getUserId());
@@ -29,7 +39,7 @@ public class NotificationService {
 
         notificationRepository.save(notification);
 
-        return mapToDTO(notification);
+        return mapper.entityToNotificationResponseDTO(notification);
     }
 
 
@@ -39,7 +49,7 @@ public class NotificationService {
 
         List<Notification> notifications = notificationRepository.findAll();
         return notifications.stream()
-        .map(this::mapToDTO)
+        .map(mapper::entityToNotificationResponseDTO)
         .toList();
     }
 
@@ -48,14 +58,14 @@ public class NotificationService {
         Notification notification = notificationRepository.findById(id)
         .orElseThrow(() -> new NotificationNotFoundException("Notificacion no encontrada."));
 
-        return mapToDTO(notification);
+        return mapper.entityToNotificationResponseDTO(notification);
     }
 
     // buscar todas las notifaciones de un usuario
     public List<NotificationResponseDTO> findByUserId(Long userId){
         return notificationRepository.findByUserId(userId)
             .stream()
-            .map(this::mapToDTO)
+            .map(mapper::entityToNotificationResponseDTO)
             .toList();
     }
 
@@ -68,7 +78,7 @@ public class NotificationService {
 
         notificationRepository.save(notification);
 
-        return mapToDTO(notification);
+        return mapper.entityToNotificationResponseDTO(notification);
     }
 
     //eliminar notificacion
@@ -78,18 +88,5 @@ public class NotificationService {
 
         notificationRepository.delete(notification);
     }
-
-    // entity a dto
-    public NotificationResponseDTO mapToDTO(Notification notification) {
-        return NotificationResponseDTO.builder()
-        .id(notification.getId())
-        .userId(notification.getUserId())
-        .title(notification.getTitle())
-        .message(notification.getMessage())
-        .type(notification.getType())
-        .createdAt(notification.getCreatedAt())
-        .build();
-    }
-    
 
 }
