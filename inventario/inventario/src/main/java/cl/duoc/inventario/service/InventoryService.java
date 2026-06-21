@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.duoc.inventario.client.ProductWebClient;
 import cl.duoc.inventario.dto.InventoryRequestDTO;
 import cl.duoc.inventario.dto.InventoryResponseDTO;
 import cl.duoc.inventario.dto.InventoryUpdateRequestDTO;
 import cl.duoc.inventario.exception.custom.InvalidRequestException;
 import cl.duoc.inventario.exception.custom.InventoryNotFoundException;
+import cl.duoc.inventario.mapper.InventoryMapper;
 import cl.duoc.inventario.model.Inventory;
 import cl.duoc.inventario.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,31 +20,39 @@ import lombok.RequiredArgsConstructor;
 public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final InventoryMapper mapper;
+    private final ProductWebClient productWebClient; // Cambiado para inyectar tu nuevo cliente personalizado
 
     // crear inventario
     public InventoryResponseDTO create(InventoryRequestDTO request) {
-        //NOTA una vez que se integren los servicios se debe llamar a products y verificar que productId exista
+        // 1. Validar que venga el ID antes de mandarlo a la red
+        if (request.getProductId() == null) {
+            throw new InvalidRequestException("El ID del producto es obligatorio");
+        }
+        
+        // 2. Comprobar la existencia del producto consumiendo tu componente externo
+        productWebClient.productExists(request.getProductId());
+
+        // 3. Validaciones de cantidades existentes
         Integer reserved = request.getReservedQuantity();
         Integer total = request.getTotalQuantity();
         
         if (reserved == null || total == null) {
-        throw new InvalidRequestException("Valores no pueden ser nulos");
+            throw new InvalidRequestException("Valores no pueden ser nulos");
         }
-
 
         if (reserved > total) {
             throw new InvalidRequestException("No puedes tener mas reservas que la cantidad total");
         } 
 
         Inventory inventory = new Inventory();
-
         inventory.setProductId(request.getProductId());
         inventory.setTotalQuantity(request.getTotalQuantity());
         inventory.setReservedQuantity(request.getReservedQuantity());
 
         inventoryRepository.save(inventory);
 
-        return mapToDTO(inventory);
+        return mapper.entityToInventoryResponseDTO(inventory);
     }
 
     // buscar por id
@@ -50,7 +60,7 @@ public class InventoryService {
         Inventory dto = inventoryRepository.findById(id)
                         .orElseThrow(() -> new InventoryNotFoundException("Inventario no encontrado"));
 
-        return mapToDTO(dto);
+        return mapper.entityToInventoryResponseDTO(dto);
     }
 
     // buscar por productId
@@ -58,7 +68,7 @@ public class InventoryService {
         Inventory dto = inventoryRepository.findByProductId(id)
                         .orElseThrow(() -> new InventoryNotFoundException("Inventario no encontrado"));
 
-        return mapToDTO(dto);
+        return mapper.entityToInventoryResponseDTO(dto);
     }
     
     // buscar todos los inventarios
@@ -66,7 +76,7 @@ public class InventoryService {
         List<Inventory> list = inventoryRepository.findAll();
 
         return list.stream()
-                .map(this::mapToDTO)
+                .map(mapper::entityToInventoryResponseDTO)
                 .toList();
     }
 
@@ -79,7 +89,7 @@ public class InventoryService {
         Integer reserved = request.getReservedQuantity();
 
         if (reserved == null || total == null) {
-        throw new InvalidRequestException("Valores no pueden ser nulos");
+            throw new InvalidRequestException("Valores no pueden ser nulos");
         }
 
         if (reserved > total) {
@@ -89,11 +99,9 @@ public class InventoryService {
         inventory.setTotalQuantity(request.getTotalQuantity());
         inventory.setReservedQuantity(request.getReservedQuantity());
         
-
         inventoryRepository.save(inventory);
 
-        return mapToDTO(inventory);
-    
+        return mapper.entityToInventoryResponseDTO(inventory);
     }
 
     // eliminar inventario
@@ -102,17 +110,5 @@ public class InventoryService {
                 .orElseThrow(() -> new InventoryNotFoundException("Inventario no encontrado"));
 
         inventoryRepository.delete(inventory);
-    }
-
-
-    // entity a dto
-    public InventoryResponseDTO mapToDTO(Inventory inventory) {
-        return  InventoryResponseDTO.builder()
-                .id(inventory.getId())
-                .productId(inventory.getProductId())
-                .totalQuantity(inventory.getTotalQuantity())
-                .availableQuantity(inventory.getAvailableQuantity())
-                .reservedQuantity(inventory.getReservedQuantity())
-                .build();
     }
 }
