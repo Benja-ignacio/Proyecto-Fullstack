@@ -1,4 +1,4 @@
-package cl.duoc.usuarios.dto;
+package cl.duoc.usuarios.dto.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

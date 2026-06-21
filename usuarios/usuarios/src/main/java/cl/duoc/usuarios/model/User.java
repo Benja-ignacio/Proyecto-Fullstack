@@ -24,23 +24,15 @@ public class User {
     private Long userId;
 
     @NotBlank(message = "El username no puede estar vacio")
-    @Size(min = 4, max = 32)
+    @Size(min = 4, max = 16)
     @Column(nullable = false, name = "username")
     private String username;
 
-    //prueba rama eliascarcamo
     @Column(nullable = false, name = "password")
     @NotBlank(message = "La contraseña no puede estar vacia")
-    @Size(max = 100)
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{6,64}$", 
+            message = "contraseña invalida. debe contener almenos 8 caracteres y maximo 264, una mayuscula y un numero")
     private String password;
-
-    //este es el codigo real 
-    // @Column(nullable = false, name = "password")
-    // @NotBlank(message = "La contraseña no puede estar vacia")
-    // @Size(min = 6, max = 64)
-    // @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{8, 264}$", 
-    //         message = "contraseña invalida. debe contener almenos 8 caracteres y maximo 264, una mayuscula y un numero")
-    // private String password;
 
     @Column(unique = true, nullable = false, name = "user_email")
     @NotBlank(message = "El email es obligatorio")
@@ -62,9 +54,14 @@ public class User {
     @Column(name = "account_status", nullable = false, unique = false)
     @Enumerated(EnumType.STRING)
     @NotNull(message = "El status no puede ser nulo")
-    private Status status;
+    private AccountStatus status;
 
     @CreatedDate
     @Column(name= "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+        public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
