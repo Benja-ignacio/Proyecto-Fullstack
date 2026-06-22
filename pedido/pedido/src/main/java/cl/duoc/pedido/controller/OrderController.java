@@ -16,33 +16,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
 public class OrderController {
 
-    private static final Logger logger =
-            LoggerFactory.getLogger(OrderController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     private final OrderService orderService;
 
-    /**
-     * Crear un nuevo pedido
-     */
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<OrderResponseDTO>> createOrder(
             @RequestParam Long userId,
             @Valid @RequestBody List<OrderItemDTO> items) {
 
-<<<<<<< HEAD
-        OrderResponseDTO data = orderService.createOrder(userId, items);
-=======
         logger.info("Creando pedido para usuario {}", userId);
->>>>>>> eliascarcamo
 
         OrderResponseDTO data = orderService.createOrder(userId, items);
 
@@ -54,17 +43,13 @@ public class OrderController {
                 ));
     }
 
-    /**
-     * Obtener historial de pedidos de un usuario
-     */
     @GetMapping
     public ResponseEntity<ApiResponse<List<OrderResponseDTO>>> getOrders(
             @RequestParam Long userId) {
 
         logger.info("Consultando pedidos del usuario {}", userId);
 
-        List<OrderResponseDTO> data =
-                orderService.getOrdersByUser(userId);
+        List<OrderResponseDTO> data = orderService.getOrdersByUser(userId);
 
         return ResponseEntity.ok(
                 new ApiResponse<>(
@@ -75,31 +60,14 @@ public class OrderController {
         );
     }
 
-    /**
-     * Actualizar estado de un pedido
-     */
     @PutMapping("/{orderId}")
     public ResponseEntity<ApiResponse<OrderResponseDTO>> updateStatus(
             @PathVariable Long orderId,
             @RequestParam OrderStatus status) {
 
-<<<<<<< HEAD
-        try {
-            OrderResponseDTO order = orderService.updateStatus(orderId, status);   
-        } catch (Exception e) {
-            response = ApiResponse(400, "Error del servidor", null);
-            return response; //
-        }
-=======
-        logger.info(
-                "Actualizando estado del pedido {} a {}",
-                orderId,
-                status
-        );
+        logger.info("Actualizando estado del pedido {} a {}", orderId, status);
 
-        OrderResponseDTO order =
-                orderService.updateStatus(orderId, status);
->>>>>>> eliascarcamo
+        OrderResponseDTO order = orderService.updateStatus(orderId, status);
 
         return ResponseEntity.ok(
                 new ApiResponse<>(
@@ -110,20 +78,13 @@ public class OrderController {
         );
     }
 
-    /**
-     * Obtener detalle de productos de un pedido
-     */
     @GetMapping("/{orderId}/items")
     public ResponseEntity<ApiResponse<List<OrderItemDTO>>> getOrderItems(
             @PathVariable Long orderId) {
 
-        logger.info(
-                "Consultando items del pedido {}",
-                orderId
-        );
+        logger.info("Consultando items del pedido {}", orderId);
 
-        List<OrderItemDTO> data =
-                orderService.getOrderItems(orderId);
+        List<OrderItemDTO> data = orderService.getOrderItems(orderId);
 
         return ResponseEntity.ok(
                 new ApiResponse<>(
@@ -134,17 +95,11 @@ public class OrderController {
         );
     }
 
-    /**
-     * Cancelar pedido
-     */
     @DeleteMapping("/{orderId}")
     public ResponseEntity<ApiResponse<Void>> deleteOrder(
             @PathVariable Long orderId) {
 
-        logger.info(
-                "Cancelando pedido {}",
-                orderId
-        );
+        logger.info("Cancelando pedido {}", orderId);
 
         orderService.deleteOrder(orderId);
 
@@ -156,17 +111,10 @@ public class OrderController {
                 )
         );
     }
-<<<<<<< HEAD
 
     @GetMapping("/exists/{orderId}")
-    public ResponseEntity<Boolean> existsById(
-        @PathVariable Long orderId){
-
+    public ResponseEntity<Boolean> existsById(@PathVariable Long orderId) {
         boolean exists = orderService.existsById(orderId);
-        return ResponseEntity.ok(exists);} 
+        return ResponseEntity.ok(exists);
+    }
 }
-    
-    
-=======
-}
->>>>>>> eliascarcamo

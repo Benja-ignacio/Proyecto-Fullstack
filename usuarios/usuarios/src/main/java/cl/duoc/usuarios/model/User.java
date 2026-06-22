@@ -4,10 +4,25 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 
-import cl.duoc.usuarios.enums.*;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import cl.duoc.usuarios.enums.AccountStatus;
+import cl.duoc.usuarios.enums.Role;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
@@ -15,7 +30,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User {
 
     @Id
@@ -28,49 +42,37 @@ public class User {
     @Column(nullable = false, name = "username")
     private String username;
 
-    @Column(nullable = false, name = "password")
     @NotBlank(message = "La contraseña no puede estar vacia")
-<<<<<<< HEAD
-<<<<<<< HEAD
-    @Size(min = 6, max = 64)
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{8,264}$", 
-=======
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{6,64}$", 
->>>>>>> benja
-=======
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{6,64}$", 
->>>>>>> eliascarcamo
-            message = "contraseña invalida. debe contener almenos 8 caracteres y maximo 264, una mayuscula y un numero")
+    @Column(nullable = false, name = "password")
     private String password;
 
-    @Column(unique = true, nullable = false, name = "user_email")
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "Formato de email invalido")
     @Size(min = 6, max = 100, message = "El email no puede superar los 100 caracteres")
+    @Column(unique = true, nullable = false, name = "user_email")
     private String email;
 
-
-    @Column(nullable = false, name = "address")
     @NotBlank(message = "La direccion no puede estar vacia")
     @Size(min = 6, max = 264)
+    @Column(nullable = false, name = "address")
     private String address;
 
-    @Column(nullable = false, unique = false, name = "user_rol")
     @NotNull(message = "El rol no puede ser nulo")
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "user_rol")
     private Role role;
 
-    @Column(name = "account_status", nullable = false, unique = false)
-    @Enumerated(EnumType.STRING)
     @NotNull(message = "El status no puede ser nulo")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_status", nullable = false)
     private AccountStatus status;
 
     @CreatedDate
-    @Column(name= "created_at", updatable = false, nullable = false)
+    @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
-        public void prePersist() {
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
 }

@@ -1,3 +1,1 @@
-2026-06-21T20:05:47.291-04:00  INFO 9248 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Starting CarritoApplication using Java 21.0.10 with PID 9248 (C:\Users\xiota\Proyecto-Fullstack\carrito\carrito\target\classes started by xiota in C:\Users\xiota\Proyecto-Fullstack\carrito\carrito)
-2026-06-21T20:05:47.303-04:00 DEBUG 9248 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : Running with Spring Boot v3.5.3, Spring v6.2.8
-2026-06-21T20:05:47.306-04:00  INFO 9248 --- [cart] [main] cl.duoc.carrito.CarritoApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-06-22T00:01:02.094-04:00  INFO 9248 --- [cart] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration

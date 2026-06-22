@@ -1,77 +1,46 @@
-<<<<<<< HEAD
 package cl.duoc.inventario.service;
 
-// import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 
-// import org.junit.jupiter.api.Test;
-// import org.mockito.Mockito;
-// import org.springframework.web.reactive.function.client.WebClient;
+import java.util.List;
 
-// import cl.duoc.inventario.dto.InventoryResponseDTO;
-// import cl.duoc.inventario.mapper.InventoryMapper;
-// import cl.duoc.inventario.model.Inventory;
-// import cl.duoc.inventario.repository.InventoryRepository;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-// import static org.assertj.core.api.Assertions.assertThat;
+import cl.duoc.inventario.client.ProductWebClient;
+import cl.duoc.inventario.dto.InventoryResponseDTO;
+import cl.duoc.inventario.mapper.InventoryMapper;
+import cl.duoc.inventario.model.Inventory;
+import cl.duoc.inventario.repository.InventoryRepository;
 
+public class InventoryServiceTest {
 
-// public class InventoryServiceTest {
-//     @Test
-//     void testGetAllInventory() {
-//         InventoryRepository inventoryRepository = Mockito.mock(InventoryRepository.class);
-//         InventoryMapper mapper = Mockito.mock(InventoryMapper.class); // ← faltaba este
-//         WebClient productWebClient= Mockito.mock(WebClient.class);
-//         InventoryService inventoryService = new InventoryService(inventoryRepository, mapper, productWebClient);
+    @Test
+    void testGetAllInventory() {
+        InventoryRepository inventoryRepository = Mockito.mock(InventoryRepository.class);
+        InventoryMapper mapper = Mockito.mock(InventoryMapper.class);
+        ProductWebClient productWebClient = Mockito.mock(ProductWebClient.class);
 
+        InventoryService inventoryService = new InventoryService(
+                inventoryRepository,
+                mapper,
+                productWebClient
+        );
 
+        Inventory inventory = new Inventory();
+        inventory.setId(1L);
+        inventory.setProductId(1L);
+        inventory.setTotalQuantity(30);
+        inventory.setReservedQuantity(10);
+        inventory.setAvailableQuantity(20);
 
-//         Inventory inventory = new Inventory(1L, 1L, 30, 10);
-//         Mockito.when(inventoryRepository.findAll()).thenReturn(List.of(inventory));
+        InventoryResponseDTO responseDTO = Mockito.mock(InventoryResponseDTO.class);
 
-//         List<InventoryResponseDTO> result = inventoryService.findAll();
+        Mockito.when(inventoryRepository.findAll()).thenReturn(List.of(inventory));
+        Mockito.when(mapper.entityToInventoryResponseDTO(inventory)).thenReturn(responseDTO);
 
-//         assertThat(result).hasSize(1); // verifica que la lista resultante tenga un tamaño de 1
-//     }
+        List<InventoryResponseDTO> result = inventoryService.findAll();
 
-<<<<<<< HEAD
+        assertThat(result).hasSize(1);
+    }
 }
-=======
-// package cl.duoc.inventario.service;
-
-// import java.util.List;
-
-// import org.junit.jupiter.api.Test;
-// import org.mockito.Mockito;
-// import org.springframework.web.reactive.function.client.WebClient;
-
-// import cl.duoc.inventario.dto.InventoryResponseDTO;
-// import cl.duoc.inventario.mapper.InventoryMapper;
-// import cl.duoc.inventario.model.Inventory;
-// import cl.duoc.inventario.repository.InventoryRepository;
-
-// import static org.assertj.core.api.Assertions.assertThat;
-
-
-// public class InventoryServiceTest {
-//     @Test
-//     void testGetAllInventory() {
-//         InventoryRepository inventoryRepository = Mockito.mock(InventoryRepository.class);
-//         InventoryMapper mapper = Mockito.mock(InventoryMapper.class); // ← faltaba este
-//         WebClient productWebClient= Mockito.mock(WebClient.class);
-//         // InventoryService inventoryService = new InventoryService(inventoryRepository, mapper, productWebClient);
-
-
-
-//         Inventory inventory = new Inventory(1L, 1L, 30, 10);
-//         Mockito.when(inventoryRepository.findAll()).thenReturn(List.of(inventory));
-
-//         List<InventoryResponseDTO> result = inventoryService.findAll();
-
-//         assertThat(result).hasSize(1); // verifica que la lista resultante tenga un tamaño de 1
-//     }
-
-// }
->>>>>>> eliascarcamo
-=======
-// }
->>>>>>> ignmartinezt

@@ -1,28 +1,19 @@
 package cl.duoc.pedido.service;
 
-import cl.duoc.pedido.Client.CartClient;
-import cl.duoc.pedido.Client.DiscountClient;
-import cl.duoc.pedido.Client.LogisticClient;
-import cl.duoc.pedido.Client.PaymentClient;
-import cl.duoc.pedido.Client.ProductClient;
-import cl.duoc.pedido.Client.UserClient;
-import cl.duoc.pedido.dto.CartItemResponse;
 import cl.duoc.pedido.dto.OrderItemDTO;
 import cl.duoc.pedido.dto.OrderResponseDTO;
 import cl.duoc.pedido.enums.OrderStatus;
 import cl.duoc.pedido.exception.custom.OrderResourceNotFoundException;
-<<<<<<< HEAD
 import cl.duoc.pedido.mapper.OrderMapper;
-import cl.duoc.pedido.model.*;
-=======
 import cl.duoc.pedido.model.Order;
 import cl.duoc.pedido.model.OrderItem;
->>>>>>> eliascarcamo
 import cl.duoc.pedido.repository.OrderItemRepository;
 import cl.duoc.pedido.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -33,32 +24,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private static final Logger logger =
-            LoggerFactory.getLogger(OrderService.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-<<<<<<< HEAD
     private final OrderMapper mapper;
-
-    /**
-    * Crea una orden a partir de los ítems del carrito de un usuario.
-    * El descuento y el envío son valores temporales hasta integrar
-    * los servicios de descuentos y logística.
-    *
-    * @param userId   ID del usuario que realiza el pedido
-    * @return DTO con la orden creada e ítems persistidos
-    */
-    public OrderResponseDTO createOrder(Long userId, List<OrderItemDTO> itemsDTO) {
-        
-=======
-
-    private final UserClient userClient;
-    private final CartClient cartClient;
-    private final ProductClient productClient;
-    private final DiscountClient discountClient;
-    private final LogisticClient logisticClient;
-    private final PaymentClient paymentClient;
 
     public OrderResponseDTO createOrder(Long userId, List<OrderItemDTO> itemsDTO) {
 
@@ -72,19 +42,7 @@ public class OrderService {
             throw new IllegalArgumentException("El pedido debe contener al menos un producto");
         }
 
-        // Validar usuario en microservicio usuarios
-        //userClient.getUser(userId);
-
-        // Consultar carrito en microservicio carrito
-        List<CartItemResponse> cartItems = cartClient.getCartItems(userId);
-
-        if (cartItems == null || cartItems.isEmpty()) {
-            logger.warn("El carrito del usuario {} está vacío", userId);
-        }
-
-        // Validar productos en microservicio productos
         for (OrderItemDTO item : itemsDTO) {
-
             if (item.getProductId() == null || item.getProductId() <= 0) {
                 throw new IllegalArgumentException("El id del producto es inválido");
             }
@@ -93,26 +51,16 @@ public class OrderService {
                 throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
             }
 
-            if (item.getPrice() == null ||
-                    item.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            if (item.getPrice() == null || item.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
                 throw new IllegalArgumentException("El precio debe ser mayor a 0");
             }
-
-            //productClient.getProduct(item.getProductId());
         }
 
->>>>>>> eliascarcamo
         BigDecimal subtotal = calculateSubtotal(itemsDTO);
-
-        // Consultar descuento, por ahora solo valida comunicación
-        //discountClient.getDiscount(userId);
         BigDecimal discount = BigDecimal.ZERO;
-
         BigDecimal shipping = new BigDecimal("5000");
 
-        BigDecimal total = subtotal
-                .subtract(discount)
-                .add(shipping);
+        BigDecimal total = subtotal.subtract(discount).add(shipping);
 
         Order newOrder = Order.builder()
                 .userId(userId)
@@ -126,33 +74,19 @@ public class OrderService {
         Order savedOrder = orderRepository.save(newOrder);
 
         List<OrderItem> items = itemsDTO.stream()
-<<<<<<< HEAD
-                            .map(dto -> mapper.toOrderItemEntity(savedOrder.getId(), dto))
-                            .toList();
-=======
-                .map(dto -> toOrderItemEntity(savedOrder.getId(), dto))
+                .map(dto -> mapper.toOrderItemEntity(savedOrder.getId(), dto))
                 .toList();
->>>>>>> eliascarcamo
 
         orderItemRepository.saveAll(items);
 
-<<<<<<< HEAD
-        return mapper.toOrderResponseDTOWithItems(savedOrder, items);
-=======
-        // Consultar logística y pago después de crear pedido
-        //logisticClient.calculateShipping(savedOrder.getId());
-        //paymentClient.createPayment(savedOrder.getId());
-
         logger.info("Pedido {} creado correctamente", savedOrder.getId());
 
-        return toOrderResponseDTOWithItems(savedOrder, items);
->>>>>>> eliascarcamo
+        return mapper.toOrderResponseDTOWithItems(savedOrder, items);
     }
 
     private BigDecimal calculateSubtotal(List<OrderItemDTO> itemsDTO) {
         return itemsDTO.stream()
-                .map(item -> item.getPrice()
-                        .multiply(BigDecimal.valueOf(item.getQuantity())))
+                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
@@ -163,13 +97,8 @@ public class OrderService {
         List<Order> list = orderRepository.findByUserId(userId);
 
         return list.stream()
-<<<<<<< HEAD
-               .map(mapper::toOrderResponseDTO)
-               .toList();
-=======
-                .map(this::toOrderResponseDTO)
+                .map(mapper::toOrderResponseDTO)
                 .toList();
->>>>>>> eliascarcamo
     }
 
     public OrderResponseDTO updateStatus(Long orderId, OrderStatus status) {
@@ -177,8 +106,7 @@ public class OrderService {
         logger.info("Actualizando pedido {} a estado {}", orderId, status);
 
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() ->
-                        new OrderResourceNotFoundException("Pedido no encontrado"));
+                .orElseThrow(() -> new OrderResourceNotFoundException("Pedido no encontrado"));
 
         order.setOrderStatus(status);
 
@@ -194,13 +122,11 @@ public class OrderService {
 
     public List<OrderItemDTO> getOrderItems(Long orderId) {
 
-        List<OrderItem> items =
-                orderItemRepository.findByOrderId(orderId);
+        List<OrderItem> items = orderItemRepository.findByOrderId(orderId);
 
         if (items.isEmpty()) {
             logger.warn("No se encontraron items para pedido {}", orderId);
-            throw new OrderResourceNotFoundException(
-                    "No se encontraron items para el pedido");
+            throw new OrderResourceNotFoundException("No se encontraron items para el pedido");
         }
 
         return items.stream()
@@ -208,78 +134,19 @@ public class OrderService {
                 .toList();
     }
 
-    public void deleteOrder(Long orderID) {
+    public void deleteOrder(Long orderId) {
 
-        Order order = orderRepository.findById(orderID)
-                .orElseThrow(() ->
-                        new OrderResourceNotFoundException("No se encontró pedido"));
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderResourceNotFoundException("No se encontró pedido"));
 
         order.setOrderStatus(OrderStatus.CANCELED);
 
         orderRepository.save(order);
 
-        logger.warn("Pedido {} cancelado", orderID);
+        logger.warn("Pedido {} cancelado", orderId);
     }
 
-<<<<<<< HEAD
-    public boolean existsById(Long orderId){
+    public boolean existsById(Long orderId) {
         return orderRepository.existsById(orderId);
     }
-=======
-    public OrderResponseDTO toOrderResponseDTOWithItems(
-            Order order,
-            List<OrderItem> orderItems) {
-
-        return OrderResponseDTO.builder()
-                .id(order.getId())
-                .userId(order.getUserId())
-                .subtotal(order.getSubtotal())
-                .discount(order.getDiscount())
-                .shipping(order.getShipping())
-                .total(order.getTotal())
-                .orderStatus(order.getOrderStatus())
-                .createdAt(order.getCreatedAt())
-                .paidAt(order.getPaidAt())
-                .items(orderItems.stream()
-                        .map(this::orderItemToDTO)
-                        .toList())
-                .build();
-    }
-
-    public OrderResponseDTO toOrderResponseDTO(Order order) {
-
-        return OrderResponseDTO.builder()
-                .id(order.getId())
-                .userId(order.getUserId())
-                .subtotal(order.getSubtotal())
-                .discount(order.getDiscount())
-                .shipping(order.getShipping())
-                .total(order.getTotal())
-                .orderStatus(order.getOrderStatus())
-                .createdAt(order.getCreatedAt())
-                .paidAt(order.getPaidAt())
-                .build();
-    }
-
-    public OrderItemDTO orderItemToDTO(OrderItem orderItem) {
-
-        return OrderItemDTO.builder()
-                .productId(orderItem.getProductId())
-                .productName(orderItem.getProductName())
-                .price(orderItem.getPrice())
-                .quantity(orderItem.getQuantity())
-                .build();
-    }
-
-    public OrderItem toOrderItemEntity(Long orderId, OrderItemDTO dto) {
-
-        return OrderItem.builder()
-                .orderId(orderId)
-                .productId(dto.getProductId())
-                .productName(dto.getProductName())
-                .price(dto.getPrice())
-                .quantity(dto.getQuantity())
-                .build();
-    }
->>>>>>> eliascarcamo
 }
