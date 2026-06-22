@@ -50,7 +50,6 @@ public class InventoryService {
         inventory.setTotalQuantity(total);
         inventory.setReservedQuantity(reserved);
         
-        // 🔥 SOLUCIÓN AL CHECK: Calculamos el disponible exigido por la BD (total = disponible + reservada)
         inventory.setAvailableQuantity(total - reserved);
 
         inventoryRepository.save(inventory);
@@ -62,10 +61,6 @@ public class InventoryService {
     public InventoryResponseDTO getById(Long id) {
         Inventory dto = inventoryRepository.findById(id)
                         .orElseThrow(() -> new InventoryNotFoundException("Inventario no encontrado"));
-<<<<<<< HEAD
-=======
-
->>>>>>> eliascarcamo
         return mapper.entityToInventoryResponseDTO(dto);
     }
 
@@ -73,10 +68,6 @@ public class InventoryService {
     public InventoryResponseDTO getByProductId(long id) {
         Inventory dto = inventoryRepository.findByProductId(id)
                         .orElseThrow(() -> new InventoryNotFoundException("Inventario no encontrado"));
-<<<<<<< HEAD
-=======
-
->>>>>>> eliascarcamo
         return mapper.entityToInventoryResponseDTO(dto);
     }
     
@@ -107,7 +98,6 @@ public class InventoryService {
         inventory.setTotalQuantity(total);
         inventory.setReservedQuantity(reserved);
         
-        // 🔥 SOLUCIÓN AL CHECK: Recalculamos el disponible al actualizar el stock
         inventory.setAvailableQuantity(total - reserved);
         
         inventoryRepository.save(inventory);
@@ -121,13 +111,5 @@ public class InventoryService {
                 .orElseThrow(() -> new InventoryNotFoundException("Inventario no encontrado"));
 
         inventoryRepository.delete(inventory);
-    }
-<<<<<<< HEAD
-<<<<<<< HEAD
+    };
 }
-=======
-}
->>>>>>> eliascarcamo
-=======
-}
->>>>>>> ignmartinezt
