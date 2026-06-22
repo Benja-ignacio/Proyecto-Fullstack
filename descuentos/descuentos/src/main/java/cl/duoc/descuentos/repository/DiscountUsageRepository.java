@@ -7,12 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import cl.duoc.descuentos.model.DiscountUsage;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 public interface DiscountUsageRepository extends JpaRepository<DiscountUsage, Long >{
 
     Optional<DiscountUsage> findById(Long id);
 =======
 public interface DiscountUsageRepository extends JpaRepository<DiscountUsage, Long>{
 >>>>>>> benja
+=======
+public interface DiscountUsageRepository extends JpaRepository<DiscountUsage, Long> {
+>>>>>>> eliascarcamo
 
     List<DiscountUsage> findByUserId(Long userId);
 }

@@ -61,4 +61,19 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<Void>> handleIllegalArgument(
+            IllegalArgumentException ex) {
+
+        logger.warn("Regla de negocio incumplida: {}", ex.getMessage());
+
+        return ResponseEntity.badRequest().body(
+                new ApiResponse<>(
+                        400,
+                        ex.getMessage(),
+                        null
+                )
+        );
+}
 }

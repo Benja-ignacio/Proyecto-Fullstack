@@ -19,6 +19,7 @@ public class RegisterRequestDTO {
 
     
     @NotBlank(message = "La contraseña no puede estar vacia")
+<<<<<<< HEAD
 <<<<<<< HEAD:usuarios/usuarios/src/main/java/cl/duoc/usuarios/dto/RegisterRequestDTO.java
     @Size(min = 6, max = 64)
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{8,264}$", 
@@ -27,6 +28,10 @@ public class RegisterRequestDTO {
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{6,64}$", 
     message = "contraseña invalida. debe contener almenos 6 caracteres y maximo 64, una mayuscula y un numero")
 >>>>>>> benja:usuarios/usuarios/src/main/java/cl/duoc/usuarios/dto/requests/RegisterRequestDTO.java
+=======
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).{6,64}$", 
+    message = "contraseña invalida. debe contener almenos 6 caracteres y maximo 64, una mayuscula y un numero")
+>>>>>>> eliascarcamo
     private String password;
 
     @NotBlank(message = "El email es obligatorio")

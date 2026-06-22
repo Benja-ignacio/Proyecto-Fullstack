@@ -37,6 +37,7 @@ build/
 mysql_data/
 */mysql_data/
 <<<<<<< HEAD
+<<<<<<< HEAD
 **/mysql_data/
 =======
 **/mysql_data/
@@ -44,3 +45,9 @@ mysql_data/
 # Logs
 logs/
 >>>>>>> benja
+=======
+**/mysql_data/
+
+# Logs
+logs/
+>>>>>>> eliascarcamo

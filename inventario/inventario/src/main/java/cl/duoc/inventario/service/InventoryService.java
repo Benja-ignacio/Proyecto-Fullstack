@@ -59,6 +59,10 @@ public class InventoryService {
     public InventoryResponseDTO getById(Long id) {
         Inventory dto = inventoryRepository.findById(id)
                         .orElseThrow(() -> new InventoryNotFoundException("Inventario no encontrado"));
+<<<<<<< HEAD
+=======
+
+>>>>>>> eliascarcamo
         return mapper.entityToInventoryResponseDTO(dto);
     }
 
@@ -66,6 +70,10 @@ public class InventoryService {
     public InventoryResponseDTO getByProductId(long id) {
         Inventory dto = inventoryRepository.findByProductId(id)
                         .orElseThrow(() -> new InventoryNotFoundException("Inventario no encontrado"));
+<<<<<<< HEAD
+=======
+
+>>>>>>> eliascarcamo
         return mapper.entityToInventoryResponseDTO(dto);
     }
     
@@ -108,4 +116,8 @@ public class InventoryService {
 
         inventoryRepository.delete(inventory);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> eliascarcamo

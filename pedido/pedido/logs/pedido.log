@@ -1,0 +1,3 @@
+2026-06-21T20:04:50.895-04:00  INFO 23556 --- [pedido] [main] cl.duoc.pedido.PedidoApplication         : Starting PedidoApplication using Java 21.0.10 with PID 23556 (C:\Users\xiota\Proyecto-Fullstack\pedido\pedido\target\classes started by xiota in C:\Users\xiota\Proyecto-Fullstack\pedido\pedido)
+2026-06-21T20:04:50.910-04:00 DEBUG 23556 --- [pedido] [main] cl.duoc.pedido.PedidoApplication         : Running with Spring Boot v3.5.3, Spring v6.2.8
+2026-06-21T20:04:50.916-04:00  INFO 23556 --- [pedido] [main] cl.duoc.pedido.PedidoApplication         : No active profile set, falling back to 1 default profile: "default"
