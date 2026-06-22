@@ -358,9 +358,7 @@ services:
       retries: 20
       start_period: 60s # tiempo al motor de arrancar antes del primer check
 
-<<<<<<< HEAD
   # 8. LOGISTIC
-# 8. LOGISTIC
   mysql-logistic:
     image: mysql:8.0
     container_name: mysql_logistic
@@ -405,31 +403,6 @@ services:
       timeout: 3s
       retries: 20
       start_period: 60s
-=======
-  #   # 8. LOGISTIC
-  #   mysql-logistic:
-  #     image: mysql:8.0
-  #     container_name: mysql_logistic
-  #     restart: always
-  #     environment:
-  #       MYSQL_ROOT_PASSWORD: root
-  #       MYSQL_DATABASE: logistic_db
-  #       MYSQL_USER: aurastore
-  #       MYSQL_PASSWORD: aurastore123
-  #     ports:
-  #       - "3317:3306"
-  #     volumes:
-  #       - mysql_logistic_data:/var/lib/mysql
-
-  #   logistic-service:
-  #     build:
-  #       context: ./logistic/logistic
-  #       dockerfile: Dockerfile
-  #     ports:
-  #       - "8087:8087"
-  #     depends_on:
-  #       - mysql-logistic
->>>>>>> eliascarcamo
 
   # 9. DISCOUNTS
   mysql-discounts:
@@ -535,14 +508,7 @@ volumes:
   mysql_inventory_data:
   mysql_payment_data:
   mysql_order_data:
-<<<<<<< HEAD
   mysql_logistic_data:
   mysql_discounts_data:
   mysql_notifications_data:
   logs:
-=======
-  #   mysql_logistic_data:
-  mysql_discounts_data:
-  mysql_notifications_data:
-  logs:
->>>>>>> eliascarcamo

@@ -13,11 +13,7 @@ spring:
 
   jpa:
     hibernate:
-<<<<<<< HEAD
-      ddl-auto: none
-=======
       dll-auto: none
->>>>>>> eliascarcamo
     database-platform: org.hibernate.dialect.MySQLDialect
 
   flyway:
