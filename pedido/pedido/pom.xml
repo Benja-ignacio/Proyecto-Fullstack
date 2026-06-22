@@ -16,11 +16,9 @@
     <groupId>cl.duoc</groupId>
     <artifactId>pedido</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-    
-	<name>order</name>
-	<description>order service</description>
+    <packaging>jar</packaging>
+    <name>order</name>
+    <description>order service</description>
 
     <properties>
         <java.version>21</java.version>
