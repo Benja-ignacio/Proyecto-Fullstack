@@ -36,4 +36,11 @@ build/
 # MySQL data
 mysql_data/
 */mysql_data/
+<<<<<<< HEAD
 **/mysql_data/
+=======
+**/mysql_data/
+
+# Logs
+logs/
+>>>>>>> benja

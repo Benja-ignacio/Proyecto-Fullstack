@@ -7,7 +7,6 @@ import cl.duoc.descuentos.dto.ApiResponse;
 import cl.duoc.descuentos.dto.DiscountRequestDTO;
 import cl.duoc.descuentos.dto.DiscountResponseDTO;
 import cl.duoc.descuentos.dto.DiscountUsageResponseDTO;
-import cl.duoc.descuentos.model.Discount;
 import cl.duoc.descuentos.service.DiscountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -61,7 +59,7 @@ public class DIscountController {
 
 
     // activar / descativar descuento
-    @PatchMapping("activate/{id}")
+    @PatchMapping("status/{id}")
     public ResponseEntity<ApiResponse<DiscountResponseDTO>> toggleStatus(
         @PathVariable Long id, boolean active) {
         

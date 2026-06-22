@@ -4,6 +4,7 @@ import cl.duoc.pedido.dto.OrderItemDTO;
 import cl.duoc.pedido.dto.OrderResponseDTO;
 import cl.duoc.pedido.enums.OrderStatus;
 import cl.duoc.pedido.exception.custom.OrderResourceNotFoundException;
+import cl.duoc.pedido.mapper.OrderMapper;
 import cl.duoc.pedido.model.*;
 import cl.duoc.pedido.repository.OrderItemRepository;
 import cl.duoc.pedido.repository.OrderRepository;
@@ -21,7 +22,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-
+    private final OrderMapper mapper;
 
     /**
     * Crea una orden a partir de los ítems del carrito de un usuario.
@@ -59,7 +60,7 @@ public class OrderService {
 
         // transformar lista de OrderItemDTO a lista de tipo OrderItem
         List<OrderItem> items = itemsDTO.stream()
-                            .map(dto -> toOrderItemEntity(savedOrder.getId(), dto))
+                            .map(dto -> mapper.toOrderItemEntity(savedOrder.getId(), dto))
                             .toList();
 
         /*
@@ -70,7 +71,7 @@ public class OrderService {
         */
         orderItemRepository.saveAll(items);
 
-        return toOrderResponseDTOWithItems(savedOrder, items);
+        return mapper.toOrderResponseDTOWithItems(savedOrder, items);
     }
 
     // calcular el subtotal de una lista de items
@@ -85,7 +86,7 @@ public class OrderService {
         List<Order> list = orderRepository.findByUserId(userId);
 
         return list.stream()
-               .map(this::toOrderResponseDTO)
+               .map(mapper::toOrderResponseDTO)
                .toList();
     }
 
@@ -103,7 +104,7 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);  // también faltaba persistir
 
-        return toOrderResponseDTO(savedOrder);
+        return mapper.toOrderResponseDTO(savedOrder);
     }
 
     // detalle del pedido
@@ -115,7 +116,7 @@ public class OrderService {
             }
 
         return items.stream()
-                .map(this::orderItemToDTO)
+                .map(mapper::orderItemToDTO)
                 .toList();
         }
 
@@ -131,65 +132,7 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-
-    // OrderResponseDTO mapper 
-    public OrderResponseDTO toOrderResponseDTOWithItems(
-        Order order, 
-        List<OrderItem> orderItems) {
-        return OrderResponseDTO.builder()
-                .id(order.getId())
-                .userId(order.getUserId())
-                .subtotal(order.getSubtotal())
-                .discount(order.getDiscount())
-                .shipping(order.getShipping())
-                .total(order.getTotal())
-                .orderStatus(order.getOrderStatus())
-                .createdAt(order.getCreatedAt())
-                .paidAt(order.getPaidAt())
-                .items(
-                        orderItems.stream()
-                            .map(this::orderItemToDTO)
-                            .toList()
-                )
-                .build();
+    public boolean existsById(Long orderId){
+        return orderRepository.existsById(orderId);
     }
-
-    // entity to dto
-    public OrderResponseDTO toOrderResponseDTO(
-        Order order) {
-        return OrderResponseDTO.builder()
-                .id(order.getId())
-                .userId(order.getUserId())
-                .subtotal(order.getSubtotal())
-                .discount(order.getDiscount())
-                .shipping(order.getShipping())
-                .total(order.getTotal())
-                .orderStatus(order.getOrderStatus())
-                .createdAt(order.getCreatedAt())
-                .paidAt(order.getPaidAt())
-                .build();
-    }
-
-
-    // orderItem to dto
-    public OrderItemDTO orderItemToDTO(OrderItem orderItem) {
-            return OrderItemDTO.builder()
-            .productId(orderItem.getProductId())
-            .productName(orderItem.getProductName())
-            .price(orderItem.getPrice())
-            .quantity(orderItem.getQuantity())
-            .build();
-        }
-
-    // OrdenItemDTO to entity
-    public OrderItem toOrderItemEntity (Long orderId, OrderItemDTO dto) {
-        return OrderItem.builder()
-        .orderId(orderId)
-        .productId(dto.getProductId())
-        .productName(dto.getProductName())
-        .price(dto.getPrice())
-        .quantity(dto.getQuantity())
-        .build();
-    }
-    
 }

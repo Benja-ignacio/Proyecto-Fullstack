@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import cl.duoc.notificaciones.dto.ApiResponse;
 import cl.duoc.notificaciones.dto.NotificationRequestDTO;
 import cl.duoc.notificaciones.dto.NotificationResponseDTO;
-import cl.duoc.notificaciones.model.Notification;
 import cl.duoc.notificaciones.service.NotificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +22,7 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     // Obtener todas las notificaciones
+    // ADMIN
     @GetMapping
     public ResponseEntity<ApiResponse<List<NotificationResponseDTO>>> getAll() {
         List<NotificationResponseDTO> list = notificationService.findAll();
@@ -33,6 +33,7 @@ public class NotificationController {
     }
 
     // Obtener una notificación por ID
+    // ADMIN
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<NotificationResponseDTO>> getById(
         @PathVariable Long id) {
@@ -46,6 +47,7 @@ public class NotificationController {
     }
 
     // Obtener notificaciones por usuario
+    // ADMIN
     @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse<List<NotificationResponseDTO>>> getByUserId(
         @PathVariable Long userId) {
@@ -58,6 +60,7 @@ public class NotificationController {
     }
 
     // Crear una nueva notificación
+    // admin
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<NotificationResponseDTO>> create(
         @Valid @RequestBody NotificationRequestDTO notification) {
@@ -71,6 +74,7 @@ public class NotificationController {
     }
 
     // Marcar como leída
+    // AUTH TODO: validar que un usuario solo pueda marcar como leida notificacione
     @PutMapping("/read/{id}")
     public ResponseEntity<ApiResponse<NotificationResponseDTO>> markAsRead(
         @PathVariable Long id) {
@@ -82,6 +86,7 @@ public class NotificationController {
     }
 
     // Eliminar una notificación
+    // ADMIN
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
         notificationService.deleteById(id);

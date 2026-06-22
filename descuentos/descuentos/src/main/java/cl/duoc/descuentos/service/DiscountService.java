@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 import cl.duoc.descuentos.dto.DiscountRequestDTO;
 import cl.duoc.descuentos.dto.DiscountResponseDTO;
 import cl.duoc.descuentos.dto.DiscountUsageResponseDTO;
-import cl.duoc.descuentos.exception.custom.DiscountAlreadyActiveException;
 import cl.duoc.descuentos.exception.custom.DiscountAlreadyExistsException;
 import cl.duoc.descuentos.exception.custom.DiscountNotFoundException;
+import cl.duoc.descuentos.exception.custom.DiscountStatusChangeException;
 import cl.duoc.descuentos.exception.custom.InvalidDateException;
+import cl.duoc.descuentos.mapper.DiscountMapper;
 import cl.duoc.descuentos.model.Discount;
 import cl.duoc.descuentos.model.DiscountUsage;
 import cl.duoc.descuentos.repository.DiscountRepository;
@@ -23,6 +24,7 @@ public class DiscountService {
 
     private final DiscountRepository discountRepository;
     private final DiscountUsageRepository discountUsageRepository;
+    private final DiscountMapper mapper;
 
     // crear descuento
 
@@ -51,23 +53,23 @@ public class DiscountService {
 
         discountRepository.save(discount);
 
-        return mapToDTO(discount);
+        return mapper.DiscountToDTO(discount);
     }
 
 
     // activar/desactivar descuento 
     public DiscountResponseDTO toggleStatus(Long id, boolean active) {
         Discount discount = discountRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("error")); // crear excepcion personalizada
+            .orElseThrow(() -> new DiscountNotFoundException("error: Descuento no encontrado")); // crear excepcion personalizada
 
         if (discount.isActive() == active) {
-            throw new DiscountAlreadyActiveException("EL descuento ya esta activo");
+            throw new DiscountStatusChangeException("Error: el descuento ya se encuentra con estado: " + active);
         }
         discount.setActive(active);
 
         discountRepository.save(discount);
 
-        return mapToDTO(discount);
+        return mapper.DiscountToDTO(discount);
     }
 
     
@@ -97,7 +99,7 @@ public class DiscountService {
 
         discountRepository.save(discount);
 
-        return mapToDTO(discount);
+        return mapper.DiscountToDTO(discount);
     }
 
     //eliminar descuento
@@ -115,7 +117,7 @@ public class DiscountService {
         Discount discount = discountRepository.findById(id)
                             .orElseThrow(() -> new DiscountNotFoundException("Descuento no encontrado"));
 
-        return mapToDTO(discount);
+        return mapper.DiscountToDTO(discount);
     }
 
     // buscar descuentos de un usuario
@@ -123,38 +125,7 @@ public class DiscountService {
         List<DiscountUsage> discounts = discountUsageRepository.findByUserId(userID);
 
         return discounts.stream()
-                        .map(this::mapToDTO)
+                        .map(mapper::DiscountUsageToDTO)
                         .toList();
     }
-
-    // entity to dto de discounts 
-    public DiscountResponseDTO mapToDTO(Discount discount) {
-        return DiscountResponseDTO.builder()
-            .code(discount.getCode())
-            .description(discount.getDescription())
-            .type(discount.getType())
-            .productType(discount.getProductType())
-            .value(discount.getValue())
-            .minPurchaseAmount(discount.getMinPurchaseAmount())
-            .maxDiscountAmount(discount.getMaxDiscountAmount())
-            .usageLimit(discount.getUsageLimit())
-            .usageLimitPerUser(discount.getUsageLimitPerUser())
-            .startDate(discount.getStartDate())
-            .endDate(discount.getEndDate())
-            .active(discount.isActive())
-            .build();
-    }
-
-    // entity to dto de discountUsage
-    public DiscountUsageResponseDTO mapToDTO(DiscountUsage discountUsage) {
-        return DiscountUsageResponseDTO.builder()
-            .id(discountUsage.getId())
-            .discountId(discountUsage.getDiscountId())
-            .userId(discountUsage.getUserId())
-            .usedAt(discountUsage.getUsedAt())
-            .build();
-    }
-
-
-
 }

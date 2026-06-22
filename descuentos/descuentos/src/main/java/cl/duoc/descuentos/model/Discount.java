@@ -2,7 +2,6 @@ package cl.duoc.descuentos.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -13,7 +12,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,10 +42,9 @@ public class Discount {
     @Enumerated(EnumType.STRING)
     private Type type; // PERCENTAGE | FIXED enum
 
-    @NotNull(message = "El tipo de producto no puede ser nulo")
-    @Column(name = "product_type", nullable = false)
+    @Column(name = "product_type", nullable = true) // NULL = DESCUENTO GLOBAL
     @Enumerated(EnumType.STRING)
-    private ProductType productType; // MOUSE, KEYBOARD
+    private ProductType productType; // MOUSE, KEYBOARD 
 
     @NotNull(message = "El valor no puede ser nulo")
     @Column(name = "value", nullable = false)

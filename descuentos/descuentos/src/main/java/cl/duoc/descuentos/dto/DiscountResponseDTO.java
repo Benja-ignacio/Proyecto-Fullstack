@@ -5,9 +5,6 @@ import java.time.LocalDateTime;
 
 import cl.duoc.descuentos.enums.ProductType;
 import cl.duoc.descuentos.enums.Type;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -49,7 +46,7 @@ public class DiscountResponseDTO {
     // null = no limite
     private Integer usageLimit;
 
-
+    @Builder.Default
     private Integer usedCount = 0;
 
     // null = sin limite
@@ -61,5 +58,6 @@ public class DiscountResponseDTO {
     // null = sin limite de tiempo
     private LocalDateTime endDate;
 
+    @Builder.Default
     private boolean active = false;
 }

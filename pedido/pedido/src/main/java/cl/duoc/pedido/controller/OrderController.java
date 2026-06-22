@@ -4,8 +4,6 @@ import cl.duoc.pedido.dto.ApiResponse;
 import cl.duoc.pedido.dto.OrderItemDTO;
 import cl.duoc.pedido.dto.OrderResponseDTO;
 import cl.duoc.pedido.enums.OrderStatus;
-import cl.duoc.pedido.model.Order;
-import cl.duoc.pedido.model.OrderItem;
 import cl.duoc.pedido.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -90,5 +91,12 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
-    
+    @GetMapping("/exists/{orderId}")
+    public ResponseEntity<Boolean> existsById(
+        @PathVariable Long orderId){
+
+        boolean exists = orderService.existsById(orderId);
+        return ResponseEntity.ok(exists);} 
 }
+    
+    

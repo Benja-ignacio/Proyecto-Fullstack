@@ -1,0 +1,59 @@
+server:
+  port: 8089
+
+spring:
+  application:
+    name: notifications
+
+  datasource:
+    url: jdbc:mysql://mysql-notifications:3306/notifications_db
+    username: aurastore
+    password: aurastore123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+# Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    show-details: always
+
+# Logs
+logging:
+  file:
+    name: /app/logs/${spring.application.name}/${spring.application.name}.log
+
+  logback:
+    rollingpolicy:
+      max-file-size: 10mb
+      max-history: 10
+
+# Swagger
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /index.html
+    disable-swagger-default-url: true

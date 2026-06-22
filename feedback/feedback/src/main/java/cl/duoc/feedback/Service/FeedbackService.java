@@ -9,6 +9,7 @@ import cl.duoc.feedback.dto.FeedbackResponseDTO;
 import cl.duoc.feedback.dto.UpdateFeedbackRequestDTO;
 import cl.duoc.feedback.exception.custom.FeedbackAlreadyExistsException;
 import cl.duoc.feedback.exception.custom.FeedbackNotFoundException;
+import cl.duoc.feedback.mapper.FeedbackMapper;
 import cl.duoc.feedback.model.Feedback;
 import cl.duoc.feedback.repository.FeedbackRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
+    private final FeedbackMapper mapper;
 
     // crear nuevo feedback
     public FeedbackResponseDTO createFeedback(FeedbackRequestDTO request) {
@@ -35,7 +37,7 @@ public class FeedbackService {
 
         feedbackRepository.save(feedback);
 
-        return maptoDTO(feedback);
+        return mapper.entityToFeedbackResponseDTO(feedback);
     
     }
 
@@ -45,18 +47,18 @@ public class FeedbackService {
         List<Feedback> feedback = feedbackRepository.findByProductId(productId);
     
         return feedback.stream()
-                .map(this::maptoDTO)
+                .map(mapper::entityToFeedbackResponseDTO)
                 .toList();
         
     }
 
-    // obtener ` de un usuario
+    // obtener feedbacks de un usuario
     public List<FeedbackResponseDTO> getByUser(Long userId) {
         // NOTA, VALIDAR SI EL USUARIO EXISTE UNA VEZ SE INTEGREN LOS MICROSERVICIOS
        List<Feedback> feedback = feedbackRepository.findByUserId(userId);
 
        return feedback.stream()
-                .map(this::maptoDTO)
+                .map(mapper::entityToFeedbackResponseDTO)
                 .toList();
     }
 
@@ -73,7 +75,7 @@ public class FeedbackService {
         Feedback feedback = feedbackRepository.findById(id)
                             .orElseThrow(() -> new FeedbackNotFoundException("Error: Feedback no encontrado"));
 
-        return maptoDTO(feedback);
+        return mapper.entityToFeedbackResponseDTO(feedback);
     } 
 
 
@@ -88,19 +90,6 @@ public class FeedbackService {
 
         feedbackRepository.save(feedback);
 
-        return maptoDTO(feedback);
-    }
-
-    // entidad a dto -> obtiene una entity y la transforma a dto
-    public FeedbackResponseDTO maptoDTO(Feedback feedback) {
-        return FeedbackResponseDTO.builder()
-                .id(feedback.getId())
-                .userId(feedback.getUserId())
-                .productId(feedback.getProductId())
-                .rating(feedback.getRating())
-                .title(feedback.getTitle())
-                .comment(feedback.getComment())
-                .createdAt(feedback.getCreatedAt())
-                .build();
+        return mapper.entityToFeedbackResponseDTO(feedback);
     }
 }

@@ -1,6 +1,10 @@
 package cl.duoc.carrito.service;
 
 import cl.duoc.carrito.dto.CartItemDTO;
+import cl.duoc.carrito.dto.CartItemResponseDTO;
+import cl.duoc.carrito.dto.CartResponseDTO;
+import cl.duoc.carrito.exception.custom.CartResourceNotFoundException;
+import cl.duoc.carrito.mappers.CartMapper;
 import cl.duoc.carrito.model.Cart;
 import cl.duoc.carrito.model.CartItem;
 import cl.duoc.carrito.repository.CartItemRepository;
@@ -13,21 +17,18 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 @Service
 @RequiredArgsConstructor
 public class CartService {
-
-    private static final Logger logger =
-        LoggerFactory.getLogger(CartService.class);    
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final CartMapper mapper;
 
-    public CartItem addProduct(Long userId, CartItemDTO dto) {
+    public CartItemResponseDTO addProduct(Long userId, CartItemDTO dto) {
 
         Cart cart = cartRepository.findByUserId(userId)
-                .orElseGet(() -> cartRepository.save(
-                        new Cart(null, userId)
-                ));
+                .orElseThrow(() -> new CartResourceNotFoundException("Carrito no encontrado"));
 
         CartItem item = new CartItem(
                 null,
@@ -38,34 +39,40 @@ public class CartService {
                 dto.getPrice()
         );
 
-        return cartItemRepository.save(item);
+        cartItemRepository.save(item);
+
+        return mapper.entityToDTO(item);
     }
 
-    public List<CartItem> getCart(Long userId) {
+    public CartResponseDTO getCart(Long userId) {
 
-        Cart cart = cartRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        Cart cart= cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new CartResourceNotFoundException("Carrito no encontrado"));
 
-        return cartItemRepository.findByCartId(cart.getId());
+        List<CartItem> items = cartItemRepository.findByCartId(cart.getId());
+
+        return mapper.CartWithItemsDTO(cart, items);
     }
 
     public void deleteProduct(Long itemId) {
         cartItemRepository.deleteById(itemId);
     }
 
-    public CartItem updateQuantity(Long itemId, Integer quantity) {
+    public CartItemResponseDTO updateQuantity(Long itemId, Integer quantity) {
 
         CartItem item = cartItemRepository.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new CartResourceNotFoundException("Producto no encontrado"));
 
         item.setQuantity(quantity);
 
-        return cartItemRepository.save(item);
+        cartItemRepository.save(item);
+        
+        return mapper.entityToDTO(item);
     }
 
-    public BigDecimal calculateTotal(Long userId) {
+    public BigDecimal calculateTotal(Long cartID) {
 
-        List<CartItem> items = getCart(userId);
+        List<CartItem> items = cartItemRepository.findByCartId(cartID);
 
         return items.stream()
                 .map(item ->
