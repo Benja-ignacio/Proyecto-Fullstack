@@ -38,11 +38,7 @@ public class OrderController {
             @RequestParam Long userId,
             @Valid @RequestBody List<OrderItemDTO> items) {
 
-<<<<<<< HEAD
-        OrderResponseDTO data = orderService.createOrder(userId, items);
-=======
         logger.info("Creando pedido para usuario {}", userId);
->>>>>>> eliascarcamo
 
         OrderResponseDTO data = orderService.createOrder(userId, items);
 
@@ -83,14 +79,6 @@ public class OrderController {
             @PathVariable Long orderId,
             @RequestParam OrderStatus status) {
 
-<<<<<<< HEAD
-        try {
-            OrderResponseDTO order = orderService.updateStatus(orderId, status);   
-        } catch (Exception e) {
-            response = ApiResponse(400, "Error del servidor", null);
-            return response; //
-        }
-=======
         logger.info(
                 "Actualizando estado del pedido {} a {}",
                 orderId,
@@ -99,7 +87,6 @@ public class OrderController {
 
         OrderResponseDTO order =
                 orderService.updateStatus(orderId, status);
->>>>>>> eliascarcamo
 
         return ResponseEntity.ok(
                 new ApiResponse<>(
@@ -156,17 +143,4 @@ public class OrderController {
                 )
         );
     }
-<<<<<<< HEAD
-
-    @GetMapping("/exists/{orderId}")
-    public ResponseEntity<Boolean> existsById(
-        @PathVariable Long orderId){
-
-        boolean exists = orderService.existsById(orderId);
-        return ResponseEntity.ok(exists);} 
 }
-    
-    
-=======
-}
->>>>>>> eliascarcamo

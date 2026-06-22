@@ -11,13 +11,9 @@ import cl.duoc.pedido.dto.OrderItemDTO;
 import cl.duoc.pedido.dto.OrderResponseDTO;
 import cl.duoc.pedido.enums.OrderStatus;
 import cl.duoc.pedido.exception.custom.OrderResourceNotFoundException;
-<<<<<<< HEAD
 import cl.duoc.pedido.mapper.OrderMapper;
-import cl.duoc.pedido.model.*;
-=======
 import cl.duoc.pedido.model.Order;
 import cl.duoc.pedido.model.OrderItem;
->>>>>>> eliascarcamo
 import cl.duoc.pedido.repository.OrderItemRepository;
 import cl.duoc.pedido.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,20 +34,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-<<<<<<< HEAD
     private final OrderMapper mapper;
-
-    /**
-    * Crea una orden a partir de los ítems del carrito de un usuario.
-    * El descuento y el envío son valores temporales hasta integrar
-    * los servicios de descuentos y logística.
-    *
-    * @param userId   ID del usuario que realiza el pedido
-    * @return DTO con la orden creada e ítems persistidos
-    */
-    public OrderResponseDTO createOrder(Long userId, List<OrderItemDTO> itemsDTO) {
-        
-=======
 
     private final UserClient userClient;
     private final CartClient cartClient;
@@ -101,7 +84,6 @@ public class OrderService {
             //productClient.getProduct(item.getProductId());
         }
 
->>>>>>> eliascarcamo
         BigDecimal subtotal = calculateSubtotal(itemsDTO);
 
         // Consultar descuento, por ahora solo valida comunicación
@@ -126,19 +108,11 @@ public class OrderService {
         Order savedOrder = orderRepository.save(newOrder);
 
         List<OrderItem> items = itemsDTO.stream()
-<<<<<<< HEAD
-                            .map(dto -> mapper.toOrderItemEntity(savedOrder.getId(), dto))
-                            .toList();
-=======
                 .map(dto -> toOrderItemEntity(savedOrder.getId(), dto))
                 .toList();
->>>>>>> eliascarcamo
 
         orderItemRepository.saveAll(items);
 
-<<<<<<< HEAD
-        return mapper.toOrderResponseDTOWithItems(savedOrder, items);
-=======
         // Consultar logística y pago después de crear pedido
         //logisticClient.calculateShipping(savedOrder.getId());
         //paymentClient.createPayment(savedOrder.getId());
@@ -146,7 +120,6 @@ public class OrderService {
         logger.info("Pedido {} creado correctamente", savedOrder.getId());
 
         return toOrderResponseDTOWithItems(savedOrder, items);
->>>>>>> eliascarcamo
     }
 
     private BigDecimal calculateSubtotal(List<OrderItemDTO> itemsDTO) {
@@ -163,13 +136,8 @@ public class OrderService {
         List<Order> list = orderRepository.findByUserId(userId);
 
         return list.stream()
-<<<<<<< HEAD
-               .map(mapper::toOrderResponseDTO)
-               .toList();
-=======
                 .map(this::toOrderResponseDTO)
                 .toList();
->>>>>>> eliascarcamo
     }
 
     public OrderResponseDTO updateStatus(Long orderId, OrderStatus status) {
@@ -221,11 +189,6 @@ public class OrderService {
         logger.warn("Pedido {} cancelado", orderID);
     }
 
-<<<<<<< HEAD
-    public boolean existsById(Long orderId){
-        return orderRepository.existsById(orderId);
-    }
-=======
     public OrderResponseDTO toOrderResponseDTOWithItems(
             Order order,
             List<OrderItem> orderItems) {
@@ -281,5 +244,4 @@ public class OrderService {
                 .quantity(dto.getQuantity())
                 .build();
     }
->>>>>>> eliascarcamo
 }
