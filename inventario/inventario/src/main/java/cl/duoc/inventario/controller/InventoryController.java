@@ -22,13 +22,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-
-
 @RestController
 @RequestMapping("api/v1/inventory")
 @RequiredArgsConstructor
 public class InventoryController {
+    
     private final InventoryService inventoryService;
 
     // crear
@@ -38,13 +36,12 @@ public class InventoryController {
         
         InventoryResponseDTO data = inventoryService.create(request);
 
-        ApiResponse<InventoryResponseDTO> response = new ApiResponse<InventoryResponseDTO>(
-                                            201,"Inventario creado", data);
+        ApiResponse<InventoryResponseDTO> response = new ApiResponse<>(
+                                            201, "Inventario creado", data);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
-
     // buscar por Id
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<InventoryResponseDTO>> getByID (
@@ -52,8 +49,8 @@ public class InventoryController {
 
         InventoryResponseDTO data = inventoryService.getById(id);
 
-        ApiResponse<InventoryResponseDTO> response = new ApiResponse<InventoryResponseDTO>(
-                                        200,"Consulta exitosa", data);
+        ApiResponse<InventoryResponseDTO> response = new ApiResponse<>(
+                                        200, "Consulta exitosa", data);
 
         return ResponseEntity.ok(response);
     }
@@ -65,8 +62,8 @@ public class InventoryController {
 
         InventoryResponseDTO data = inventoryService.getByProductId(productId);
 
-        ApiResponse<InventoryResponseDTO> response = new ApiResponse<InventoryResponseDTO>(
-                                        200,"Consulta exitosa", data);        
+        ApiResponse<InventoryResponseDTO> response = new ApiResponse<>(
+                                        200, "Consulta exitosa", data);        
 
         return ResponseEntity.ok(response);
     }
@@ -76,11 +73,10 @@ public class InventoryController {
     public ResponseEntity<ApiResponse<List<InventoryResponseDTO>>> getAll () {
         List<InventoryResponseDTO> data = inventoryService.findAll();
 
-        ApiResponse<List<InventoryResponseDTO>> response = new ApiResponse<List<InventoryResponseDTO>>(
-                                                        200,"Consulta exitosa", data);
+        ApiResponse<List<InventoryResponseDTO>> response = new ApiResponse<>(
+                                                                200, "Consulta exitosa", data);
         
         return ResponseEntity.ok(response);
-    
     }
 
     // actualizar
@@ -91,7 +87,7 @@ public class InventoryController {
 
         InventoryResponseDTO data = inventoryService.update(id, request);
 
-        ApiResponse<InventoryResponseDTO> response = new ApiResponse<InventoryResponseDTO>(
+        ApiResponse<InventoryResponseDTO> response = new ApiResponse<>(
                                                 200, "Inventario modificado", data);
 
         return ResponseEntity.ok(response);
@@ -104,9 +100,10 @@ public class InventoryController {
         
         inventoryService.delete(id);
 
-        ApiResponse<Void> response = new ApiResponse<Void>(
-                                204, "Inventario eliminado", null);
+        // Cambiado a código 200 para que viaje el cuerpo JSON con tu mensaje de éxito
+        ApiResponse<Void> response = new ApiResponse<>(
+                                200, "Inventario eliminado", null);
         
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        return ResponseEntity.ok(response);
     }
 }

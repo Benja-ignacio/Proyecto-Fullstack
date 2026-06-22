@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import cl.duoc.inventario.dto.InventoryResponseDTO;
 import cl.duoc.inventario.mapper.InventoryMapper;
@@ -18,7 +19,10 @@ public class InventoryServiceTest {
     void testGetAllInventory() {
         InventoryRepository inventoryRepository = Mockito.mock(InventoryRepository.class);
         InventoryMapper mapper = Mockito.mock(InventoryMapper.class); // ← faltaba este
-        InventoryService inventoryService = new InventoryService(inventoryRepository, mapper);
+        WebClient productWebClient= Mockito.mock(WebClient.class);
+        InventoryService inventoryService = new InventoryService(inventoryRepository, mapper, productWebClient);
+
+
 
         Inventory inventory = new Inventory(1L, 1L, 30, 10);
         Mockito.when(inventoryRepository.findAll()).thenReturn(List.of(inventory));
