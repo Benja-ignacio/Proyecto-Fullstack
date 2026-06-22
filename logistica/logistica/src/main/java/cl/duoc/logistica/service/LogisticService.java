@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogisticService {
     private final LogisticRepository logisticRepository;
-    private final LogisticMapper mapper;
+    private final LogisticMapper mapper; 
     private final OrderClient orderClient;
     private final UserClient userClient;
     private final NotificationClient notificationClient;
@@ -45,11 +45,13 @@ public class LogisticService {
         return shippingCost;
     }
 
-    public LogisticResponseDTO create(Long orderId, Long userId, BigDecimal subtotal) { //validacion de logistica
+    public LogisticResponseDTO create(Long orderId, Long userId, BigDecimal subtotal) {
+        // Validación real: Comprueba si la orden existe en el otro microservicio
         if (Boolean.FALSE.equals(orderClient.existsByOrderId(orderId))) {
             throw new IllegalArgumentException("No se puede crear la logística: La orden " + orderId + " no existe.");
         }
 
+        // Validación real: Comprueba si el usuario existe en el otro microservicio
         if (Boolean.FALSE.equals(userClient.existsByUserId(userId))) {
             throw new IllegalArgumentException("No se puede crear la logística: El usuario " + userId + " no existe.");
         }
@@ -99,7 +101,7 @@ public class LogisticService {
             throw new IllegalArgumentException("No puedes cambiar el estado de una logistica finalizada");
         }
 
-        // valida el pago
+        // Valida el pago con el microservicio de pagos
         if (request.getStatus() == Status.SHIPPED) {
             Boolean isPaid = paymentClient.isOrderPaid(logistic.getOrderId());
             if (Boolean.FALSE.equals(isPaid)) {
@@ -119,7 +121,8 @@ public class LogisticService {
         logistic.setStatus(request.getStatus());
         logisticRepository.save(logistic);
 
-        notificationClient.sendStatusUpdateNotification( //lanza la notificacion
+        // Envía la notificación alertando el cambio de estado
+        notificationClient.sendStatusUpdateNotification(
             logistic.getUserId(), 
             logistic.getOrderId(), 
             request.getStatus().name()

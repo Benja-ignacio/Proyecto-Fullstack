@@ -6,24 +6,24 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import cl.duoc.inventario.exception.custom.InvalidRequestException;
 
-@Component
+@Component("productWebClientComponent")
 public class ProductWebClient {
 
     private final WebClient webClient;
 
-    public ProductWebClient (@Qualifier("ProductWebClient") WebClient webClient){
+    public ProductWebClient(@Qualifier("productWebClient") WebClient webClient){
         this.webClient = webClient;
     }
 
     public void productExists(Long productId){
         try{
-        webClient.get()
-                .uri("/" +  productId)
-                .retrieve()
-                .bodyToMono(Object.class)
-                .block();
+            webClient.get()
+                    .uri("/" + productId)
+                    .retrieve()
+                    .bodyToMono(Object.class)
+                    .block();
         } catch (Exception e){
-            throw new InvalidRequestException("El producto con id"+ productId + "no existe");
+            throw new InvalidRequestException("El producto con id " + productId + " no existe");
         }
     }
 }
