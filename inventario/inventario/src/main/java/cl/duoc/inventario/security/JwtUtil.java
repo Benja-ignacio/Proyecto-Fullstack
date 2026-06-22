@@ -1,7 +1,6 @@
 package cl.duoc.inventario.security;
 
 import java.security.Key;
-import java.util.Date;
 import java.util.function.Function;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;

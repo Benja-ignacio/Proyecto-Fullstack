@@ -29,8 +29,8 @@ public class Inventory {
     @Column(name = "total_quantity")
     private Integer totalQuantity;
 
-    // @Column(name = "available_quantity")
-    // private Integer availableQuantity;
+    @Column(name = "available_quantity")
+    private Integer availableQuantity;
 
     @Column(name = "reserved_quantity")
     private Integer reservedQuantity;

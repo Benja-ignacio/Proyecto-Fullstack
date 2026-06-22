@@ -21,7 +21,7 @@ public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
     private final InventoryMapper mapper;
-    private final ProductWebClient productWebClient; // Cambiado para inyectar tu nuevo cliente personalizado
+    private final ProductWebClient productWebClient;
 
     // crear inventario
     public InventoryResponseDTO create(InventoryRequestDTO request) {
@@ -47,8 +47,11 @@ public class InventoryService {
 
         Inventory inventory = new Inventory();
         inventory.setProductId(request.getProductId());
-        inventory.setTotalQuantity(request.getTotalQuantity());
-        inventory.setReservedQuantity(request.getReservedQuantity());
+        inventory.setTotalQuantity(total);
+        inventory.setReservedQuantity(reserved);
+        
+        // 🔥 SOLUCIÓN AL CHECK: Calculamos el disponible exigido por la BD (total = disponible + reservada)
+        inventory.setAvailableQuantity(total - reserved);
 
         inventoryRepository.save(inventory);
 
@@ -93,8 +96,11 @@ public class InventoryService {
             throw new InvalidRequestException("No puedes tener mas reservas que la cantidad total");
         } 
 
-        inventory.setTotalQuantity(request.getTotalQuantity());
-        inventory.setReservedQuantity(request.getReservedQuantity());
+        inventory.setTotalQuantity(total);
+        inventory.setReservedQuantity(reserved);
+        
+        // 🔥 SOLUCIÓN AL CHECK: Recalculamos el disponible al actualizar el stock
+        inventory.setAvailableQuantity(total - reserved);
         
         inventoryRepository.save(inventory);
 
